@@ -10,34 +10,113 @@ class OPSIApi {
 		this.password = password
 	}
 
+	//base api call functions
+
+
+	/**
+	 * get all server ids
+	 *
+	 * @param callback
+	 * @return array
+	 */
 	serverIDs(callback) {
 		this._sendRequest('getServerIds_list', [], 1, function (data) {
-			console.log(data)
+			// console.log(data)
 			return callback(data)
 		})
 	}
 
-	actionsForProduct(productid, serverid, callback){
+	/**
+	 * is api user authenticated
+	 *
+	 * @param callback
+	 * @return boolean
+	 */
+	isAuthenticated(callback) {
+		this._sendRequest('accessControl_authenticated', [], 1, function (data) {
+			// console.log(data)
+			return callback(data)
+		})
+	}
+
+	/**
+	 * is api user admin
+	 *
+	 * @param callback
+	 * @return boolean
+	 */
+	isUserAdmin(callback) {
+		this._sendRequest('accessControl_userIsAdmin', [], 1, function (data) {
+			// console.log(data)
+			return callback(data)
+		})
+	}
+
+	/**
+	 * get all actions for one product
+	 *
+	 * @param productid
+	 * @param serverid
+	 * @param callback
+	 * @return array
+	 */
+	actionsForProduct(productid, serverid, callback) {
 		this._sendRequest('getPossibleProductActions_list', [productid, serverid], 1, function (data) {
-			console.log(data)
+			// console.log(data)
 			return callback(data)
 		})
 	}
 
-	//api call functions
 
-	// mostEmailed(callback) {
-	//     this._sendRequest("mostemailed", callback)
-	// }
-	//
-	// mostViewed(callback) {
-	//     this._sendRequest("mostviewed", callback)
-	// }
-	//
-	// mostShared(callback) {
-	//     this._sendRequest("mostshared", callback)
-	// }
+	/**
+	 * get all clients
+	 *
+	 * @param callback
+	 * @return array
+	 */
+	getAllClients(callback){
+		this._sendRequest('getClientIds_list', [], 1, function (data) {
+			// console.log(data)
+			return callback(data)
+		})
+	}
 
+	/**
+	 * get all products
+	 *
+	 * @param callback
+	 * @return array
+	 */
+	getAllProducts(callback){
+		this._sendRequest('getProductIds_list', [], 1, function (data) {
+			// console.log(data)
+			return callback(data)
+		})
+	}
+
+	/**
+	 * get all groups
+	 *
+	 * @param callback
+	 * @return array
+	 */
+	getAllGroups(callback){
+		this._sendRequest('objectToGroup_getObjects', [], 1, function (data) {
+			// console.log(data)
+			return callback(data)
+		})
+	}
+
+
+	/**
+	 * generate api call actions
+	 *
+	 * @param method
+	 * @param params
+	 * @param id
+	 * @param callback
+	 * @private
+	 */
 	_sendRequest(method, params, id, callback) {
 		const url = `${this.apiURL}/rpc`
 
@@ -68,26 +147,6 @@ class OPSIApi {
 					console.error(error)
 				}
 			})
-
-		// ).on('error', function (err) {
-		// 	console.error(err)
-		// }).on('response', function (response) {
-		// 	// unmodified http.IncomingMessage object
-		// 	console.log(response)
-		// 	// response.on('data', function (data) {
-		// 	// 	console.log(data)
-		// 	// 	if (!error & response.statusCode === 200) {
-		// 	// 		callback(JSON.parse(body).results)
-		// 	// 	}
-		// 	// })
-		// })
-
-
-		// request(url, function (error, response, body) {
-		// 	if (!error & response.statusCode === 200) {
-		// 		callback(JSON.parse(body).results)
-		// 	}
-		// })
 	}
 }
 
