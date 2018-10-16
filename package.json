@@ -9,6 +9,8 @@
   "scripts": {
     "test": "mocha",
     "lint": "eslint src",
+    "documentation:build": "documentation build src/api.js -f md -o docs/index.md",
+    "documentation:watch": "documentation serve --watch src/**",
     "install:dev": "npm run install:docker && npm run install:dockerinit $$ echo 'URL: https://localhost:4447/'",
     "install:docker": "docker run -itd --name docker-opsi -h opsi.docker.lan -p 4447:4447 -e OPSI_USER=opsi -e OPSI_PASSWORD=opsi darkounet/opsi-docker",
     "install:dockerinit": "docker exec -it docker-opsi /usr/local/bin/entrypoint.sh"
