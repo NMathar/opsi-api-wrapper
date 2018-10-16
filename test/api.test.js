@@ -41,7 +41,7 @@ describe('Test OPSI API', function () {
 	describe('#getAllClients()', function () {
 		it('get all client list and its greater then zero', function () {
 			api.getAllClients(function (data) {
-				console.log('clients ',data)
+				console.log('clients ', data)
 				assert.ok(data.length > 0)
 			})
 		})
@@ -51,7 +51,7 @@ describe('Test OPSI API', function () {
 	describe('#getAllProducts()', function () {
 		it('get all products list and its greater then zero', function () {
 			api.getAllProducts(function (data) {
-				console.log('products ',data)
+				console.log('products ', data)
 				assert.ok(data.length > 0)
 			})
 		})
@@ -61,7 +61,7 @@ describe('Test OPSI API', function () {
 	describe('#getAllGroups()', function () {
 		it('get all groups list and its greater then zero', function () {
 			api.getAllGroups(function (data) {
-				console.log('groups ',data)
+				console.log('groups ', data)
 				assert.ok(data.length > 0)
 			})
 		})
