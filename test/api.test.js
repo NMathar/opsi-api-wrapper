@@ -6,7 +6,7 @@ describe('Test OPSI API', function () {
 	describe('#isAuthenticated()', function () {
 		it('get boolean for is user authenticated', function () {
 			api.isAuthenticated(function (boolean) {
-				assert.ok(boolean)
+				assert.equal(boolean)
 			})
 		})
 	})
@@ -14,13 +14,13 @@ describe('Test OPSI API', function () {
 	describe('#isUserAdmin()', function () {
 		it('get boolean for is user admin', function () {
 			api.isUserAdmin(function (boolean) {
-				assert.ok(boolean)
+				assert.equal(boolean, true)
 			})
 		})
 	})
 
 	describe('#getServerID()', function () {
-		it('more then one server id', function () {
+		it('more then zreo server id', function () {
 			api.serverIDs(function (data) {
 				assert.ok(data.length > 0)
 			})
@@ -30,18 +30,34 @@ describe('Test OPSI API', function () {
 	describe('#getProductActionList()', function () {
 		it('get product list and its greater then zero', function () {
 			api.serverIDs(function (servers) {
+				console.log('Test')
 				api.actionsForProduct('', servers[0], function (data) {
-					// console.log(data)
 					assert.ok(data.length > 0)
 				})
 			})
 		})
 	})
 
+	describe('#createClient()', function () {
+		it('create a new client', function () {
+			console.log('create client')
+			api.createClient('testclient',
+				'opsi.docker.lan',
+				'Test Client',
+				'',
+				'',
+				'',
+				function (data) {
+					console.log('client ')
+					assert.ok(data.length > 0)
+				})
+		})
+	})
+
 	describe('#getAllClients()', function () {
 		it('get all client list and its greater then zero', function () {
 			api.getAllClients(function (data) {
-				// console.log('clients ', data)
+				console.log('clients ', data)
 				assert.ok(data.length > 0)
 			})
 		})

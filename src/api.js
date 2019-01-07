@@ -129,6 +129,30 @@ class OPSIApi {
 	}
 
 	/**
+	 * create client.
+	 *
+	 * @example
+	 * //returns array of all clients
+	 * api.createClient(clientName, domain, description, notes, ipAddress, hardwareAddress, function (clientsArray) {
+	 *		console.log(clientData)
+	 * })
+	 * @param {string} clientName - Client Name
+	 * @param {string} domain - Client domain
+	 * @param {string} description - description of the client
+	 * @param {string} notes - Notes for this client
+	 * @param {string} ipAddress - Client IP Address
+	 * @param {string} hardwareAddress - physical address of the client
+	 * @param {requestCallback} callback - The callback that handles the response.
+	 * @returns {Array} Data.
+	 */
+	createClient(clientName, domain, description, notes, ipAddress, hardwareAddress, callback) {
+		this._sendRequest('createClient', [], this.id, function (data) {
+			// console.log(data)
+			return callback(data)
+		})
+	}
+
+	/**
 	 * Get all products.
 	 *
 	 * @example
