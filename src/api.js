@@ -19,13 +19,14 @@ class OPSIApi {
 	 * @param {string} username - OPSI user with acces rights.
 	 * @param {string} password - Password of the api user.
 	 */
-	constructor(apiURL, username, password) {
+	constructor(apiURL, username, password, id = 1) {
 		if (!apiURL || !username || !password)
 			throw new Error('Please define all constructor variables!')
 
 		this.apiURL = apiURL
 		this.username = username
 		this.password = password
+		this.id = id
 	}
 
 	//base api call functions
@@ -43,7 +44,7 @@ class OPSIApi {
 	 * @returns {Array} Data.
 	 */
 	serverIDs(callback) {
-		this._sendRequest('getServerIds_list', [], 1, function (data) {
+		this._sendRequest('getServerIds_list', [], this.id, function (data) {
 			// console.log(data)
 			return callback(data)
 		})
@@ -61,7 +62,7 @@ class OPSIApi {
 	 * @returns {boolean} Data.
 	 */
 	isAuthenticated(callback) {
-		this._sendRequest('accessControl_authenticated', [], 1, function (data) {
+		this._sendRequest('accessControl_authenticated', [], this.id, function (data) {
 			// console.log(data)
 			return callback(data)
 		})
@@ -79,7 +80,7 @@ class OPSIApi {
 	 * @returns {boolean} Data.
 	 */
 	isUserAdmin(callback) {
-		this._sendRequest('accessControl_userIsAdmin', [], 1, function (data) {
+		this._sendRequest('accessControl_userIsAdmin', [], this.id, function (data) {
 			// console.log(data)
 			return callback(data)
 		})
@@ -101,7 +102,7 @@ class OPSIApi {
 	 * @returns {Array} Data.
 	 */
 	actionsForProduct(productid, serverid, callback) {
-		this._sendRequest('getPossibleProductActions_list', [productid, serverid], 1, function (data) {
+		this._sendRequest('getPossibleProductActions_list', [productid, serverid], this.id, function (data) {
 			// console.log(data)
 			return callback(data)
 		})
@@ -120,7 +121,7 @@ class OPSIApi {
 	 * @returns {Array} Data.
 	 */
 	getAllClients(callback) {
-		this._sendRequest('getClientIds_list', [], 1, function (data) {
+		this._sendRequest('getClientIds_list', [], this.id, function (data) {
 			// console.log(data)
 			return callback(data)
 		})
@@ -138,7 +139,7 @@ class OPSIApi {
 	 * @returns {Array} Data.
 	 */
 	getAllProducts(callback) {
-		this._sendRequest('getProductIds_list', [], 1, function (data) {
+		this._sendRequest('getProductIds_list', [], this.id, function (data) {
 			// console.log(data)
 			return callback(data)
 		})
@@ -156,7 +157,7 @@ class OPSIApi {
 	 * @returns {Array} Data.
 	 */
 	getAllGroups(callback) {
-		this._sendRequest('objectToGroup_getObjects', [], 1, function (data) {
+		this._sendRequest('objectToGroup_getObjects', [], this.id, function (data) {
 			// console.log(data)
 			return callback(data)
 		})
