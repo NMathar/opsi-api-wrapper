@@ -1,67 +1,109 @@
 const request = require('request')
 
+/**
+ * Class OPISApi
+ */
 class OPSIApi {
-	constructor(apiURL, username, password) {
+	/**
+	 * This callback type is called `requestCallback` and is displayed as a global symbol.
+	 *
+	 * @callback requestCallback
+	 * @param {any} data
+	 */
+
+
+	/**
+	 * Create/Initiate OPSIApi.
+	 *
+	 * @param {string} apiURL - OPSI Api URL String Example: Https://opsiserver:4447.
+	 * @param {string} username - OPSI user with acces rights.
+	 * @param {string} password - Password of the api user.
+	 * @param {int} id - OPSI Api Server ID. Default is 1
+	 */
+	constructor(apiURL, username, password, id = 1) {
 		if (!apiURL || !username || !password)
 			throw new Error('Please define all constructor variables!')
 
 		this.apiURL = apiURL
 		this.username = username
 		this.password = password
+		this.id = id
 	}
 
 	//base api call functions
 
 
 	/**
-	 * get all server ids
+	 * Get all server ids.
 	 *
-	 * @param callback
-	 * @return array
+	 * @example
+	 * // returns array of server ids
+	 * api.serverIDs(function (serveridArray) {
+	 *		console.log(serveridArray)
+	 * })
+	 * @param {Function} callback - Callback function.
+	 * @returns {Array} Data.
 	 */
 	serverIDs(callback) {
-		this._sendRequest('getServerIds_list', [], 1, function (data) {
+		this._sendRequest('getServerIds_list', [], this.id, function (data) {
 			// console.log(data)
 			return callback(data)
 		})
 	}
 
 	/**
-	 * is api user authenticated
+	 * Is api user authenticated.
 	 *
-	 * @param callback
-	 * @return boolean
+	 * @example
+	 * // returns boolean if user is logged in or not
+	 * api.isAuthenticated(function (boolean) {
+	 *		console.log(boolean)
+	 * })
+	 * @param {requestCallback} callback - The callback that handles the response. Function.
+	 * @returns {boolean} Data.
 	 */
 	isAuthenticated(callback) {
-		this._sendRequest('accessControl_authenticated', [], 1, function (data) {
+		this._sendRequest('accessControl_authenticated', [], this.id, function (data) {
 			// console.log(data)
 			return callback(data)
 		})
 	}
 
 	/**
-	 * is api user admin
+	 * Is api user admin.
 	 *
-	 * @param callback
-	 * @return boolean
+	 * @example
+	 * // returns if user has admin rights
+	 * api.isUserAdmin(function (boolean) {
+	 *		console.log(boolean)
+	 * })
+	 * @param {requestCallback} callback - The callback that handles the response.
+	 * @returns {boolean} Data.
 	 */
 	isUserAdmin(callback) {
-		this._sendRequest('accessControl_userIsAdmin', [], 1, function (data) {
+		this._sendRequest('accessControl_userIsAdmin', [], this.id, function (data) {
 			// console.log(data)
 			return callback(data)
 		})
 	}
 
 	/**
-	 * get all actions for one product
+	 * Get all actions for one product.
 	 *
-	 * @param productid
-	 * @param serverid
-	 * @param callback
-	 * @return array
+	 * @example
+	 * //returns array of actions for product
+	 * api.serverIDs(function (servers) {
+	 *		api.actionsForProduct('', servers[0], function (productActionArray) {
+	 *			console.log(productActionArray)
+	 *		})
+	 *	})
+	 * @param {string} productid - Any id string.
+	 * @param {string }serverid - Serverid string that gets from serverIDs.
+	 * @param {requestCallback} callback - The callback that handles the response.
+	 * @returns {Array} Data.
 	 */
 	actionsForProduct(productid, serverid, callback) {
-		this._sendRequest('getPossibleProductActions_list', [productid, serverid], 1, function (data) {
+		this._sendRequest('getPossibleProductActions_list', [productid, serverid], this.id, function (data) {
 			// console.log(data)
 			return callback(data)
 		})
@@ -69,39 +111,54 @@ class OPSIApi {
 
 
 	/**
-	 * get all clients
+	 * Get all clients.
 	 *
-	 * @param callback
-	 * @return array
+	 * @example
+	 * //returns array of all clients
+	 * api.getAllClients(function (clientsArray) {
+	 *		console.log(clientsArray)
+	 * })
+	 * @param {requestCallback} callback - The callback that handles the response.
+	 * @returns {Array} Data.
 	 */
-	getAllClients(callback){
-		this._sendRequest('getClientIds_list', [], 1, function (data) {
+	getAllClients(callback) {
+		this._sendRequest('getClientIds_list', [], this.id, function (data) {
 			// console.log(data)
 			return callback(data)
 		})
 	}
 
 	/**
-	 * get all products
+	 * Get all products.
 	 *
-	 * @param callback
-	 * @return array
+	 * @example
+	 * // returns an array of products
+	 * api.getAllProducts(function (productsArray) {
+	 *		console.log(productsArray)
+	 *	})
+	 * @param {requestCallback} callback - The callback that handles the response.
+	 * @returns {Array} Data.
 	 */
-	getAllProducts(callback){
-		this._sendRequest('getProductIds_list', [], 1, function (data) {
+	getAllProducts(callback) {
+		this._sendRequest('getProductIds_list', [], this.id, function (data) {
 			// console.log(data)
 			return callback(data)
 		})
 	}
 
 	/**
-	 * get all groups
+	 * Get all groups.
 	 *
-	 * @param callback
-	 * @return array
+	 * @exmaple
+	 * //returns an array of opsi groups
+	 * api.getAllGroups(function (groupsArray) {
+	 *		console.log(groupsArray)
+	 *	})
+	 * @param {requestCallback} callback - The callback that handles the response.
+	 * @returns {Array} Data.
 	 */
-	getAllGroups(callback){
-		this._sendRequest('objectToGroup_getObjects', [], 1, function (data) {
+	getAllGroups(callback) {
+		this._sendRequest('objectToGroup_getObjects', [], this.id, function (data) {
 			// console.log(data)
 			return callback(data)
 		})
@@ -109,44 +166,44 @@ class OPSIApi {
 
 
 	/**
-	 * generate api call actions
+	 * Generate api call actions.
 	 *
-	 * @param method
-	 * @param params
-	 * @param id
-	 * @param callback
+	 * @param {string} method - Api function name to call.
+	 * @param {Array} params - Array of method parameters.
+	 * @param {number} id - Id number.
+	 * @param {requestCallback} callback - The callback that handles the response.
 	 * @private
 	 */
 	_sendRequest(method, params, id, callback) {
 		const url = `${this.apiURL}/rpc`
 
 		request({
-				method: 'post',
-				uri: url,
-				rejectUnauthorized: false,
-				auth: {
-					'user': this.username,
-					'pass': this.password,
-					'sendImmediately': false
-				},
-				json: {
-					'method': method,
-					'params': params,
-					'id': id
-				}
+			method: 'post',
+			uri: url,
+			rejectUnauthorized: false,
+			auth: {
+				'user': this.username,
+				'pass': this.password,
+				'sendImmediately': false
 			},
-			function (error, response, body) {
-				if (!error && response.statusCode === 200) {
-					if (body.error) {
-						console.error(body.error)
-						callback(body.error)
-					} else {
-						callback(body.result)
-					}
+			json: {
+				'method': method,
+				'params': params,
+				'id': id
+			}
+		},
+		function (error, response, body) {
+			if (!error && response.statusCode === 200) {
+				if (body.error) {
+					// console.error(body.error)
+					callback(body.error)
 				} else {
-					console.error(error)
+					callback(body.result)
 				}
-			})
+			} else {
+				new Error(error)
+			}
+		})
 	}
 }
 
