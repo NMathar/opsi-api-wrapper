@@ -13,11 +13,12 @@ class OPSIApi {
 
 
 	/**
-	 * Create OPSIApi.
+	 * Create/Initiate OPSIApi.
 	 *
 	 * @param {string} apiURL - OPSI Api URL String Example: Https://opsiserver:4447.
 	 * @param {string} username - OPSI user with acces rights.
 	 * @param {string} password - Password of the api user.
+	 * @param {int} id - OPSI Api Server ID. Default is 1
 	 */
 	constructor(apiURL, username, password, id = 1) {
 		if (!apiURL || !username || !password)
