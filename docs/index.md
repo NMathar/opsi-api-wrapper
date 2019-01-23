@@ -4,26 +4,32 @@
 
 -   [OPSIApi][1]
     -   [Parameters][2]
-    -   [serverIDs][3]
+    -   [getOpsiVersion][3]
         -   [Parameters][4]
         -   [Examples][5]
-    -   [isAuthenticated][6]
+    -   [serverIDs][6]
         -   [Parameters][7]
         -   [Examples][8]
-    -   [isUserAdmin][9]
+    -   [isAuthenticated][9]
         -   [Parameters][10]
         -   [Examples][11]
-    -   [actionsForProduct][12]
+    -   [isUserAdmin][12]
         -   [Parameters][13]
         -   [Examples][14]
-    -   [getAllClients][15]
+    -   [actionsForProduct][15]
         -   [Parameters][16]
         -   [Examples][17]
-    -   [getAllProducts][18]
+    -   [getAllClients][18]
         -   [Parameters][19]
         -   [Examples][20]
-    -   [getAllGroups][21]
+    -   [createClient][21]
         -   [Parameters][22]
+        -   [Examples][23]
+    -   [getAllProducts][24]
+        -   [Parameters][25]
+        -   [Examples][26]
+    -   [getAllGroups][27]
+        -   [Parameters][28]
 
 ## OPSIApi
 
@@ -31,10 +37,33 @@ Class OPISApi
 
 ### Parameters
 
--   `apiURL` **[string][23]** OPSI Api URL String Example: Https&#x3A;//opsiserver:4447.
--   `username` **[string][23]** OPSI user with acces rights.
--   `password` **[string][23]** Password of the api user.
+-   `apiURL` **[string][29]** OPSI Api URL String Example: Https&#x3A;//opsiserver:4447.
+-   `username` **[string][29]** OPSI user with acces rights.
+-   `password` **[string][29]** Password of the api user.
 -   `id` **int** OPSI Api Server ID. Default is 1 (optional, default `1`)
+
+### getOpsiVersion
+
+Get opsi version or false.
+
+#### Parameters
+
+-   `callback` **[Function][30]** Callback function.
+
+#### Examples
+
+```javascript
+// returns a string of the opsi version or false
+api.getOpsiVersion(function (obj) {
+		if(obj.success){
+		console.log(obj.opsiVersion)
+	}else if(!res.success){
+	  	console.error(res.message)
+	}
+})
+```
+
+Returns **[Object][31]** Data.
 
 ### serverIDs
 
@@ -42,18 +71,22 @@ Get all server ids.
 
 #### Parameters
 
--   `callback` **[Function][24]** Callback function.
+-   `callback` **[Function][30]** Callback function.
 
 #### Examples
 
 ```javascript
 // returns array of server ids
-api.serverIDs(function (serveridArray) {
-	console.log(serveridArray)
+api.serverIDs(function (res) {
+		if(res.success){
+		console.log(res.data) // array if ids
+	}else if(!res.success){
+	  	console.error(res.message)
+	}
 })
 ```
 
-Returns **[Array][25]** Data.
+Returns **[Object][31]** Data.
 
 ### isAuthenticated
 
@@ -67,12 +100,16 @@ Is api user authenticated.
 
 ```javascript
 // returns boolean if user is logged in or not
-api.isAuthenticated(function (boolean) {
-	console.log(boolean)
+api.isAuthenticated(function (res) {
+		if(res.success){
+		console.log(res.data) // boolean
+	}else if(!res.success){
+	  	console.error(res.message)
+	}
 })
 ```
 
-Returns **[boolean][26]** Data.
+Returns **[Object][31]** Data.
 
 ### isUserAdmin
 
@@ -86,12 +123,16 @@ Is api user admin.
 
 ```javascript
 // returns if user has admin rights
-api.isUserAdmin(function (boolean) {
-	console.log(boolean)
+api.isUserAdmin(function (res) {
+		if(res.success)
+		console.log(res.data) // boolean
+	}else if(!res.success){
+	  	console.error(res.message)
+	}
 })
 ```
 
-Returns **[boolean][26]** Data.
+Returns **[Object][31]** Data.
 
 ### actionsForProduct
 
@@ -99,8 +140,8 @@ Get all actions for one product.
 
 #### Parameters
 
--   `productid` **[string][23]** Any id string.
--   `serverid` **[string][23]** Serverid string that gets from serverIDs.
+-   `productid` **[string][29]** Any id string.
+-   `serverid` **[string][29]** Serverid string that gets from serverIDs.
 -   `callback` **requestCallback** The callback that handles the response.
 
 #### Examples
@@ -108,13 +149,17 @@ Get all actions for one product.
 ```javascript
 //returns array of actions for product
 api.serverIDs(function (servers) {
-	api.actionsForProduct('', servers[0], function (productActionArray) {
-		console.log(productActionArray)
+	api.actionsForProduct('', servers[0], function (res) {
+			if(res.success){
+			console.log(res.data) // array of product actions
+		}else if(!res.success){
+		  	console.error(res.message)
+		}
 	})
 })
 ```
 
-Returns **[Array][25]** Data.
+Returns **[Object][31]** Data.
 
 ### getAllClients
 
@@ -128,12 +173,45 @@ Get all clients.
 
 ```javascript
 //returns array of all clients
-api.getAllClients(function (clientsArray) {
-	console.log(clientsArray)
+api.getAllClients(function (res) {
+		if(res.success)
+		console.log(res.data) // client array
+	}else if(!res.success){
+	  	console.error(res.message)
+	}
 })
 ```
 
-Returns **[Array][25]** Data.
+Returns **[Array][32]** Data.
+
+### createClient
+
+create client.
+
+#### Parameters
+
+-   `clientName` **[string][29]** Client Name
+-   `domain` **[string][29]** Client domain
+-   `description` **[string][29]** description of the client
+-   `notes` **[string][29]** Notes for this client
+-   `ipAddress` **[string][29]** Client IP Address
+-   `hardwareAddress` **[string][29]** physical address of the client
+-   `callback` **requestCallback** The callback that handles the response.
+
+#### Examples
+
+```javascript
+//returns array of all clients
+api.createClient(clientName, domain, description, notes, ipAddress, hardwareAddress, function (res) {
+		if(res.success)
+		console.log(res.data) // clients array
+	}else if(!res.success){
+	  	console.error(res.message)
+	}
+})
+```
+
+Returns **([Array][32] \| [Object][31])** Data Array or Object with error message (Object.message).
 
 ### getAllProducts
 
@@ -147,12 +225,16 @@ Get all products.
 
 ```javascript
 // returns an array of products
-api.getAllProducts(function (productsArray) {
-	console.log(productsArray)
+api.getAllProducts(function (res) {
+		if(res.success)
+		console.log(res.data) // product array
+	}else if(!res.success){
+	  	console.error(res.message)
+	}
 })
 ```
 
-Returns **[Array][25]** Data.
+Returns **[Array][32]** Data.
 
 ### getAllGroups
 
@@ -162,56 +244,68 @@ Get all groups.
 
 -   `callback` **requestCallback** The callback that handles the response.
 
-Returns **[Array][25]** Data.
+Returns **[Array][32]** Data.
 
 [1]: #opsiapi
 
 [2]: #parameters
 
-[3]: #serverids
+[3]: #getopsiversion
 
 [4]: #parameters-1
 
 [5]: #examples
 
-[6]: #isauthenticated
+[6]: #serverids
 
 [7]: #parameters-2
 
 [8]: #examples-1
 
-[9]: #isuseradmin
+[9]: #isauthenticated
 
 [10]: #parameters-3
 
 [11]: #examples-2
 
-[12]: #actionsforproduct
+[12]: #isuseradmin
 
 [13]: #parameters-4
 
 [14]: #examples-3
 
-[15]: #getallclients
+[15]: #actionsforproduct
 
 [16]: #parameters-5
 
 [17]: #examples-4
 
-[18]: #getallproducts
+[18]: #getallclients
 
 [19]: #parameters-6
 
 [20]: #examples-5
 
-[21]: #getallgroups
+[21]: #createclient
 
 [22]: #parameters-7
 
-[23]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[23]: #examples-6
 
-[24]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
+[24]: #getallproducts
 
-[25]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+[25]: #parameters-8
 
-[26]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+[26]: #examples-7
+
+[27]: #getallgroups
+
+[28]: #parameters-9
+
+[29]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[30]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
+
+[31]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+
+[32]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array

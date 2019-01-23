@@ -7,9 +7,13 @@ describe('Test OPSI API', function () {
 
 	describe('#getOpsiVersion()', function () {
 		it('is opsi version avaibale', function (done) {
-			api.getOpsiVersion(function (data) {
-				console.log(data)
-				assert.ok(data.length > 0)
+			api.getOpsiVersion(function (res) {
+				if(res.success){
+					assert.ok(res.success)
+				}else{
+					console.error('Error: ',res.message)
+					assert.ok(res.message)
+				}
 				done()
 			})
 		})
@@ -17,8 +21,13 @@ describe('Test OPSI API', function () {
 
 	describe('#isAuthenticated()', function () {
 		it('get boolean for is user authenticated', function (done) {
-			api.isAuthenticated(function (boolean) {
-				assert.equal(boolean, true)
+			api.isAuthenticated(function (res) {
+				if(res.success){
+					assert.ok(res.success)
+				}else{
+					console.error('Error: ',res.message)
+					assert.ok(res.message)
+				}
 				done()
 			})
 		})
@@ -26,8 +35,13 @@ describe('Test OPSI API', function () {
 
 	describe('#isUserAdmin()', function () {
 		it('get boolean for is user admin', function (done) {
-			api.isUserAdmin(function (boolean) {
-				assert.equal(boolean, true)
+			api.isUserAdmin(function (res) {
+				if(res.success){
+					assert.ok(res.success)
+				}else{
+					console.error('Error: ',res.message)
+					assert.ok(res.message)
+				}
 				done()
 			})
 		})
@@ -35,8 +49,13 @@ describe('Test OPSI API', function () {
 
 	describe('#getServerID()', function () {
 		it('more then zreo server id', function (done) {
-			api.serverIDs(function (data) {
-				assert.ok(data.length > 0)
+			api.serverIDs(function (res) {
+				if(res.success){
+					assert.ok(res.success)
+				}else{
+					console.error('Error: ',res.message)
+					assert.ok(res.message)
+				}
 				done()
 			})
 		})

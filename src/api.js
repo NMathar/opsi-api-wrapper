@@ -28,25 +28,57 @@ class OPSIApi {
 		this.username = username
 		this.password = password
 		this.id = id
+
+		// test api connection on construction  maybe obsolete if performance lacks
+		// this.getOpsiVersion(function (data) {
+		// 	if (!data)
+		// 		throw new Error('API is not available!')
+		// })
 	}
 
 	//base api call functions
 
+	/**
+	 * Get opsi version or false.
+	 *
+	 * @example
+	 * // returns a string of the opsi version or false
+	 * api.getOpsiVersion(function (obj) {
+	 * 		if(obj.success){
+	 *			console.log(obj.opsiVersion)
+	 *		}else if(!res.success){
+	 *		  	console.error(res.message)
+	 *		}
+	 * })
+	 * @param {Function} callback - Callback function.
+	 * @returns {Object} Data.
+	 */
+	getOpsiVersion(callback) {
+		this._sendRequest('backend_info', [], this.id, function (res) {
+			if (res.success)
+				return callback({'success': res.success, 'opsiVersion': res.data.opsiVersion })
+
+			return callback(res)
+		})
+	}
 
 	/**
 	 * Get all server ids.
 	 *
 	 * @example
 	 * // returns array of server ids
-	 * api.serverIDs(function (serveridArray) {
-	 *		console.log(serveridArray)
+	 * api.serverIDs(function (res) {
+	 * 		if(res.success){
+	 *			console.log(res.data) // array if ids
+	 *		}else if(!res.success){
+	 *		  	console.error(res.message)
+	 *		}
 	 * })
 	 * @param {Function} callback - Callback function.
-	 * @returns {Array} Data.
+	 * @returns {Object} Data.
 	 */
 	serverIDs(callback) {
 		this._sendRequest('getServerIds_list', [], this.id, function (data) {
-			// console.log(data)
 			return callback(data)
 		})
 	}
@@ -56,11 +88,15 @@ class OPSIApi {
 	 *
 	 * @example
 	 * // returns boolean if user is logged in or not
-	 * api.isAuthenticated(function (boolean) {
-	 *		console.log(boolean)
+	 * api.isAuthenticated(function (res) {
+	 * 		if(res.success){
+	 *			console.log(res.data) // boolean
+	 *		}else if(!res.success){
+	 *		  	console.error(res.message)
+	 *		}
 	 * })
 	 * @param {requestCallback} callback - The callback that handles the response. Function.
-	 * @returns {boolean} Data.
+	 * @returns {Object} Data.
 	 */
 	isAuthenticated(callback) {
 		this._sendRequest('accessControl_authenticated', [], this.id, function (data) {
@@ -74,11 +110,15 @@ class OPSIApi {
 	 *
 	 * @example
 	 * // returns if user has admin rights
-	 * api.isUserAdmin(function (boolean) {
-	 *		console.log(boolean)
+	 * api.isUserAdmin(function (res) {
+	 * 		if(res.success)
+	 *			console.log(res.data) // boolean
+	 *		}else if(!res.success){
+	 *		  	console.error(res.message)
+	 *		}
 	 * })
 	 * @param {requestCallback} callback - The callback that handles the response.
-	 * @returns {boolean} Data.
+	 * @returns {Object} Data.
 	 */
 	isUserAdmin(callback) {
 		this._sendRequest('accessControl_userIsAdmin', [], this.id, function (data) {
@@ -93,14 +133,18 @@ class OPSIApi {
 	 * @example
 	 * //returns array of actions for product
 	 * api.serverIDs(function (servers) {
-	 *		api.actionsForProduct('', servers[0], function (productActionArray) {
-	 *			console.log(productActionArray)
+	 *		api.actionsForProduct('', servers[0], function (res) {
+	 * 			if(res.success){
+	 *				console.log(res.data) // array of product actions
+	 *			}else if(!res.success){
+	 *			  	console.error(res.message)
+	 *			}
 	 *		})
 	 *	})
 	 * @param {string} productid - Any id string.
 	 * @param {string }serverid - Serverid string that gets from serverIDs.
 	 * @param {requestCallback} callback - The callback that handles the response.
-	 * @returns {Array} Data.
+	 * @returns {Object} Data.
 	 */
 	actionsForProduct(productid, serverid, callback) {
 		this._sendRequest('getPossibleProductActions_list', [productid, serverid], this.id, function (data) {
@@ -115,8 +159,12 @@ class OPSIApi {
 	 *
 	 * @example
 	 * //returns array of all clients
-	 * api.getAllClients(function (clientsArray) {
-	 *		console.log(clientsArray)
+	 * api.getAllClients(function (res) {
+	 * 		if(res.success)
+	 *			console.log(res.data) // client array
+	 *		}else if(!res.success){
+	 *		  	console.error(res.message)
+	 *		}
 	 * })
 	 * @param {requestCallback} callback - The callback that handles the response.
 	 * @returns {Array} Data.
@@ -133,8 +181,12 @@ class OPSIApi {
 	 *
 	 * @example
 	 * //returns array of all clients
-	 * api.createClient(clientName, domain, description, notes, ipAddress, hardwareAddress, function (clientsArray) {
-	 *		console.log(clientData)
+	 * api.createClient(clientName, domain, description, notes, ipAddress, hardwareAddress, function (res) {
+	 * 		if(res.success)
+	 *			console.log(res.data) // clients array
+	 *		}else if(!res.success){
+	 *		  	console.error(res.message)
+	 *		}
 	 * })
 	 * @param {string} clientName - Client Name
 	 * @param {string} domain - Client domain
@@ -143,7 +195,7 @@ class OPSIApi {
 	 * @param {string} ipAddress - Client IP Address
 	 * @param {string} hardwareAddress - physical address of the client
 	 * @param {requestCallback} callback - The callback that handles the response.
-	 * @returns {Array} Data.
+	 * @returns {Array|Object} Data Array or Object with error message (Object.message).
 	 */
 	createClient(clientName, domain, description, notes, ipAddress, hardwareAddress, callback) {
 		this._sendRequest('createClient', [], this.id, function (data) {
@@ -157,8 +209,12 @@ class OPSIApi {
 	 *
 	 * @example
 	 * // returns an array of products
-	 * api.getAllProducts(function (productsArray) {
-	 *		console.log(productsArray)
+	 * api.getAllProducts(function (res) {
+	 * 		if(res.success)
+	 *			console.log(res.data) // product array
+	 *		}else if(!res.success){
+	 *		  	console.error(res.message)
+	 *		}
 	 *	})
 	 * @param {requestCallback} callback - The callback that handles the response.
 	 * @returns {Array} Data.
@@ -175,8 +231,12 @@ class OPSIApi {
 	 *
 	 * @exmaple
 	 * //returns an array of opsi groups
-	 * api.getAllGroups(function (groupsArray) {
-	 *		console.log(groupsArray)
+	 * api.getAllGroups(function (res) {
+	 * 		if(res.success)
+	 *			console.log(res.data) // groups array
+	 *		}else if(!res.success){
+	 *		  	console.error(res.message)
+	 *		}
 	 *	})
 	 * @param {requestCallback} callback - The callback that handles the response.
 	 * @returns {Array} Data.
@@ -201,33 +261,38 @@ class OPSIApi {
 	_sendRequest(method, params, id, callback) {
 		const url = `${this.apiURL}/rpc`
 
-		request({
-			method: 'post',
-			uri: url,
-			rejectUnauthorized: false,
-			auth: {
-				'user': this.username,
-				'pass': this.password,
-				'sendImmediately': false
-			},
-			json: {
-				'method': method,
-				'params': params,
-				'id': id
-			}
-		},
-		function (error, response, body) {
-			if (!error && response.statusCode === 200) {
-				if (body.error) {
-					// console.error(body.error)
-					callback(body.error)
-				} else {
-					callback(body.result)
+		try {
+			request({
+				method: 'post',
+				uri: url,
+				rejectUnauthorized: false,
+				auth: {
+					'user': this.username,
+					'pass': this.password,
+					'sendImmediately': false
+				},
+				json: {
+					'method': method,
+					'params': params,
+					'id': id
 				}
-			} else {
-				new Error(error)
-			}
-		})
+			},
+			function (error, response, body) {
+				if (!error && response.statusCode === 200) {
+					if (body.error) {
+						callback({'success': false, 'message': body.error.message})
+					} else if (body.result) {
+						callback({'success': true, 'data': body.result})
+					} else {
+						callback(body)
+					}
+				} else {
+					throw new Error(error)
+				}
+			})
+		} catch (e) {
+			throw new Error(e)
+		}
 	}
 }
 
