@@ -56,7 +56,7 @@ class OPSIApi {
 	getOpsiVersion(callback) {
 		this._sendRequest('backend_info', [], this.id, function (res) {
 			if (res.success)
-				return callback({'success': res.success, 'opsiVersion': res.data.opsiVersion })
+				return callback({'success': res.success, 'opsiVersion': res.data.opsiVersion})
 
 			return callback(res)
 		})
@@ -180,9 +180,9 @@ class OPSIApi {
 	 * create client.
 	 *
 	 * @example
-	 * //returns array of all clients
+	 * //returns client id name
 	 * api.createClient(clientName, domain, description, notes, ipAddress, hardwareAddress, function (res) {
-	 * 		if(res.success)
+	 * 		if(res.success){
 	 *			console.log(res.data) // clients array
 	 *		}else if(!res.success){
 	 *		  	console.error(res.message)
@@ -197,10 +197,44 @@ class OPSIApi {
 	 * @param {requestCallback} callback - The callback that handles the response.
 	 * @returns {Array|Object} Data Array or Object with error message (Object.message).
 	 */
-	createClient(clientName, domain, description, notes, ipAddress, hardwareAddress, callback) {
-		this._sendRequest('createClient', [], this.id, function (data) {
+	createClient(clientName = '', domain = '', description = '', notes = '', ipAddress = '', hardwareAddress = '', callback) {
+		this._sendRequest('createClient', [
+			clientName,
+			domain,
+			description,
+			notes,
+			ipAddress,
+			hardwareAddress
+		], this.id, function (data) {
 			// console.log(data)
 			return callback(data)
+		})
+	}
+
+
+	/**
+	 * delete client.
+	 *
+	 * @example
+	 * //returns boolean only on super bad data it will return an error message
+	 *
+	 * api.delete(clientId, function (res) {
+	 * 		if(!res.success){
+	 *			console.error(res.message) // client error message
+	 *		}else if(res){
+	 *		  	console.log(res) // true
+	 *		}
+	 * })
+	 * @param {string} clientId - Client ID
+	 * @param {requestCallback} callback - The callback that handles the response.
+	 * @returns {Boolean|Object} Boolean or Object with error message (Object.message).
+	 */
+	deleteClient(clientId = '', callback) {
+		this._sendRequest('deleteClient', [
+			clientId
+		], this.id, function (data) {
+			// console.log(data.message)
+			return callback(data.message ? data : true)
 		})
 	}
 
@@ -215,7 +249,7 @@ class OPSIApi {
 	 *		}else if(!res.success){
 	 *		  	console.error(res.message)
 	 *		}
-	 *	})
+	 *    })
 	 * @param {requestCallback} callback - The callback that handles the response.
 	 * @returns {Array} Data.
 	 */
@@ -237,7 +271,7 @@ class OPSIApi {
 	 *		}else if(!res.success){
 	 *		  	console.error(res.message)
 	 *		}
-	 *	})
+	 *    })
 	 * @param {requestCallback} callback - The callback that handles the response.
 	 * @returns {Array} Data.
 	 */

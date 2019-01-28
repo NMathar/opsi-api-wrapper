@@ -25,11 +25,14 @@
     -   [createClient][21]
         -   [Parameters][22]
         -   [Examples][23]
-    -   [getAllProducts][24]
+    -   [deleteClient][24]
         -   [Parameters][25]
         -   [Examples][26]
-    -   [getAllGroups][27]
+    -   [getAllProducts][27]
         -   [Parameters][28]
+        -   [Examples][29]
+    -   [getAllGroups][30]
+        -   [Parameters][31]
 
 ## OPSIApi
 
@@ -37,9 +40,9 @@ Class OPISApi
 
 ### Parameters
 
--   `apiURL` **[string][29]** OPSI Api URL String Example: Https&#x3A;//opsiserver:4447.
--   `username` **[string][29]** OPSI user with acces rights.
--   `password` **[string][29]** Password of the api user.
+-   `apiURL` **[string][32]** OPSI Api URL String Example: Https&#x3A;//opsiserver:4447.
+-   `username` **[string][32]** OPSI user with acces rights.
+-   `password` **[string][32]** Password of the api user.
 -   `id` **int** OPSI Api Server ID. Default is 1 (optional, default `1`)
 
 ### getOpsiVersion
@@ -48,7 +51,7 @@ Get opsi version or false.
 
 #### Parameters
 
--   `callback` **[Function][30]** Callback function.
+-   `callback` **[Function][33]** Callback function.
 
 #### Examples
 
@@ -63,7 +66,7 @@ api.getOpsiVersion(function (obj) {
 })
 ```
 
-Returns **[Object][31]** Data.
+Returns **[Object][34]** Data.
 
 ### serverIDs
 
@@ -71,7 +74,7 @@ Get all server ids.
 
 #### Parameters
 
--   `callback` **[Function][30]** Callback function.
+-   `callback` **[Function][33]** Callback function.
 
 #### Examples
 
@@ -86,7 +89,7 @@ api.serverIDs(function (res) {
 })
 ```
 
-Returns **[Object][31]** Data.
+Returns **[Object][34]** Data.
 
 ### isAuthenticated
 
@@ -109,7 +112,7 @@ api.isAuthenticated(function (res) {
 })
 ```
 
-Returns **[Object][31]** Data.
+Returns **[Object][34]** Data.
 
 ### isUserAdmin
 
@@ -132,7 +135,7 @@ api.isUserAdmin(function (res) {
 })
 ```
 
-Returns **[Object][31]** Data.
+Returns **[Object][34]** Data.
 
 ### actionsForProduct
 
@@ -140,8 +143,8 @@ Get all actions for one product.
 
 #### Parameters
 
--   `productid` **[string][29]** Any id string.
--   `serverid` **[string][29]** Serverid string that gets from serverIDs.
+-   `productid` **[string][32]** Any id string.
+-   `serverid` **[string][32]** Serverid string that gets from serverIDs.
 -   `callback` **requestCallback** The callback that handles the response.
 
 #### Examples
@@ -159,7 +162,7 @@ api.serverIDs(function (servers) {
 })
 ```
 
-Returns **[Object][31]** Data.
+Returns **[Object][34]** Data.
 
 ### getAllClients
 
@@ -182,7 +185,7 @@ api.getAllClients(function (res) {
 })
 ```
 
-Returns **[Array][32]** Data.
+Returns **[Array][35]** Data.
 
 ### createClient
 
@@ -190,20 +193,20 @@ create client.
 
 #### Parameters
 
--   `clientName` **[string][29]** Client Name
--   `domain` **[string][29]** Client domain
--   `description` **[string][29]** description of the client
--   `notes` **[string][29]** Notes for this client
--   `ipAddress` **[string][29]** Client IP Address
--   `hardwareAddress` **[string][29]** physical address of the client
+-   `clientName` **[string][32]** Client Name (optional, default `''`)
+-   `domain` **[string][32]** Client domain (optional, default `''`)
+-   `description` **[string][32]** description of the client (optional, default `''`)
+-   `notes` **[string][32]** Notes for this client (optional, default `''`)
+-   `ipAddress` **[string][32]** Client IP Address (optional, default `''`)
+-   `hardwareAddress` **[string][32]** physical address of the client (optional, default `''`)
 -   `callback` **requestCallback** The callback that handles the response.
 
 #### Examples
 
 ```javascript
-//returns array of all clients
+//returns client id name
 api.createClient(clientName, domain, description, notes, ipAddress, hardwareAddress, function (res) {
-		if(res.success)
+		if(res.success){
 		console.log(res.data) // clients array
 	}else if(!res.success){
 	  	console.error(res.message)
@@ -211,7 +214,32 @@ api.createClient(clientName, domain, description, notes, ipAddress, hardwareAddr
 })
 ```
 
-Returns **([Array][32] \| [Object][31])** Data Array or Object with error message (Object.message).
+Returns **([Array][35] \| [Object][34])** Data Array or Object with error message (Object.message).
+
+### deleteClient
+
+delete client.
+
+#### Parameters
+
+-   `clientId` **[string][32]** Client ID (optional, default `''`)
+-   `callback` **requestCallback** The callback that handles the response.
+
+#### Examples
+
+```javascript
+//returns boolean only on super bad data it will return an error message
+
+api.delete(clientId, function (res) {
+		if(!res.success){
+		console.error(res.message) // client error message
+	}else if(res){
+	  	console.log(res) // true
+	}
+})
+```
+
+Returns **([Boolean][36] \| [Object][34])** Boolean or Object with error message (Object.message).
 
 ### getAllProducts
 
@@ -231,10 +259,10 @@ api.getAllProducts(function (res) {
 	}else if(!res.success){
 	  	console.error(res.message)
 	}
-})
+   })
 ```
 
-Returns **[Array][32]** Data.
+Returns **[Array][35]** Data.
 
 ### getAllGroups
 
@@ -244,7 +272,7 @@ Get all groups.
 
 -   `callback` **requestCallback** The callback that handles the response.
 
-Returns **[Array][32]** Data.
+Returns **[Array][35]** Data.
 
 [1]: #opsiapi
 
@@ -292,20 +320,28 @@ Returns **[Array][32]** Data.
 
 [23]: #examples-6
 
-[24]: #getallproducts
+[24]: #deleteclient
 
 [25]: #parameters-8
 
 [26]: #examples-7
 
-[27]: #getallgroups
+[27]: #getallproducts
 
 [28]: #parameters-9
 
-[29]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[29]: #examples-8
 
-[30]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
+[30]: #getallgroups
 
-[31]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+[31]: #parameters-10
 
-[32]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+[32]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[33]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
+
+[34]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+
+[35]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+
+[36]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
