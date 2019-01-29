@@ -282,6 +282,49 @@ class OPSIApi {
 		})
 	}
 
+	/**
+	 * create group
+	 */
+	createHostGroup(id = '', description = '', notes = '', parentGroupId = '', callback) {
+		this._sendRequest('group_createHostGroup', [
+			id,
+			description,
+			notes,
+			parentGroupId,
+		], this.id, function (data) {
+			// console.log(data)
+			return callback(data)
+		})
+	}
+
+	/**
+	 * get group info
+	 */
+	getHostGroupInfo(groupName = '', filter = '', callback) {
+		this._sendRequest('group_getObjects', [
+			filter,
+			'{"id": "' + groupName + '", "type": "HostGroup"}'
+		], this.id, function (data) {
+			// console.log(data)
+			return callback(data)
+		})
+	}
+
+
+	/**
+	 * delete group
+	 */
+
+
+	/**
+	 * add client to group
+	 */
+
+
+	/**
+	 * //TODO: host actions
+	 */
+
 
 	/**
 	 * Generate api call actions.
@@ -297,33 +340,33 @@ class OPSIApi {
 
 		try {
 			request({
-				method: 'post',
-				uri: url,
-				rejectUnauthorized: false,
-				auth: {
-					'user': this.username,
-					'pass': this.password,
-					'sendImmediately': false
-				},
-				json: {
-					'method': method,
-					'params': params,
-					'id': id
-				}
-			},
-			function (error, response, body) {
-				if (!error && response.statusCode === 200) {
-					if (body.error) {
-						callback({'success': false, 'message': body.error.message})
-					} else if (body.result) {
-						callback({'success': true, 'data': body.result})
-					} else {
-						callback(body)
+					method: 'post',
+					uri: url,
+					rejectUnauthorized: false,
+					auth: {
+						'user': this.username,
+						'pass': this.password,
+						'sendImmediately': false
+					},
+					json: {
+						'method': method,
+						'params': params,
+						'id': id
 					}
-				} else {
-					throw new Error(error)
-				}
-			})
+				},
+				function (error, response, body) {
+					if (!error && response.statusCode === 200) {
+						if (body.error) {
+							callback({'success': false, 'message': body.error.message})
+						} else if (body.result) {
+							callback({'success': true, 'data': body.result})
+						} else {
+							callback(body)
+						}
+					} else {
+						throw new Error(error)
+					}
+				})
 		} catch (e) {
 			throw new Error(e)
 		}

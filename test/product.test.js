@@ -7,7 +7,6 @@ describe('Test OPSI API Product Actions', function () {
 	describe('#getProductActionList()', function () {
 		it('get product action list', function (done) {
 			api.serverIDs(function (servers) {
-				console.log('Test')
 				api.actionsForProduct('', servers[0], function (data) {
 					if(data.success){
 						assert.ok(data.success)
