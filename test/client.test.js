@@ -16,13 +16,23 @@ describe('Test OPSI API Client Actions', function () {
 				'',
 				'',
 				function (data) {
-					if (data.success) {
-						assert.ok(data.success)
-						console.log(data)
-					} else {
-						console.error('Error: ', data.message)
-						assert.ok(data.message)
-					}
+					assert.ok(data.success)
+					assert.deepStrictEqual(data.data, clientName + '.' + domain)
+					// console.log(data)
+					done()
+				})
+		})
+
+		it('create a new client fail no parameter', function (done) {
+			api.createClient('',
+				'',
+				'',
+				'',
+				'',
+				'',
+				function (data) {
+					console.error('Error: ', data.message)
+					assert.ok(data.message)
 					done()
 				})
 		})
@@ -31,16 +41,19 @@ describe('Test OPSI API Client Actions', function () {
 	describe('#deleteClient()', function () {
 		it('delete a client', function (done) {
 			api.deleteClient(
-				// clientName + '.' + domain,
-				'testclient-302.opsi.docker.lan',
+				clientName + '.' + domain,
 				function (data) {
-					if (data.message) {
-						console.error('Error: ', data.message)
-						assert.ok(data.message)
-					} else {
-						assert.ok(data)
-						// console.log('Success: ', data)
-					}
+					assert.ok(data)
+					done()
+				})
+		})
+
+		it('delete a client FAILED', function (done) {
+			api.deleteClient(
+				'del_client_fail',
+				function (data) {
+					// console.error('Error: ', data.message)
+					assert.ok(data.message)
 					done()
 				})
 		})
@@ -49,13 +62,9 @@ describe('Test OPSI API Client Actions', function () {
 	describe('#getAllClients()', function () {
 		it('get all client list and its greater then zero', function (done) {
 			api.getAllClients(function (data) {
-				if (data.success) {
-					assert.ok(data.success)
-					console.log(data)
-				} else {
-					console.error('Error: ', data.message)
-					assert.ok(data.message)
-				}
+				assert.ok(data.success)
+				assert.ok(data.data instanceof Array)
+				// console.log(data)
 				done()
 			})
 		})
