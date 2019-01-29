@@ -17,7 +17,7 @@ describe('Test OPSI API Client Actions', function () {
 				'',
 				function (data) {
 					assert.ok(data.success)
-					assert.deepStrictEqual(data.data, clientName + '.' + domain)
+					assert.deepStrictEqual(data.data, clientName + '.' + domain, 'Client Name Expected')
 					// console.log(data)
 					done()
 				})
@@ -63,7 +63,7 @@ describe('Test OPSI API Client Actions', function () {
 		it('get all client list and its greater then zero', function (done) {
 			api.getAllClients(function (data) {
 				assert.ok(data.success)
-				assert.ok(data.data instanceof Array)
+				assert.ok(data.data instanceof Array, 'Array Expected')
 				// console.log(data)
 				done()
 			})
