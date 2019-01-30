@@ -275,8 +275,9 @@ class OPSIApi {
 	 * @param {requestCallback} callback - The callback that handles the response.
 	 * @returns {Array} Data.
 	 */
-	getAllGroups(callback) {
-		this._sendRequest('objectToGroup_getObjects', [], this.id, function (data) {
+	getAllHostGroups(callback) {
+		this._sendRequest('group_getObjects', [
+		], this.id, function (data) {
 			// console.log(data)
 			return callback(data)
 		})
@@ -284,12 +285,32 @@ class OPSIApi {
 
 	/**
 	 * create group
+	 *
+	 * @example
+	 * //returns boolean only on super bad data it will return an error message
+	 * api.createHostGroup(
+	 * 					'groupName',
+	 * 					'members',
+	 *					'description',
+	 *					'parentGroupId', function (res) {
+	 * 		if(!res.success){
+	 *			console.error(res.message) // client error message
+	 *		}else if(res){
+	 *		  	console.log(res) // true
+	 *		}
+	 * })
+	 * @param {string} groupId - Group ID Name
+	 * @param {string} members - Members Object? String? Array?
+	 * @param {string} description - Group description string
+	 * @param {string} parentGroupId - Parent Group ID Name
+	 * @param {requestCallback} callback - The callback that handles the response.
+	 * @returns {Boolean|Object} Boolean or Object with error message (Object.message).
 	 */
-	createHostGroup(id = '', description = '', notes = '', parentGroupId = '', callback) {
-		this._sendRequest('group_createHostGroup', [
-			id,
+	createHostGroup(groupId = '', members = '', description = '', parentGroupId = '', callback) {
+		this._sendRequest('createGroup', [
+			groupId,
+			members,
 			description,
-			notes,
 			parentGroupId,
 		], this.id, function (data) {
 			// console.log(data)
@@ -304,6 +325,18 @@ class OPSIApi {
 		this._sendRequest('group_getObjects', [
 			filter,
 			'{"id": "' + groupName + '", "type": "HostGroup"}'
+		], this.id, function (data) {
+			// console.log(data)
+			return callback(data)
+		})
+	}
+
+	/**
+	 * group name exists
+	 */
+	groupNameExists(groupName, callback) {
+		this._sendRequest('groupname_exists', [
+			groupName
 		], this.id, function (data) {
 			// console.log(data)
 			return callback(data)
@@ -337,36 +370,41 @@ class OPSIApi {
 	 */
 	_sendRequest(method, params, id, callback) {
 		const url = `${this.apiURL}/rpc`
-
 		try {
 			request({
-					method: 'post',
-					uri: url,
-					rejectUnauthorized: false,
-					auth: {
-						'user': this.username,
-						'pass': this.password,
-						'sendImmediately': false
-					},
-					json: {
-						'method': method,
-						'params': params,
-						'id': id
-					}
+				method: 'post',
+				uri: url,
+				rejectUnauthorized: false,
+				auth: {
+					'user': this.username,
+					'pass': this.password,
+					'sendImmediately': false
 				},
-				function (error, response, body) {
-					if (!error && response.statusCode === 200) {
-						if (body.error) {
-							callback({'success': false, 'message': body.error.message})
-						} else if (body.result) {
-							callback({'success': true, 'data': body.result})
-						} else {
-							callback(body)
-						}
+				json: {
+					'method': method,
+					'params': params,
+					'id': id
+				}
+			},
+			function (error, response, body) {
+				if (!error && response.statusCode === 200) {
+					if (!body.error) {
+						callback({'success': true, 'data': body.result})
 					} else {
-						throw new Error(error)
+						callback({'success': false, 'message': body.error.message})
 					}
-				})
+
+					// else if (!body.result && body.error === null) {
+					// 	callback({'success': true, 'data': true})
+					// } else if (!body.result && body.error.length > 0) {
+					// 	callback({'success': false, 'message': body.error})
+					// } else {
+					// 	callback(body)
+					// }
+				} else {
+					throw new Error(error)
+				}
+			})
 		} catch (e) {
 			throw new Error(e)
 		}

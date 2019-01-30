@@ -11,14 +11,13 @@ describe('Test OPSI API Groups Actions', function () {
 		it('create group', function (done) {
 			api.createHostGroup(
 				randomGroupName,
-				'Test Group',
+				'',
 				'',
 				'',
 				function (res) {
-					console.error(res.message)
-
+					// console.error(res.message)
 					assert.ok(res.success)
-					assert.deepStrictEqual(res.data, randomGroupName, 'Group Name Expected')
+					assert.equal(res.data, null)
 					done()
 				}
 			)
@@ -31,7 +30,8 @@ describe('Test OPSI API Groups Actions', function () {
 				'',
 				'',
 				function (res) {
-					console.error('Error: ', res.message)
+					// console.error('Error: ', res.message)
+					assert.equal(res.success, false)
 					assert.ok(res.message)
 					done()
 				}
@@ -45,6 +45,7 @@ describe('Test OPSI API Groups Actions', function () {
 	// })
 
 
+	//TODO: not working
 	describe('#getHostGroupInfo()', function () {
 		it('get group info', function (done) {
 			api.getHostGroupInfo(randomGroupName, '', function (res) {
@@ -58,12 +59,31 @@ describe('Test OPSI API Groups Actions', function () {
 	})
 
 
-	describe('#getAllGroups()', function () {
-		it('get all groups list and its greater then zero', function (done) {
-			api.getAllGroups(function (res) {
+	describe('#getAllHostGroups()', function () {
+		it('get all host groups list and its greater then zero', function (done) {
+			api.getAllHostGroups(function (res) {
 				assert.ok(res.success)
 				assert.ok(res.data instanceof Array, 'Array Expected')
-				// console.log(data)
+				console.log(res.data)
+				done()
+			})
+		})
+	})
+
+	describe('#groupNameExists()', function () {
+		it('check if group exist -> true', function (done) {
+			api.groupNameExists('test_group', function (res) {
+				// console.log(res)
+				assert.ok(res.success)
+				assert.ok(res.data)
+				done()
+			})
+		})
+		it('check if group exist -> false', function (done) {
+			api.groupNameExists('test_group_fail', function (res) {
+				// console.log(res)
+				assert.ok(res.success)
+				assert.equal(res.data, false)
 				done()
 			})
 		})

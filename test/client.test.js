@@ -31,13 +31,15 @@ describe('Test OPSI API Client Actions', function () {
 				'',
 				'',
 				function (data) {
-					console.error('Error: ', data.message)
+					// console.error('Error: ', data.message)
+					assert.equal(data.success, false)
 					assert.ok(data.message)
 					done()
 				})
 		})
 	})
 
+	//TODO: no useful retirn
 	describe('#deleteClient()', function () {
 		it('delete a client', function (done) {
 			api.deleteClient(
@@ -53,6 +55,7 @@ describe('Test OPSI API Client Actions', function () {
 				'del_client_fail',
 				function (data) {
 					// console.error('Error: ', data.message)
+					assert.equal(data.success, false)
 					assert.ok(data.message)
 					done()
 				})
@@ -64,7 +67,7 @@ describe('Test OPSI API Client Actions', function () {
 			api.getAllClients(function (data) {
 				assert.ok(data.success)
 				assert.ok(data.data instanceof Array, 'Array Expected')
-				// console.log(data)
+				console.log(data)
 				done()
 			})
 		})
