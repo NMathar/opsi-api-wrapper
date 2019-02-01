@@ -65,7 +65,7 @@ describe('Test OPSI API Groups Actions', function () {
 
 	describe('#groupNameExists()', function () {
 		it('check if group exist -> true', function (done) {
-			api.groupNameExists('test_group', function (res) {
+			api.groupNameExists(randomGroupName, function (res) {
 				// console.log(res)
 				assert.ok(res.success)
 				assert.ok(res.data)
