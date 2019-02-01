@@ -16,4 +16,4 @@ before_script:
 script:
   - nyc mocha
   - npm run report-coverage
-  - npm test
+#  - npm test
