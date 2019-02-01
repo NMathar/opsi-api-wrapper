@@ -42,7 +42,7 @@ describe('Test OPSI API Groups Actions', function () {
 	describe('#getHostGroupInfo()', function () {
 		it('get group info', function (done) {
 			api.getHostGroupInfo(randomGroupName, function (res) {
-				console.log(res)
+				// console.log(res)
 				assert.ok(res.success)
 				assert.ok(res.data instanceof Object, 'Object Expected')
 				assert.deepStrictEqual(res.data.ident, randomGroupName, 'Group Name Expected')
