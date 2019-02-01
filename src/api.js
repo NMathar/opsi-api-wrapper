@@ -45,7 +45,7 @@ class OPSIApi {
 	 * // returns a string of the opsi version or false
 	 * api.getOpsiVersion(function (obj) {
 	 * 		if(obj.success){
-	 *			console.log(obj.opsiVersion)
+	 *			console.log(obj.data.opsiVersion)
 	 *		}else if(!res.success){
 	 *		  	console.error(res.message)
 	 *		}
@@ -55,9 +55,6 @@ class OPSIApi {
 	 */
 	getOpsiVersion(callback) {
 		this._sendRequest('backend_info', [], this.id, function (res) {
-			if (res.success)
-				return callback({'success': res.success, 'opsiVersion': res.data.opsiVersion})
-
 			return callback(res)
 		})
 	}
@@ -122,6 +119,33 @@ class OPSIApi {
 	 */
 	isUserAdmin(callback) {
 		this._sendRequest('accessControl_userIsAdmin', [], this.id, function (data) {
+			// console.log(data)
+			return callback(data)
+		})
+	}
+
+	/**
+	 * Get server infos.
+	 *
+	 * @example
+	 * // returns array with objects of server data
+	 * api.getOpsiServerInfo(function (res) {
+	 * 		if(res.success){
+	 *			console.log(res.data[0]) // object of server data
+	 *		}else if(!res.success){
+	 *		  	console.error(res.message)
+	 *		}
+	 * })
+	 * @param {Function} callback - Callback function.
+	 * @returns {Object} Data.
+	 */
+	getOpsiServerInfo(callback) {
+		this._sendRequest('host_getObjects', [
+			'',
+			{
+				'type': 'OpsiConfigserver'
+			}
+		], this.id, function (data) {
 			// console.log(data)
 			return callback(data)
 		})
@@ -213,6 +237,41 @@ class OPSIApi {
 
 
 	/**
+	 * get client info
+	 *
+	 * @example
+	 * //returns object with client info
+	 * api.getHostGroupInfo(
+	 * 					'clientId',
+	 *					function (res) {
+	 * 		if(res.success){
+	 *			console.log(res.data) // client data
+	 *		}else if(res){
+	 *		  	console.error(res.message) // error message
+	 *		}
+	 * })
+	 * @param {string} clientId - Client ID Name
+	 * @param {requestCallback} callback - The callback that handles the response.
+	 * @returns {Object} Object of client data.
+	 */
+	getClientInfo(clientId = '', callback) {
+		this._sendRequest('host_getObjects', [
+			'',
+			{
+				'id': clientId,
+				'type': 'OpsiClient'
+			}
+		], this.id, function (data) {
+			// console.log(data)
+			if(data.success)
+				data.data = data.data[0]
+
+			return callback(data)
+		})
+	}
+
+
+	/**
 	 * delete client.
 	 *
 	 * @example
@@ -295,8 +354,8 @@ class OPSIApi {
 	 *					'parentGroupId', function (res) {
 	 * 		if(!res.success){
 	 *			console.error(res.message) // client error message
-	 *		}else if(res){
-	 *		  	console.log(res) // true
+	 *		}else if(res.success){
+	 *		  	console.log(res.data) // true
 	 *		}
 	 * })
 	 * @param {string} groupId - Group ID Name
@@ -314,19 +373,40 @@ class OPSIApi {
 			parentGroupId,
 		], this.id, function (data) {
 			// console.log(data)
-			return callback(data)
+			return callback(data.message ? data : {success: true, data: true})
 		})
 	}
 
 	/**
 	 * get group info
+	 *
+	 * @example
+	 * //returns object with group info
+	 * api.getHostGroupInfo(
+	 * 					'groupName',
+	 *					function (res) {
+	 * 		if(res.success){
+	 *			console.log(res.data) // client data
+	 *		}else if(res){
+	 *		  	console.error(res.message) // error message
+	 *		}
+	 * })
+	 * @param {string} groupName - Group ID Name
+	 * @param {requestCallback} callback - The callback that handles the response.
+	 * @returns {Object} Object of group data.
 	 */
-	getHostGroupInfo(groupName = '', filter = '', callback) {
+	getHostGroupInfo(groupName = '', callback) {
 		this._sendRequest('group_getObjects', [
-			filter,
-			'{"id": "' + groupName + '", "type": "HostGroup"}'
+			'',
+			{
+				'id': groupName,
+				'type': 'HostGroup'
+			}
 		], this.id, function (data) {
 			// console.log(data)
+			if(data.success)
+				data.data = data.data[0]
+
 			return callback(data)
 		})
 	}

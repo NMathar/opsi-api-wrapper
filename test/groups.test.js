@@ -17,7 +17,7 @@ describe('Test OPSI API Groups Actions', function () {
 				function (res) {
 					// console.error(res.message)
 					assert.ok(res.success)
-					assert.equal(res.data, null)
+					assert.ok(res.data)
 					done()
 				}
 			)
@@ -39,20 +39,13 @@ describe('Test OPSI API Groups Actions', function () {
 		})
 	})
 
-	// TODO: add members to group
-	// it('add members to group', function (done) {
-	//
-	// })
-
-
-	//TODO: not working
 	describe('#getHostGroupInfo()', function () {
 		it('get group info', function (done) {
-			api.getHostGroupInfo(randomGroupName, '', function (res) {
-				console.error(res.message)
+			api.getHostGroupInfo(randomGroupName, function (res) {
+				console.log(res)
 				assert.ok(res.success)
-				assert.ok(res.data instanceof Array, 'Array Expected')
-				assert.deepStrictEqual(res.data[0].ident, randomGroupName, 'Group Name Expected')
+				assert.ok(res.data instanceof Object, 'Object Expected')
+				assert.deepStrictEqual(res.data.ident, randomGroupName, 'Group Name Expected')
 				done()
 			})
 		})
@@ -64,7 +57,7 @@ describe('Test OPSI API Groups Actions', function () {
 			api.getAllHostGroups(function (res) {
 				assert.ok(res.success)
 				assert.ok(res.data instanceof Array, 'Array Expected')
-				console.log(res.data)
+				// console.log(res.data)
 				done()
 			})
 		})
@@ -88,4 +81,12 @@ describe('Test OPSI API Groups Actions', function () {
 			})
 		})
 	})
+
+
+	// TODO: add members to group
+	// it('add members to group', function (done) {
+	//
+	// })
+
+	// TODO: delete group
 })

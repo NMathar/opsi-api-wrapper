@@ -15,3 +15,5 @@ This API wrapper provide more readable and documented API Actions against a OPSI
 ## Test with httpie
 
 `echo '{ "method": "group_createHostGroup", "params": ["test_group"], "id": 1 }' | http --verify=no -a opsi:opsi https://localhost:4447/rpc`
+
+`http --verify=no -a opsi:opsi https://localhost:4447/rpc < test/testdata/client.json`

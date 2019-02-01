@@ -39,6 +39,29 @@ describe('Test OPSI API Client Actions', function () {
 		})
 	})
 
+	describe('#getClientInfo()', function () {
+		it('get client info', function (done) {
+			api.getClientInfo(clientName + '.' + domain, function (res) {
+				// console.log(res)
+				assert.ok(res.success)
+				assert.ok(res.data instanceof Object, 'Object Expected')
+				assert.deepStrictEqual(res.data.ident, clientName + '.' + domain, 'Client Name Expected')
+				done()
+			})
+		})
+	})
+
+	describe('#getAllClients()', function () {
+		it('get all client list and its greater then zero', function (done) {
+			api.getAllClients(function (res) {
+				assert.ok(res.success)
+				assert.ok(res.data instanceof Array, 'Array Expected')
+				console.log(res)
+				done()
+			})
+		})
+	})
+
 	describe('#deleteClient()', function () {
 		it('delete a client', function (done) {
 			api.deleteClient(
@@ -62,14 +85,4 @@ describe('Test OPSI API Client Actions', function () {
 		})
 	})
 
-	describe('#getAllClients()', function () {
-		it('get all client list and its greater then zero', function (done) {
-			api.getAllClients(function (res) {
-				assert.ok(res.success)
-				assert.ok(res.data instanceof Array, 'Array Expected')
-				console.log(res)
-				done()
-			})
-		})
-	})
 })

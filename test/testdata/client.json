@@ -1,0 +1,10 @@
+{
+  "method": "host_getObjects",
+  "params": [
+    "",
+    {
+      "type": "OpsiConfigserver"
+    }
+  ],
+  "id": 1
+}

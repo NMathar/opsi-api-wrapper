@@ -45,4 +45,15 @@ describe('Test OPSI API', function () {
 		})
 	})
 
+	describe('#getOpsiServerInfo()', function () {
+		it('get object woth server infos', function (done) {
+			api.getOpsiServerInfo(function (res) {
+				assert.ok(res.success)
+				assert.ok(res.data instanceof Array, 'Array Expected')
+				assert.equal(res.data[0].type, 'OpsiConfigserver')
+				done()
+			})
+		})
+	})
+
 })
