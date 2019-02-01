@@ -1,0 +1,13 @@
+language: javascript
+
+services:
+  - docker
+
+before_install:
+  - docker pull nmonst4/opsi
+  - docker run -itd --name docker-opsi -h opsi.docker.lan -p 4447:4447 -e OPSI_USER=opsi -e OPSI_PASSWORD=opsi nmonst4/opsi
+  - docker exec docker-opsi /usr/local/bin/entrypoint.sh
+
+script:
+  - npm install
+  - npm test
