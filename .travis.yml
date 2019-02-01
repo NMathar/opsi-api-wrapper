@@ -14,6 +14,5 @@ before_script:
   - npm install
 
 script:
-  - nyc mocha
-  - codecov
+  - nyc mocha && codecov
 #  - npm test
