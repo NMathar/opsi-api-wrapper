@@ -234,7 +234,7 @@ class OPSIApi {
 			clientId
 		], this.id, function (data) {
 			// console.log(data.message)
-			return callback(data.message ? data : true)
+			return callback(data.message ? data : {success: true, data: true})
 		})
 	}
 

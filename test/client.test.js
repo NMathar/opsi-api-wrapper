@@ -15,9 +15,9 @@ describe('Test OPSI API Client Actions', function () {
 				'',
 				'',
 				'',
-				function (data) {
-					assert.ok(data.success)
-					assert.deepStrictEqual(data.data, clientName + '.' + domain, 'Client Name Expected')
+				function (res) {
+					assert.ok(res.success)
+					assert.deepStrictEqual(res.data, clientName + '.' + domain, 'Client Name Expected')
 					// console.log(data)
 					done()
 				})
@@ -30,33 +30,33 @@ describe('Test OPSI API Client Actions', function () {
 				'',
 				'',
 				'',
-				function (data) {
+				function (res) {
 					// console.error('Error: ', data.message)
-					assert.equal(data.success, false)
-					assert.ok(data.message)
+					assert.equal(res.success, false)
+					assert.ok(res.message)
 					done()
 				})
 		})
 	})
 
-	//TODO: no useful retirn
 	describe('#deleteClient()', function () {
 		it('delete a client', function (done) {
 			api.deleteClient(
 				clientName + '.' + domain,
-				function (data) {
-					assert.ok(data)
+				function (res) {
+					assert.ok(res.success)
+					assert.ok(res.data)
 					done()
 				})
 		})
 
-		it('delete a client FAILED', function (done) {
+		it('delete a client FAILE', function (done) {
 			api.deleteClient(
 				'del_client_fail',
-				function (data) {
+				function (res) {
 					// console.error('Error: ', data.message)
-					assert.equal(data.success, false)
-					assert.ok(data.message)
+					assert.equal(res.success, false)
+					assert.ok(res.message)
 					done()
 				})
 		})
@@ -64,10 +64,10 @@ describe('Test OPSI API Client Actions', function () {
 
 	describe('#getAllClients()', function () {
 		it('get all client list and its greater then zero', function (done) {
-			api.getAllClients(function (data) {
-				assert.ok(data.success)
-				assert.ok(data.data instanceof Array, 'Array Expected')
-				console.log(data)
+			api.getAllClients(function (res) {
+				assert.ok(res.success)
+				assert.ok(res.data instanceof Array, 'Array Expected')
+				console.log(res)
 				done()
 			})
 		})
