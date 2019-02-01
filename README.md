@@ -1,5 +1,7 @@
 # OPSI Api Wrapper
 
+[![Build Status](https://travis-ci.com/NMathar/opsi-api-wrapper.svg?branch=master)](https://travis-ci.com/NMathar/opsi-api-wrapper)
+
 API-Doku: https://nmathar.github.io/opsi-api-wrapper/
 
 This API wrapper provide more readable and documented API Actions against a OPSI Server.
