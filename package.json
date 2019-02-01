@@ -12,7 +12,8 @@
     "documentation:build": "documentation build src/api.js -f md -o docs/index.md",
     "docker:dev-server": "npm run install:docker && npm run docker:init $$ echo 'URL: https://localhost:4447/'",
     "install:docker": "docker run -itd --name docker-opsi -h opsi.docker.lan -p 4447:4447 -e OPSI_USER=opsi -e OPSI_PASSWORD=opsi nmonst4/opsi",
-    "docker:init": "docker exec docker-opsi /usr/local/bin/entrypoint.sh"
+    "docker:init": "docker exec docker-opsi /usr/local/bin/entrypoint.sh",
+    "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "keywords": [
     "nodejs",
