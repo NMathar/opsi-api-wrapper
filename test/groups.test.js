@@ -152,6 +152,36 @@ describe('Test OPSI API Groups Actions', function () {
 		})
 	})
 
+	describe('#renameGroup()', function () {
+		let testgroup = 'typo-group'
+		let correctName = 'renamed-group-' + Math.floor((Math.random() * 500) + 1)
+		it('create client rename one', function (done) {
+			api.createHostGroup(
+				testgroup,
+				'',
+				'',
+				'',
+				function () {
+					api.renameGroup(testgroup, correctName, function (res) {
+						assert.ok(res.success)
+						assert.ok(res.data)
+						done()
+					})
+				}
+			)
+
+		})
+
+		it('FAILES: rename group', function (done) {
+			api.renameGroup('foo', correctName, function (res) {
+				// console.log(res)
+				assert.equal(res.success, false)
+				assert.ok(res.message)
+				done()
+			})
+		})
+	})
+
 	describe('#deleteGroup()', function () {
 		it('delete group by group name', function (done) {
 			api.deleteGroup(randomGroupName, function (res) {
@@ -168,4 +198,5 @@ describe('Test OPSI API Groups Actions', function () {
 			})
 		})
 	})
+
 })
