@@ -125,4 +125,7 @@ describe('Test OPSI API Client Actions', function () {
 		})
 	})
 
+
+	// TODO: get software, hardware and product infos for one client
+
 })
