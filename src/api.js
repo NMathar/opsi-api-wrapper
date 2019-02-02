@@ -224,7 +224,10 @@ class OPSIApi {
 	 * @param {requestCallback} callback - The callback that handles the response.
 	 * @returns {Array|Object} Data Array or Object with error message (Object.message).
 	 */
-	createClient(clientName = '', domain = '', description = '', notes = '', ipAddress = '', hardwareAddress = '', callback) {
+	createClient(clientName, domain = '', description = '', notes = '', ipAddress = '', hardwareAddress = '', callback) {
+		if (!clientName || clientName === '')
+			return callback({success: false, message: 'Please define a client name!'})
+
 		this._sendRequest('createClient', [
 			clientName,
 			domain,
@@ -257,7 +260,10 @@ class OPSIApi {
 	 * @param {requestCallback} callback - The callback that handles the response.
 	 * @returns {Object} Object of client data.
 	 */
-	getClientInfo(clientId = '', callback) {
+	getClientInfo(clientId, callback) {
+		if (!clientId || clientId === '')
+			return callback({success: false, message: 'Please define a clientId!'})
+
 		this._sendRequest('getHost_hash', [
 			clientId
 		], this.id, function (data) {
@@ -284,7 +290,10 @@ class OPSIApi {
 	 * @param {requestCallback} callback - The callback that handles the response.
 	 * @returns {Boolean|Object} Boolean or Object with error message (Object.message).
 	 */
-	deleteClient(clientId = '', callback) {
+	deleteClient(clientId, callback) {
+		if (!clientId || clientId === '')
+			return callback({success: false, message: 'Please define a clientId!'})
+
 		this._sendRequest('deleteClient', [
 			clientId
 		], this.id, function (data) {
@@ -293,9 +302,6 @@ class OPSIApi {
 		})
 	}
 
-	/**
-	 * clientExist
-	 */
 
 	/**
 	 * //TODO: rename client -> method -> host_renameOpsiClient
@@ -341,16 +347,19 @@ class OPSIApi {
 	 *		  	console.log(res.data) // true
 	 *		}
 	 * })
-	 * @param {string} groupId - Group ID Name
+	 * @param {string} groupName - Group ID Name
 	 * @param {string} members - Members Object? String? Array?
 	 * @param {string} description - Group description string
 	 * @param {string} parentGroupId - Parent Group ID Name
 	 * @param {requestCallback} callback - The callback that handles the response.
 	 * @returns {Boolean|Object} Boolean or Object with error message (Object.message).
 	 */
-	createHostGroup(groupId = '', members = '', description = '', parentGroupId = '', callback) {
+	createHostGroup(groupName, members = '', description = '', parentGroupId = '', callback) {
+		if (!groupName || groupName === '')
+			return callback({success: false, message: 'Please define a group name!'})
+
 		this._sendRequest('createGroup', [
-			groupId,
+			groupName,
 			members,
 			description,
 			parentGroupId,
@@ -379,6 +388,9 @@ class OPSIApi {
 	 * @returns {Object} Object of group data.
 	 */
 	getHostGroupInfo(groupName = '', callback) {
+		if (!groupName || groupName === '')
+			return callback({success: false, message: 'Please define a groupName!'})
+
 		this._sendRequest('group_getObjects', [
 			'',
 			{
@@ -413,6 +425,9 @@ class OPSIApi {
 	 * @returns {Object} Object
 	 */
 	groupNameExists(groupName, callback) {
+		if (!groupName || groupName === '')
+			return callback({success: false, message: 'Please define a groupName!'})
+
 		this._sendRequest('groupname_exists', [
 			groupName
 		], this.id, function (data) {
@@ -517,6 +532,9 @@ class OPSIApi {
 	 * @returns {Array} Array with clients or empty array.
 	 */
 	getGroupClients(groupId, callback) {
+		if (!groupId || groupId === '')
+			return callback({success: false, message: 'Please define a groupId!'})
+
 		this._sendRequest('objectToGroup_getObjects', [
 			'',
 			{
