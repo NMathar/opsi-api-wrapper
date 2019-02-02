@@ -6,6 +6,8 @@
 
 [![dependencies](https://david-dm.org/NMathar/opsi-api-wrapper.svg)](https://david-dm.org/NMathar/opsi-api-wrapper)
 
+[![codecov](https://codecov.io/gh/NMathar/opsi-api-wrapper/branch/master/graph/badge.svg)](https://codecov.io/gh/NMathar/opsi-api-wrapper)
+
 API-Doku: https://nmathar.github.io/opsi-api-wrapper/
 
 This API wrapper provide more readable and documented API Actions against a OPSI Server.
