@@ -640,7 +640,7 @@ class OPSIApi {
 			name,
 			newname
 		], this.id, function (data) {
-			console.log(data)
+			// console.log(data)
 			return callback(data.message ? data : {success: true, data: true})
 		})
 	}
