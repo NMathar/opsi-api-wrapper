@@ -74,7 +74,7 @@ describe('Test OPSI API Client Actions', function () {
 
 	describe('#renameClient()', function () {
 		let testclient = 'typo-client'
-		let correctName = 'renamed-client'
+		let correctName = 'renamed-client-' + Math.floor((Math.random() * 500) + 1)
 		it('create client rename one', function (done) {
 			api.createClient(testclient,
 				domain,
@@ -83,9 +83,9 @@ describe('Test OPSI API Client Actions', function () {
 				'',
 				'',
 				function (client) {
-					api.renameClient(client.data, correctName+'.'+domain, function (res) {
-						console.log(res)
+					api.renameClient(client.data, correctName + '.' + domain, function (res) {
 						assert.ok(res.success)
+						assert.ok(res.data)
 						done()
 					})
 				})
@@ -93,8 +93,8 @@ describe('Test OPSI API Client Actions', function () {
 
 
 		it('FAILES: rename', function (done) {
-			api.renameClient('foo', correctName, function (res) {
-				console.log(res)
+			api.renameClient('foo', correctName + '.' + domain, function (res) {
+				// console.log(res)
 				assert.equal(res.success, false)
 				assert.ok(res.message)
 				done()
