@@ -1,10 +1,10 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var chai_1 = require("chai");
 require("mocha");
 var api_1 = require("../src/api");
 describe('Test OPSI API', function () {
-    var api = new api_1["default"]('https://localhost:4447', 'opsi', 'opsi');
+    var api = new api_1.default('https://localhost:4447', 'opsi', 'opsi');
     this.timeout(500);
     describe('#getOpsiVersion()', function () {
         it('is opsi version avaibale', function (done) {

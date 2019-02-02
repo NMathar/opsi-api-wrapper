@@ -1,5 +1,4 @@
 "use strict";
-exports.__esModule = true;
 // const request = require('request')
 var request_1 = require("request");
 /**
@@ -640,7 +639,7 @@ var OPSIApi = /** @class */ (function () {
     OPSIApi.prototype._sendRequest = function (method, params, id, callback) {
         var url = this.apiURL + "/rpc";
         try {
-            request_1["default"]({
+            request_1.default({
                 method: 'post',
                 uri: url,
                 rejectUnauthorized: false,
@@ -681,4 +680,4 @@ var OPSIApi = /** @class */ (function () {
     };
     return OPSIApi;
 }());
-exports["default"] = OPSIApi;
+module.exports = OPSIApi;

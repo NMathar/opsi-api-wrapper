@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "mocha -r ts-node/register test/**/*.test.ts",
     "lint": "eslint src",
     "documentation:build": "documentation build src/api.js -f md -o docs/index.md",
     "docker:dev-server": "npm run install:docker && npm run docker:init $$ echo 'URL: https://localhost:4447/'",
@@ -25,11 +25,17 @@
   "license": "MIT",
   "repository": "git@github.com:NMathar/opsi-api-wrapper.git",
   "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.5",
+    "chai": "^4.2.0",
     "documentation": "^9.1.1",
     "eslint": "^5.6.0",
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "ts-node": "^8.0.2"
   },
   "dependencies": {
-    "request": "^2.88.0"
+    "@types/request": "^2.48.1",
+    "request": "^2.88.0",
+    "typescript": "^3.3.1"
   }
 }

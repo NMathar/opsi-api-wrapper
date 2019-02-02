@@ -1,7 +1,7 @@
 "use strict";
-exports.__esModule = true;
-// const request = require('request')
-var request_1 = require("request");
+Object.defineProperty(exports, "__esModule", { value: true });
+var request = require("request");
+// import * as request from 'request'
 /**
  * Class OPSIApi
  */
@@ -45,8 +45,8 @@ var OPSIApi = /** @class */ (function () {
      * @returns {Object} Data.
      */
     OPSIApi.prototype.getOpsiVersion = function (callback) {
-        this._sendRequest('backend_info', [], this.id, function (res) {
-            return callback(res);
+        this.sendRequest('backend_info', [], this.id, function (data) {
+            return callback(data);
         });
     };
     /**
@@ -65,7 +65,7 @@ var OPSIApi = /** @class */ (function () {
      * @returns {Object} Data.
      */
     OPSIApi.prototype.serverIDs = function (callback) {
-        this._sendRequest('getServerIds_list', [], this.id, function (data) {
+        this.sendRequest('getServerIds_list', [], this.id, function (data) {
             return callback(data);
         });
     };
@@ -85,7 +85,7 @@ var OPSIApi = /** @class */ (function () {
      * @returns {Object} Data.
      */
     OPSIApi.prototype.isAuthenticated = function (callback) {
-        this._sendRequest('accessControl_authenticated', [], this.id, function (data) {
+        this.sendRequest('accessControl_authenticated', [], this.id, function (data) {
             // console.log(data)
             return callback(data);
         });
@@ -106,7 +106,7 @@ var OPSIApi = /** @class */ (function () {
      * @returns {Object} Data.
      */
     OPSIApi.prototype.isUserAdmin = function (callback) {
-        this._sendRequest('accessControl_userIsAdmin', [], this.id, function (data) {
+        this.sendRequest('accessControl_userIsAdmin', [], this.id, function (data) {
             // console.log(data)
             return callback(data);
         });
@@ -127,7 +127,7 @@ var OPSIApi = /** @class */ (function () {
      * @returns {Object} Data.
      */
     OPSIApi.prototype.getOpsiServerInfo = function (callback) {
-        this._sendRequest('host_getObjects', [
+        this.sendRequest('host_getObjects', [
             '',
             {
                 'type': 'OpsiConfigserver'
@@ -157,7 +157,7 @@ var OPSIApi = /** @class */ (function () {
      * @returns {Object} Data.
      */
     OPSIApi.prototype.actionsForProduct = function (productid, serverid, callback) {
-        this._sendRequest('getPossibleProductActions_list', [productid, serverid], this.id, function (data) {
+        this.sendRequest('getPossibleProductActions_list', [productid, serverid], this.id, function (data) {
             // console.log(data)
             return callback(data);
         });
@@ -179,7 +179,7 @@ var OPSIApi = /** @class */ (function () {
      * @returns {Array} Data.
      */
     OPSIApi.prototype.getAllClients = function (callback) {
-        this._sendRequest('getClientIds_list', [], this.id, function (data) {
+        this.sendRequest('getClientIds_list', [], this.id, function (data) {
             // console.log(data)
             return callback(data);
         });
@@ -213,7 +213,7 @@ var OPSIApi = /** @class */ (function () {
         if (hardwareAddress === void 0) { hardwareAddress = ''; }
         if (!clientName || clientName === '')
             return callback({ success: false, message: 'Please define a client name!' });
-        this._sendRequest('createClient', [
+        this.sendRequest('createClient', [
             clientName,
             domain,
             description,
@@ -246,7 +246,7 @@ var OPSIApi = /** @class */ (function () {
     OPSIApi.prototype.getClientInfo = function (clientId, callback) {
         if (!clientId || clientId === '')
             return callback({ success: false, message: 'Please define a clientId!' });
-        this._sendRequest('getHost_hash', [
+        this.sendRequest('getHost_hash', [
             clientId
         ], this.id, function (data) {
             // console.log(data)
@@ -273,7 +273,7 @@ var OPSIApi = /** @class */ (function () {
     OPSIApi.prototype.deleteClient = function (clientId, callback) {
         if (!clientId || clientId === '')
             return callback({ success: false, message: 'Please define a clientId!' });
-        this._sendRequest('deleteClient', [
+        this.sendRequest('deleteClient', [
             clientId
         ], this.id, function (data) {
             // console.log(data.message)
@@ -299,7 +299,7 @@ var OPSIApi = /** @class */ (function () {
      * @returns {Boolean|Object} Boolean or Object with error message (Object.message).
      */
     OPSIApi.prototype.renameClient = function (name, newname, callback) {
-        this._sendRequest('host_renameOpsiClient', [
+        this.sendRequest('host_renameOpsiClient', [
             name,
             newname
         ], this.id, function (data) {
@@ -310,7 +310,7 @@ var OPSIApi = /** @class */ (function () {
     OPSIApi.prototype.clientReboot = function (clientId, callback) {
         if (!clientId || clientId === '')
             return callback({ success: false, message: 'Please define a clientId!' });
-        this._sendRequest('hostControl_reboot', [
+        this.sendRequest('hostControl_reboot', [
             clientId
         ], this.id, function (data) {
             // console.log(data.message)
@@ -334,7 +334,7 @@ var OPSIApi = /** @class */ (function () {
      * @returns {Array} Data.
      */
     OPSIApi.prototype.getAllHostGroups = function (callback) {
-        this._sendRequest('group_getObjects', [], this.id, function (data) {
+        this.sendRequest('group_getObjects', [], this.id, function (data) {
             // console.log(data)
             return callback(data);
         });
@@ -368,7 +368,7 @@ var OPSIApi = /** @class */ (function () {
         if (parentGroupId === void 0) { parentGroupId = ''; }
         if (!groupName || groupName === '')
             return callback({ success: false, message: 'Please define a group name!' });
-        this._sendRequest('createGroup', [
+        this.sendRequest('createGroup', [
             groupName,
             members,
             description,
@@ -400,7 +400,7 @@ var OPSIApi = /** @class */ (function () {
         if (groupName === void 0) { groupName = ''; }
         if (!groupName || groupName === '')
             return callback({ success: false, message: 'Please define a groupName!' });
-        this._sendRequest('group_getObjects', [
+        this.sendRequest('group_getObjects', [
             '',
             {
                 'id': groupName,
@@ -434,7 +434,7 @@ var OPSIApi = /** @class */ (function () {
     OPSIApi.prototype.groupNameExists = function (groupName, callback) {
         if (!groupName || groupName === '')
             return callback({ success: false, message: 'Please define a groupName!' });
-        this._sendRequest('groupname_exists', [
+        this.sendRequest('groupname_exists', [
             groupName
         ], this.id, function (data) {
             // console.log(data)
@@ -462,7 +462,7 @@ var OPSIApi = /** @class */ (function () {
     OPSIApi.prototype.deleteGroup = function (groupId, callback) {
         if (!groupId || groupId === '')
             return callback({ success: false, message: 'Please define a group Id!' });
-        this._sendRequest('group_delete', [
+        this.sendRequest('group_delete', [
             groupId
         ], this.id, function (data) {
             // console.log(data.message)
@@ -495,7 +495,7 @@ var OPSIApi = /** @class */ (function () {
             if (group.data) {
                 self.getClientInfo(clientId, function (client) {
                     if (client.success) {
-                        self._sendRequest('objectToGroup_create', [
+                        self.sendRequest('objectToGroup_create', [
                             'HostGroup',
                             groupId,
                             clientId
@@ -534,7 +534,7 @@ var OPSIApi = /** @class */ (function () {
     OPSIApi.prototype.getGroupClients = function (groupId, callback) {
         if (!groupId || groupId === '')
             return callback({ success: false, message: 'Please define a groupId!' });
-        this._sendRequest('objectToGroup_getObjects', [
+        this.sendRequest('objectToGroup_getObjects', [
             '',
             {
                 'groupType': 'HostGroup',
@@ -566,7 +566,7 @@ var OPSIApi = /** @class */ (function () {
     OPSIApi.prototype.removeClientFromGroup = function (clientId, groupId, callback) {
         if (!groupId || groupId === '' || !clientId || clientId === '')
             return callback({ success: false, message: 'Please define a group id and a client id!' });
-        this._sendRequest('objectToGroup_delete', [
+        this.sendRequest('objectToGroup_delete', [
             'HostGroup',
             groupId,
             clientId
@@ -594,7 +594,7 @@ var OPSIApi = /** @class */ (function () {
      * @returns {Boolean|Object} Boolean or Object with error message (Object.message).
      */
     OPSIApi.prototype.renameGroup = function (name, newname, callback) {
-        this._sendRequest('group_rename', [
+        this.sendRequest('group_rename', [
             name,
             newname
         ], this.id, function (data) {
@@ -623,7 +623,7 @@ var OPSIApi = /** @class */ (function () {
      * @returns {Array} Data.
      */
     OPSIApi.prototype.getAllProducts = function (callback) {
-        this._sendRequest('getProductIds_list', [], this.id, function (data) {
+        this.sendRequest('getProductIds_list', [], this.id, function (data) {
             // console.log(data)
             return callback(data);
         });
@@ -637,10 +637,10 @@ var OPSIApi = /** @class */ (function () {
      * @param {requestCallback} callback - The callback that handles the response.
      * @private
      */
-    OPSIApi.prototype._sendRequest = function (method, params, id, callback) {
+    OPSIApi.prototype.sendRequest = function (method, params, id, callback) {
         var url = this.apiURL + "/rpc";
         try {
-            request_1["default"]({
+            request({
                 method: 'post',
                 uri: url,
                 rejectUnauthorized: false,
@@ -681,4 +681,4 @@ var OPSIApi = /** @class */ (function () {
     };
     return OPSIApi;
 }());
-exports["default"] = OPSIApi;
+exports.default = OPSIApi;
