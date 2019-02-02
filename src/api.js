@@ -304,8 +304,45 @@ class OPSIApi {
 
 
 	/**
-	 * //TODO: rename client -> method -> host_renameOpsiClient
+	 *
+	 * @example
+	 * //returns boolean only on super bad data it will return an error message
+	 *
+	 * api.renameClient(name, newname, function (res) {
+	 * 		if(!res.success){
+	 *			console.error(res.message) // client error message
+	 *		}else if(res.success){
+	 *		  	console.log(res.data) // true
+	 *		}
+	 * })
+	 *
+	 * @param {string} name old id of the client
+	 * @param {string} newname id
+	 * @param {requestCallback} callback - The callback that handles the response.
+	 * @returns {Boolean|Object} Boolean or Object with error message (Object.message).
 	 */
+	renameClient(name, newname, callback){
+		this._sendRequest('host_renameOpsiClient', [
+			name,
+			newname
+		], this.id, function (data) {
+			// console.log(data.message)
+			return callback(data.message ? data : {success: true, data: true})
+		})
+	}
+
+
+	clientReboot(clientId, callback){
+		if (!clientId || clientId === '')
+			return callback({success: false, message: 'Please define a clientId!'})
+
+		this._sendRequest('hostControl_reboot', [
+			clientId
+		], this.id, function (data) {
+			// console.log(data.message)
+			return callback(data.message ? data : {success: true, data: true})
+		})
+	}
 
 	// ########### Group actions
 
