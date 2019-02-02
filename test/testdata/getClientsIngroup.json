@@ -1,0 +1,11 @@
+{
+  "method": "objectToGroup_getObjects",
+  "params": [
+    "",
+    {
+      "groupType": "HostGroup",
+      "groupId": "testgroup"
+    }
+  ],
+  "id": 1
+}

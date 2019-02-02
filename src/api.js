@@ -455,22 +455,44 @@ class OPSIApi {
 
 	/**
 	 * add client to group
+	 *
+	 * @example
+	 * //returns boolean only on super bad data it will return an error message
+	 *
+	 * api.addClientToGroup(clientId, groupId, function (res) {
+	 * 		if(!res.success){
+	 *			console.error(res.message) // client error message
+	 *		}else if(res.success){
+	 *		  	console.log(res.data) // true
+	 *		}
+	 * })
+	 * @param {string} clientId - Client ID
+	 * @param {string} groupId - Group ID
+	 * @param {requestCallback} callback - The callback that handles the response.
+	 * @returns {Boolean|Object} Boolean or Object with error message (Object.message).
 	 */
 	addClientToGroup(clientId, groupId, callback) {
-		if ((!groupId || groupId === '') && (!clientId || clientId === ''))
+		if (!groupId || groupId === '' || !clientId || clientId === '')
 			return callback({success: false, message: 'Please define a group id and a client id!'})
 
 		let self = this
-		this.groupNameExists(groupId, function (res) {
-			if (res.data) {
-				self._sendRequest('objectToGroup_create', [
-					'HostGroup',
-					groupId,
-					clientId
-				], this.id, function (data) {
-					// console.log(data.message)
-					return callback(data.message ? data : {success: true, data: true})
+		self.groupNameExists(groupId, function (group) {
+			if (group.data) {
+				self.getClientInfo(clientId, function (client) {
+					if (client.success) {
+						self._sendRequest('objectToGroup_create', [
+							'HostGroup',
+							groupId,
+							clientId
+						], self.id, function (data) {
+							// console.log(data)
+							return callback(data.message ? data : {success: true, data: true})
+						})
+					} else {
+						return callback({success: false, message: 'Client not exists!'})
+					}
 				})
+
 			} else {
 				return callback({success: false, message: 'Group not exists!'})
 			}
@@ -479,12 +501,68 @@ class OPSIApi {
 
 	/**
 	 * get clients from group
+	 *
+	 * @example
+	 * //return array of clients
+	 *
+	 * api.getGroupClients(groupId, function (res) {
+	 * 		if(!res.success){
+	 *			console.error(res.message) // client error message
+	 *		}else if(res.success){
+	 *		  	console.log(res.data) // Array of clients
+	 *		}
+	 * })
+	 * @param {string} groupId - Group ID
+	 * @param {requestCallback} callback - The callback that handles the response.
+	 * @returns {Array} Array with clients or empty array.
 	 */
+	getGroupClients(groupId, callback) {
+		this._sendRequest('objectToGroup_getObjects', [
+			'',
+			{
+				'groupType': 'HostGroup',
+				'groupId': groupId
+			}
+		], this.id, function (data) {
+			// console.log(data.message)
+			return callback(data)
+		})
+	}
 
 	/**
 	 * remove client from group
+	 *
+	 * @example
+	 * //returns boolean only on super bad data it will return an error message
+	 *
+	 * api.removeClientFromGroup(clientId, groupId, function (res) {
+	 * 		if(!res.success){
+	 *			console.error(res.message) // client error message
+	 *		}else if(res.success){
+	 *		  	console.log(res.data) // true
+	 *		}
+	 * })
+	 * @param {string} clientId - Client ID
+	 * @param {string} groupId - Group ID
+	 * @param {requestCallback} callback - The callback that handles the response.
+	 * @returns {Boolean|Object} Boolean or Object with error message (Object.message).
 	 */
+	removeClientFromGroup(clientId, groupId, callback) {
+		if (!groupId || groupId === '' || !clientId || clientId === '')
+			return callback({success: false, message: 'Please define a group id and a client id!'})
 
+		this._sendRequest('objectToGroup_delete', [
+			'HostGroup',
+			groupId,
+			clientId
+		], this.id, function (data) {
+			// console.log(data.message)
+			callback(data.message ? data : {success: true, data: true})
+		})
+	}
+
+
+	// ########### Host actions
 
 	/**
 	 * //TODO: host actions
@@ -529,39 +607,39 @@ class OPSIApi {
 		const url = `${this.apiURL}/rpc`
 		try {
 			request({
-					method: 'post',
-					uri: url,
-					rejectUnauthorized: false,
-					auth: {
-						'user': this.username,
-						'pass': this.password,
-						'sendImmediately': false
-					},
-					json: {
-						'method': method,
-						'params': params,
-						'id': id
-					}
+				method: 'post',
+				uri: url,
+				rejectUnauthorized: false,
+				auth: {
+					'user': this.username,
+					'pass': this.password,
+					'sendImmediately': false
 				},
-				function (error, response, body) {
-					if (!error && response.statusCode === 200) {
-						if (!body.error) {
-							callback({'success': true, 'data': body.result})
-						} else {
-							callback({'success': false, 'message': body.error.message})
-						}
-
-						// else if (!body.result && body.error === null) {
-						// 	callback({'success': true, 'data': true})
-						// } else if (!body.result && body.error.length > 0) {
-						// 	callback({'success': false, 'message': body.error})
-						// } else {
-						// 	callback(body)
-						// }
+				json: {
+					'method': method,
+					'params': params,
+					'id': id
+				}
+			},
+			function (error, response, body) {
+				if (!error && response.statusCode === 200) {
+					if (!body.error) {
+						callback({'success': true, 'data': body.result})
 					} else {
-						throw new Error(error)
+						callback({'success': false, 'message': body.error.message})
 					}
-				})
+
+					// else if (!body.result && body.error === null) {
+					// 	callback({'success': true, 'data': true})
+					// } else if (!body.result && body.error.length > 0) {
+					// 	callback({'success': false, 'message': body.error})
+					// } else {
+					// 	callback(body)
+					// }
+				} else {
+					throw new Error(error)
+				}
+			})
 		} catch (e) {
 			throw new Error(e)
 		}

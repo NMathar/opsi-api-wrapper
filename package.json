@@ -21,10 +21,11 @@
     "api",
     "wrapper"
   ],
-  "author": "Nico",
+  "author": "NMathar <mail@mathar.work>",
   "license": "MIT",
   "repository": "git@github.com:NMathar/opsi-api-wrapper.git",
   "devDependencies": {
+    "documentation": "^9.1.1",
     "eslint": "^5.6.0",
     "mocha": "^5.2.0"
   },
