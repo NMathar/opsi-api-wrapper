@@ -1,7 +1,7 @@
 const request = require('request')
 
 /**
- * Class OPISApi
+ * Class OPSIApi
  */
 class OPSIApi {
 	/**
@@ -36,7 +36,7 @@ class OPSIApi {
 		// })
 	}
 
-	//base api call functions
+	// ########### base api call functions
 
 	/**
 	 * Get opsi version or false.
@@ -178,6 +178,9 @@ class OPSIApi {
 	}
 
 
+	// ########### client actions
+
+
 	/**
 	 * Get all clients.
 	 *
@@ -242,8 +245,8 @@ class OPSIApi {
 	 * @example
 	 * //returns object with client info
 	 * api.getHostGroupInfo(
-	 * 					'clientId',
-	 *					function (res) {
+	 *                    'clientId',
+	 *                    function (res) {
 	 * 		if(res.success){
 	 *			console.log(res.data) // client data
 	 *		}else if(res){
@@ -263,7 +266,7 @@ class OPSIApi {
 			}
 		], this.id, function (data) {
 			// console.log(data)
-			if(data.success)
+			if (data.success)
 				data.data = data.data[0]
 
 			return callback(data)
@@ -280,8 +283,8 @@ class OPSIApi {
 	 * api.delete(clientId, function (res) {
 	 * 		if(!res.success){
 	 *			console.error(res.message) // client error message
-	 *		}else if(res){
-	 *		  	console.log(res) // true
+	 *		}else if(res.success){
+	 *		  	console.log(res.data) // true
 	 *		}
 	 * })
 	 * @param {string} clientId - Client ID
@@ -297,27 +300,7 @@ class OPSIApi {
 		})
 	}
 
-	/**
-	 * Get all products.
-	 *
-	 * @example
-	 * // returns an array of products
-	 * api.getAllProducts(function (res) {
-	 * 		if(res.success)
-	 *			console.log(res.data) // product array
-	 *		}else if(!res.success){
-	 *		  	console.error(res.message)
-	 *		}
-	 *    })
-	 * @param {requestCallback} callback - The callback that handles the response.
-	 * @returns {Array} Data.
-	 */
-	getAllProducts(callback) {
-		this._sendRequest('getProductIds_list', [], this.id, function (data) {
-			// console.log(data)
-			return callback(data)
-		})
-	}
+	// ########### Group actions
 
 	/**
 	 * Get all groups.
@@ -335,8 +318,7 @@ class OPSIApi {
 	 * @returns {Array} Data.
 	 */
 	getAllHostGroups(callback) {
-		this._sendRequest('group_getObjects', [
-		], this.id, function (data) {
+		this._sendRequest('group_getObjects', [], this.id, function (data) {
 			// console.log(data)
 			return callback(data)
 		})
@@ -348,10 +330,10 @@ class OPSIApi {
 	 * @example
 	 * //returns boolean only on super bad data it will return an error message
 	 * api.createHostGroup(
-	 * 					'groupName',
-	 * 					'members',
-	 *					'description',
-	 *					'parentGroupId', function (res) {
+	 *                    'groupName',
+	 *                    'members',
+	 *                    'description',
+	 *                    'parentGroupId', function (res) {
 	 * 		if(!res.success){
 	 *			console.error(res.message) // client error message
 	 *		}else if(res.success){
@@ -383,8 +365,8 @@ class OPSIApi {
 	 * @example
 	 * //returns object with group info
 	 * api.getHostGroupInfo(
-	 * 					'groupName',
-	 *					function (res) {
+	 *                    'groupName',
+	 *                    function (res) {
 	 * 		if(res.success){
 	 *			console.log(res.data) // client data
 	 *		}else if(res){
@@ -404,7 +386,7 @@ class OPSIApi {
 			}
 		], this.id, function (data) {
 			// console.log(data)
-			if(data.success)
+			if (data.success)
 				data.data = data.data[0]
 
 			return callback(data)
@@ -413,6 +395,21 @@ class OPSIApi {
 
 	/**
 	 * group name exists
+	 *
+	 * @example
+	 * //returns boolean
+	 * api.groupNameExists(
+	 *                    'groupName',
+	 *                    function (res) {
+	 * 		if(res.success){
+	 *			console.log(res.data) // boolean
+	 *		}else if(res){
+	 *		  	console.error(res.message) // error message
+	 *		}
+	 * })
+	 * @param {string} groupName - Group ID Name
+	 * @param {requestCallback} callback - The callback that handles the response.
+	 * @returns {Object} Object
 	 */
 	groupNameExists(groupName, callback) {
 		this._sendRequest('groupname_exists', [
@@ -426,7 +423,33 @@ class OPSIApi {
 
 	/**
 	 * delete group
+	 * if group id string is an empty string all groups would be deleted WARNING!!!
+	 *
+	 *  @example
+	 * //returns boolean only on super bad data it will return an error message
+	 *
+	 * api.delete(groupId, function (res) {
+	 * 		if(!res.success){
+	 *			console.error(res.message) // client error message
+	 *		}else if(res.success){
+	 *		  	console.log(res.data) // true
+	 *		}
+	 * })
+	 * @param {string} groupId - Group ID
+	 * @param {requestCallback} callback - The callback that handles the response.
+	 * @returns {Boolean|Object} Boolean or Object with error message (Object.message).
 	 */
+	deleteGroup(groupId, callback) {
+		if (!groupId || groupId === '')
+			return callback({success: false, message: 'Please define a group Id!'})
+
+		this._sendRequest('group_delete', [
+			groupId
+		], this.id, function (data) {
+			// console.log(data.message)
+			return callback(data.message ? data : {success: true, data: true})
+		})
+	}
 
 
 	/**
@@ -438,6 +461,31 @@ class OPSIApi {
 	 * //TODO: host actions
 	 */
 
+
+	// ########### Product actions
+
+
+	/**
+	 * Get all products.
+	 *
+	 * @example
+	 * // returns an array of products
+	 * api.getAllProducts(function (res) {
+	 * 		if(res.success)
+	 *			console.log(res.data) // product array
+	 *		}else if(!res.success){
+	 *		  	console.error(res.message)
+	 *		}
+	 *    })
+	 * @param {requestCallback} callback - The callback that handles the response.
+	 * @returns {Array} Data.
+	 */
+	getAllProducts(callback) {
+		this._sendRequest('getProductIds_list', [], this.id, function (data) {
+			// console.log(data)
+			return callback(data)
+		})
+	}
 
 	/**
 	 * Generate api call actions.

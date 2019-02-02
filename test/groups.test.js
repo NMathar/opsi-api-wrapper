@@ -82,11 +82,37 @@ describe('Test OPSI API Groups Actions', function () {
 		})
 	})
 
+	describe('#groupNameExists()', function () {
+		it('check if group exist -> true', function (done) {
+			api.groupNameExists(randomGroupName, function (res) {
+				// console.log(res)
+				assert.ok(res.success)
+				assert.ok(res.data)
+				done()
+			})
+		})
+	})
+
 
 	// TODO: add members to group
 	// it('add members to group', function (done) {
 	//
 	// })
 
-	// TODO: delete group
+	describe('#deleteGroup()', function () {
+		it('delete group by group name', function (done) {
+			api.deleteGroup(randomGroupName, function (res) {
+				assert.ok(res.success)
+				assert.ok(res.data)
+				done()
+			})
+		})
+		it('delete group by group name failed', function (done) {
+			api.deleteGroup('', function (res) {
+				assert.ok(res.message)
+				assert.equal(res.success, false)
+				done()
+			})
+		})
+	})
 })
