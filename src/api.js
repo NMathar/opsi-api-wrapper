@@ -258,17 +258,10 @@ class OPSIApi {
 	 * @returns {Object} Object of client data.
 	 */
 	getClientInfo(clientId = '', callback) {
-		this._sendRequest('host_getObjects', [
-			'',
-			{
-				'id': clientId,
-				'type': 'OpsiClient'
-			}
+		this._sendRequest('getHost_hash', [
+			clientId
 		], this.id, function (data) {
 			// console.log(data)
-			if (data.success)
-				data.data = data.data[0]
-
 			return callback(data)
 		})
 	}
@@ -299,6 +292,14 @@ class OPSIApi {
 			return callback(data.message ? data : {success: true, data: true})
 		})
 	}
+
+	/**
+	 * clientExist
+	 */
+
+	/**
+	 * //TODO: rename client -> method -> host_renameOpsiClient
+	 */
 
 	// ########### Group actions
 
@@ -455,6 +456,34 @@ class OPSIApi {
 	/**
 	 * add client to group
 	 */
+	addClientToGroup(clientId, groupId, callback) {
+		if ((!groupId || groupId === '') && (!clientId || clientId === ''))
+			return callback({success: false, message: 'Please define a group id and a client id!'})
+
+		let self = this
+		this.groupNameExists(groupId, function (res) {
+			if (res.data) {
+				self._sendRequest('objectToGroup_create', [
+					'HostGroup',
+					groupId,
+					clientId
+				], this.id, function (data) {
+					// console.log(data.message)
+					return callback(data.message ? data : {success: true, data: true})
+				})
+			} else {
+				return callback({success: false, message: 'Group not exists!'})
+			}
+		})
+	}
+
+	/**
+	 * get clients from group
+	 */
+
+	/**
+	 * remove client from group
+	 */
 
 
 	/**
@@ -500,39 +529,39 @@ class OPSIApi {
 		const url = `${this.apiURL}/rpc`
 		try {
 			request({
-				method: 'post',
-				uri: url,
-				rejectUnauthorized: false,
-				auth: {
-					'user': this.username,
-					'pass': this.password,
-					'sendImmediately': false
-				},
-				json: {
-					'method': method,
-					'params': params,
-					'id': id
-				}
-			},
-			function (error, response, body) {
-				if (!error && response.statusCode === 200) {
-					if (!body.error) {
-						callback({'success': true, 'data': body.result})
-					} else {
-						callback({'success': false, 'message': body.error.message})
+					method: 'post',
+					uri: url,
+					rejectUnauthorized: false,
+					auth: {
+						'user': this.username,
+						'pass': this.password,
+						'sendImmediately': false
+					},
+					json: {
+						'method': method,
+						'params': params,
+						'id': id
 					}
+				},
+				function (error, response, body) {
+					if (!error && response.statusCode === 200) {
+						if (!body.error) {
+							callback({'success': true, 'data': body.result})
+						} else {
+							callback({'success': false, 'message': body.error.message})
+						}
 
-					// else if (!body.result && body.error === null) {
-					// 	callback({'success': true, 'data': true})
-					// } else if (!body.result && body.error.length > 0) {
-					// 	callback({'success': false, 'message': body.error})
-					// } else {
-					// 	callback(body)
-					// }
-				} else {
-					throw new Error(error)
-				}
-			})
+						// else if (!body.result && body.error === null) {
+						// 	callback({'success': true, 'data': true})
+						// } else if (!body.result && body.error.length > 0) {
+						// 	callback({'success': false, 'message': body.error})
+						// } else {
+						// 	callback(body)
+						// }
+					} else {
+						throw new Error(error)
+					}
+				})
 		} catch (e) {
 			throw new Error(e)
 		}

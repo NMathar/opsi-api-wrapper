@@ -45,7 +45,17 @@ describe('Test OPSI API Client Actions', function () {
 				// console.log(res)
 				assert.ok(res.success)
 				assert.ok(res.data instanceof Object, 'Object Expected')
-				assert.deepStrictEqual(res.data.ident, clientName + '.' + domain, 'Client Name Expected')
+				assert.deepStrictEqual(res.data.hostId, clientName + '.' + domain, 'Client Name Expected')
+				done()
+			})
+		})
+
+		it('get client info fail with not existent client', function (done) {
+			api.getClientInfo('foo', function (res) {
+				// console.log(res)
+				// assert.ok(res.success)
+				assert.equal(res.success, false)
+				assert.ok(res.message)
 				done()
 			})
 		})
@@ -56,7 +66,7 @@ describe('Test OPSI API Client Actions', function () {
 			api.getAllClients(function (res) {
 				assert.ok(res.success)
 				assert.ok(res.data instanceof Array, 'Array Expected')
-				console.log(res)
+				// console.log(res)
 				done()
 			})
 		})
