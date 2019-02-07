@@ -3,7 +3,7 @@ import { OPSIApi } from "../src/api";
 
 describe('Test OPSI API', function () {
 	let api = new OPSIApi('https://localhost:4447', 'opsi', 'opsi')
-	this.timeout(500)
+	this.timeout(800)
 
 	describe('#getOpsiVersion()', function () {
 		it('is opsi version avaibale', async () => {
