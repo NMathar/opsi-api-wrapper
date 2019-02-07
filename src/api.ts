@@ -1,16 +1,6 @@
 import * as request from "request-promise";
 import {Client} from "./client";
-
-//TODO: replace request lib
-
-/**
- * Result Interface
- */
-interface Result {
-    success: Boolean
-    data: any
-    message: String
-}
+import {Result, ResData} from "./IfcResult";
 
 /**
  * Class OPSIApi
@@ -31,6 +21,12 @@ class OPSIApi implements Client {
 
     id: number;
 
+    res: Result = {success: false, data: {
+            id: 0,
+            error: {},
+            result: {}
+        }, message: 'empty'};
+
     /**
      * Create/Initiate OPSIApi.
      *
@@ -47,12 +43,6 @@ class OPSIApi implements Client {
         this.username = username
         this.password = password
         this.id = id
-
-        // test api connection on construction  maybe obsolete if performance lacks
-        // this.getOpsiVersion(function (data) {
-        // 	if (!data)
-        // 		throw new Error('API is not available!')
-        // })
     }
 
     // ########### base api call functions
@@ -184,39 +174,7 @@ class OPSIApi implements Client {
 
     getAllClients = Client.prototype.getAllClients
 
-    /**
-     * create client.
-     *
-     * @example
-     * //returns client id name
-     * api.createClient(clientName, domain, description, notes, ipAddress, hardwareAddress, function (res) {
-     * 		if(res.success){
-     *			console.log(res.data) // clients array
-     *		}else if(!res.success){
-     *		  	console.error(res.message)
-     *		}
-     * })
-     * @param {string} clientName - Client Name
-     * @param {string} domain - Client domain
-     * @param {string} description - description of the client
-     * @param {string} notes - Notes for this client
-     * @param {string} ipAddress - Client IP Address
-     * @param {string} hardwareAddress - physical address of the client
-     * @returns {Array|Object} Data Array or Object with error message (Object.message).
-     */
-    createClient(clientName: string, domain: string = '', description: string = '', notes: string = '', ipAddress: string = '', hardwareAddress: string = '') {
-        if (!clientName || clientName === '')
-            return {success: false, message: 'Please define a client name!'}
-
-        return this.sendRequest('createClient', [
-            clientName,
-            domain,
-            description,
-            notes,
-            ipAddress,
-            hardwareAddress
-        ], this.id)
-    }
+    createClient = Client.prototype.createClient
 
 
     /**
@@ -674,17 +632,18 @@ class OPSIApi implements Client {
                 'id': id
             }
         };
-        let res: Result = {success: false, data: null, message: 'empty'};
+
         await request.post(options)
             .then((body) => {
-                res = {success: true, data: body, message: ''}
+                this.res = {success: true, data: body, message: ''}
+                // return body
             })
             .catch((err) => {
-                res = {success: false, data: null, message: err}
+                this.res = {success: false, data: {id: this.id, result: {}, error: {}}, message: err}
             });
         // console.log(res)
 
-        return res
+        return this.res
     }
 }
 

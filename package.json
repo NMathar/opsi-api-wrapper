@@ -30,7 +30,6 @@
     "@types/mocha": "^5.2.5",
     "chai": "^4.2.0",
     "documentation": "^9.1.1",
-    "eslint": "^5.6.0",
     "mocha": "^5.2.0",
     "nyc": "^13.2.0",
     "ts-node": "^8.0.2"
