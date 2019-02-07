@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "mocha -r ts-node/register test/**/*.test.ts",
+    "test": "mocha --require ts-node/register test/**/*.ts",
     "lint": "eslint src",
     "documentation:build": "documentation build src/api.js -f md -o docs/index.md",
     "docker:dev-server": "npm run install:docker && npm run docker:init $$ echo 'URL: https://localhost:4447/'",
@@ -34,8 +34,9 @@
     "ts-node": "^8.0.2"
   },
   "dependencies": {
-    "@types/request": "^2.48.1",
+    "@types/request-promise": "^4.1.42",
     "request": "^2.88.0",
+    "request-promise": "^4.2.2",
     "typescript": "^3.3.1"
   }
 }
