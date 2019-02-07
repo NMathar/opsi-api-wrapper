@@ -13,6 +13,7 @@
     "docker:dev-server": "npm run install:docker && npm run docker:init $$ echo 'URL: https://localhost:4447/'",
     "install:docker": "docker run -itd --name docker-opsi -h opsi.docker.lan -p 4447:4447 -e OPSI_USER=opsi -e OPSI_PASSWORD=opsi nmonst4/opsi",
     "docker:init": "docker exec docker-opsi /usr/local/bin/entrypoint.sh",
+    "create-coverage": "nyc mocha --require ts-node/register test/**/*.ts",
     "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "keywords": [
@@ -31,6 +32,7 @@
     "documentation": "^9.1.1",
     "eslint": "^5.6.0",
     "mocha": "^5.2.0",
+    "nyc": "^13.2.0",
     "ts-node": "^8.0.2"
   },
   "dependencies": {
