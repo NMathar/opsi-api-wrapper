@@ -148,22 +148,19 @@ describe('Test OPSI API Groups Actions', function () {
 			expect(data.message).is.equal(message)
 		})
 	})
-	//
-	// describe('#deleteGroup()', function () {
-	// 	it('delete group by group name', function (done) {
-	// 		api.deleteGroup(randomGroupName, function (res) {
-	// 			assert.ok(res.success)
-	// 			assert.ok(res.data)
-	// 			done()
-	// 		})
-	// 	})
-	// 	it('FAILED: delete group by group name', function (done) {
-	// 		api.deleteGroup('', function (res) {
-	// 			assert.ok(res.message)
-	// 			assert.equal(res.success, false)
-	// 			done()
-	// 		})
-	// 	})
-	// })
+
+	describe('#deleteGroup()', function () {
+		it('delete group by group name', async () => {
+			const {success, data} = await api.deleteGroup(randomGroupName)
+			assert.isTrue(data)
+			assert.isTrue(success)
+		})
+		it('FAILED: delete group by group name', async () => {
+			const {success, data, message} = await api.deleteGroup('')
+			assert.isFalse(data)
+			assert.isString(message)
+			assert.isFalse(success)
+		})
+	})
 
 })

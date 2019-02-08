@@ -190,38 +190,7 @@ class OPSIApi implements Client, Group {
 
     renameGroup = Group.prototype.renameGroup
 
-    /**
-     * delete group
-     * if group id string is an empty string all groups would be deleted WARNING!!!
-     *
-     *  @example
-     * //returns boolean only on super bad data it will return an error message
-     *
-     * api.delete(groupId, function (res) {
-     * 		if(!res.success){
-     *			console.error(res.message) // client error message
-     *		}else if(res.success){
-     *		  	console.log(res.data) // true
-     *		}
-     * })
-     * @param {string} groupId - Group ID
-     * @param {requestCallback} callback - The callback that handles the response.
-     * @returns {Boolean|Object} Boolean or Object with error message (Object.message).
-     */
-    // deleteGroup(groupId, callback) {
-    //     if (!groupId || groupId === '')
-    //         return callback({success: false, message: 'Please define a group Id!'})
-    //
-    //     this.sendRequest('group_delete', [
-    //         groupId
-    //     ], this.id, function (data) {
-    //         // console.log(data.message)
-    //         return callback(data.message ? data : {success: true, data: true})
-    //     })
-    // }
-
-
-
+    deleteGroup = Group.prototype.deleteGroup
 
 
     // ########### Host actions

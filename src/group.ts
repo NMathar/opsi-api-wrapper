@@ -276,6 +276,41 @@ class Group {
 
         return result
     }
+
+    /**
+     * delete group
+     * if group id string is an empty string all groups would be deleted WARNING!!!
+     *
+     *  @example
+     * //returns boolean only on super bad data it will return an error message
+     *
+     * api.delete(groupId, function (res) {
+     * 		if(!res.success){
+     *			console.error(res.message) // client error message
+     *		}else if(res.success){
+     *		  	console.log(res.data) // true
+     *		}
+     * })
+     * @param {string} groupId - Group ID
+     * @returns {Result}
+     */
+    async deleteGroup(this: OPSIApi, groupId): Promise<Result> {
+        this.resetResult();
+        if (!groupId || groupId === ''){
+            this.resetResult();
+            this.res.message = 'Please define a groupId!'
+            return this.res
+        }
+
+        let result = await this.sendRequest('group_delete', [
+            groupId
+        ], this.id)
+
+        if (result.message === "" || !result.message)
+            return {success: true, message: '', data: true}
+
+        return result
+    }
 }
 
 export {Group}
