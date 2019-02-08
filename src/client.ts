@@ -1,5 +1,4 @@
 import {OPSIApi} from "./api";
-import {Result} from "./IfcResult";
 
 class Client {
 
@@ -43,7 +42,7 @@ class Client {
      */
     async createClient(this: OPSIApi, clientName: string, domain: string = '', description: string = '', notes: string = '', ipAddress: string = '', hardwareAddress: string = '') {
         if (!clientName || clientName === '')
-            return {success: false, data:{id: this.id, result: {}, error: {}}, message: 'Please define a client name!'}
+            return {success: false, data:{}, message: 'Please define a client name!'}
 
         // let res: Result = {success: false, data: {}, message: 'empty'};
 

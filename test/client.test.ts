@@ -17,22 +17,22 @@ describe('Test OPSI API Client Actions', function () {
                 '',
                 '',
             )
-            console.log(data)
+            // console.log(data)
             assert.isOk(success)
-            expect(data.result).to.equal(clientName + '.' + domain);
+            expect(data).to.equal(clientName + '.' + domain);
         });
 
         it('create a new client fail no parameter', async () => {
-            const data = await api.createClient(
-                clientName,
-                domain,
-                'Test Client',
+            const {success, data, message} = await api.createClient('',
+                '',
+                '',
                 '',
                 '',
                 '',
             )
-            console.log(data)
-            assert.isOk(data)
+            // console.log(data)
+            assert.isFalse(success)
+            assert.isString(message)
         });
     })
     //

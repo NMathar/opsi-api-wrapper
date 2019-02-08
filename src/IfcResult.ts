@@ -3,12 +3,6 @@
  */
 export interface Result {
     success: Boolean
-    data: ResData
+    data: any
     message: String
-}
-
-export interface ResData {
-    id: number,
-    result: {},
-    error: Object
 }

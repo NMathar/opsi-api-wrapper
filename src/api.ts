@@ -1,6 +1,6 @@
 import * as request from "request-promise";
 import {Client} from "./client";
-import {Result, ResData} from "./IfcResult";
+import {Result} from "./IfcResult";
 
 /**
  * Class OPSIApi
@@ -635,11 +635,11 @@ class OPSIApi implements Client {
 
         await request.post(options)
             .then((body) => {
-                this.res = {success: true, data: body, message: ''}
+                this.res = {success: true, data: body.result, message: ''}
                 // return body
             })
             .catch((err) => {
-                this.res = {success: false, data: {id: this.id, result: {}, error: {}}, message: err}
+                this.res = {success: false, data: err, message: err.message}
             });
         // console.log(res)
 
