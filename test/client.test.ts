@@ -9,7 +9,7 @@ describe('Test OPSI API Client Actions', function () {
 
     describe('#createClient()', function () {
         it('create a new client', async () => {
-            const {success, data} = await api.createClient(
+            const {success, data, message} = await api.createClient(
                 clientName,
                 domain,
                 'Test Client',
@@ -20,6 +20,7 @@ describe('Test OPSI API Client Actions', function () {
             // console.log(data)
             assert.isOk(success)
             expect(data).to.equal(clientName + '.' + domain);
+            assert.isEmpty(message)
         });
 
         it('create a new client fail no parameter', async () => {
@@ -30,74 +31,84 @@ describe('Test OPSI API Client Actions', function () {
                 '',
                 '',
             )
-            // console.log(data)
+            // console.log(message)
+            assert.isFalse(data)
             assert.isFalse(success)
             assert.isString(message)
         });
+
+
+        it('create a new client fail wrong name', async () => {
+            const {success, data, message} = await api.createClient('Test Client',
+                'this should fail',
+                '',
+                '',
+                '',
+                '',
+            )
+            // console.log(data)
+            assert.isFalse(success)
+            assert.isObject(data)
+            assert.isString(message)
+        });
     })
-    //
-    // describe('#getClientInfo()', function () {
-    // 	it('get client info', function (done) {
-    // 		api.getClientInfo(clientName + '.' + domain, function (res) {
-    // 			// console.log(res)
-    // 			assert.ok(res.success)
-    // 			assert.ok(res.data instanceof Object, 'Object Expected')
-    // 			assert.deepStrictEqual(res.data.hostId, clientName + '.' + domain, 'Client Name Expected')
-    // 			done()
-    // 		})
-    // 	})
-    //
-    // 	it('get client info fail with not existent client', function (done) {
-    // 		api.getClientInfo('foo', function (res) {
-    // 			// console.log(res)
-    // 			// assert.ok(res.success)
-    // 			assert.equal(res.success, false)
-    // 			assert.ok(res.message)
-    // 			done()
-    // 		})
-    // 	})
-    // })
-    //
-    // describe('#getAllClients()', function () {
-    // 	it('get all client list and its greater then zero', function (done) {
-    // 		api.getAllClients(function (res) {
-    // 			assert.ok(res.success)
-    // 			assert.ok(res.data instanceof Array, 'Array Expected')
-    // 			// console.log(res)
-    // 			done()
-    // 		})
-    // 	})
-    // })
-    //
-    // describe('#renameClient()', function () {
-    // 	let testclient = 'typo-client'
-    // 	let correctName = 'renamed-client-' + Math.floor((Math.random() * 500) + 1)
-    // 	it('create client rename one', function (done) {
-    // 		api.createClient(testclient,
-    // 			domain,
-    // 			'Test rename Client',
-    // 			'',
-    // 			'',
-    // 			'',
-    // 			function (client) {
-    // 				api.renameClient(client.data, correctName + '.' + domain, function (res) {
-    // 					assert.ok(res.success)
-    // 					assert.ok(res.data)
-    // 					done()
-    // 				})
-    // 			})
-    // 	})
-    //
-    //
-    // 	it('FAILES: rename', function (done) {
-    // 		api.renameClient('foo', correctName + '.' + domain, function (res) {
-    // 			// console.log(res)
-    // 			assert.equal(res.success, false)
-    // 			assert.ok(res.message)
-    // 			done()
-    // 		})
-    // 	})
-    // })
+
+    describe('#getClientInfo()', function () {
+        it('get client info', async () => {
+            const {success, data} = await api.getClientInfo(clientName + '.' + domain)
+            assert.isObject(data)
+            assert.isTrue(success)
+            expect(data.hostId).is.equal(clientName + '.' + domain)
+        })
+
+        it('get client info fail', async () => {
+            const {success, data, message} = await api.getClientInfo('this shoul fail')
+            console.log(message)
+            assert.isObject(data)
+            assert.isFalse(success)
+            assert.isString(message)
+        })
+    })
+
+
+    describe('#getAllClients()', function () {
+        it('get all client list and its greater then zero', async () => {
+            const {success, data} = await api.getAllClients()
+            assert.isArray(data)
+            assert.isTrue(success)
+            expect(data.length).is.greaterThan(0)
+        })
+    })
+
+    describe('#renameClient()', function () {
+        let testclient = 'typo-client'
+        let correctName = 'renamed-client-' + Math.floor((Math.random() * 500) + 1)
+        it('create client rename one', async () => {
+            const newClient = await api.createClient(testclient,
+                domain,
+                'Test rename Client',
+                '',
+                '',
+                '',
+            )
+
+            console.log(newClient.data)
+
+            const {success, data} = await api.renameClient(newClient.data, correctName + '.' + domain)
+            // console.log(success)
+            // console.log(data)
+            assert.isTrue(success)
+            assert.isTrue(data)
+        })
+
+
+        it('FAILES: rename', async () => {
+            const {success, data, message} = await api.renameClient('foo', correctName + '.' + domain)
+            console.log(message)
+            assert.isFalse(success)
+            assert.isString(message)
+        })
+    })
     //
     // describe('#deleteClient()', function () {
     // 	it('delete a client', function (done) {

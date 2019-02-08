@@ -21,11 +21,7 @@ class OPSIApi implements Client {
 
     id: number;
 
-    res: Result = {success: false, data: {
-            id: 0,
-            error: {},
-            result: {}
-        }, message: 'empty'};
+    res: Result;
 
     /**
      * Create/Initiate OPSIApi.
@@ -39,6 +35,7 @@ class OPSIApi implements Client {
         if (!apiURL || !username || !password)
             throw new Error('Please define all constructor variables!')
 
+        this.res = this.resetResult()
         this.apiURL = apiURL
         this.username = username
         this.password = password
@@ -176,34 +173,9 @@ class OPSIApi implements Client {
 
     createClient = Client.prototype.createClient
 
+    getClientInfo = Client.prototype.getClientInfo
 
-    /**
-     * get client info
-     *
-     * @example
-     * //returns object with client info
-     * api.getHostGroupInfo(
-     *                    'clientId',
-     *                    function (res) {
-     * 		if(res.success){
-     *			console.log(res.data) // client data
-     *		}else if(res){
-     *		  	console.error(res.message) // error message
-     *		}
-     * })
-     * @param {string} clientId - Client ID Name
-     * @param {requestCallback} callback - The callback that handles the response.
-     * @returns {Object} Object of client data.
-     */
-    // getClientInfo(clientId) {
-    //     if (!clientId || clientId === '')
-    //         return {success: false, message: 'Please define a clientId!'}
-    //
-    //     return this.sendRequest('getHost_hash', [
-    //         clientId
-    //     ], this.id)
-    // }
-
+    renameClient = Client.prototype.renameClient
 
     /**
      * delete client.
@@ -233,33 +205,7 @@ class OPSIApi implements Client {
     // }
 
 
-    /**
-     *
-     * @example
-     * //returns boolean only on super bad data it will return an error message
-     *
-     * api.renameClient(name, newname, function (res) {
-     * 		if(!res.success){
-     *			console.error(res.message) // client error message
-     *		}else if(res.success){
-     *		  	console.log(res.data) // true
-     *		}
-     * })
-     *
-     * @param {string} name old id of the client
-     * @param {string} newname id
-     * @param {requestCallback} callback - The callback that handles the response.
-     * @returns {Boolean|Object} Boolean or Object with error message (Object.message).
-     */
-    // renameClient(name, newname, callback) {
-    //     this.sendRequest('host_renameOpsiClient', [
-    //         name,
-    //         newname
-    //     ], this.id, function (data) {
-    //         // console.log(data.message)
-    //         return callback(data.message ? data : {success: true, data: true})
-    //     })
-    // }
+
     //
     //
     // clientReboot(clientId, callback) {
@@ -608,6 +554,10 @@ class OPSIApi implements Client {
     //     })
     // }
 
+    protected resetResult(){
+        return this.res = {success: false, data: false, message: ''};
+    }
+
     /**
      * Generate api call actions.
      *
@@ -617,6 +567,7 @@ class OPSIApi implements Client {
      * @private
      */
     async sendRequest(method: string, params: any[], id: number): Promise<Result> {
+        this.resetResult();
         const url = `${this.apiURL}/rpc`
         let options: any = {
             uri: url,
@@ -635,8 +586,11 @@ class OPSIApi implements Client {
 
         await request.post(options)
             .then((body) => {
-                this.res = {success: true, data: body.result, message: ''}
-                // return body
+                if (!body.error) {
+                    this.res = {success: true, data: body.result, message: ''}
+                } else {
+                    this.res = {success: false, data: body.error, message: body.error.message}
+                }
             })
             .catch((err) => {
                 this.res = {success: false, data: err, message: err.message}

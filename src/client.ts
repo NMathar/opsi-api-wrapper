@@ -1,4 +1,5 @@
 import {OPSIApi} from "./api";
+import {Result} from "./IfcResult";
 
 class Client {
 
@@ -7,16 +8,11 @@ class Client {
      *
      * @example
      * //returns array of all clients
-     * api.getAllClients(function (res) {
-     * 		if(res.success){
-     *			console.log(res.data) // client array
-     *		}else if(!res.success){
-     *		  	console.error(res.message)
-     *		}
-     * })
+     * api.getAllClients()
+     *
      * @returns {Array} Data.
      */
-    getAllClients(this: OPSIApi) {
+    getAllClients(this: OPSIApi): Promise<Result> {
         return this.sendRequest('getClientIds_list', [], this.id)
     }
 
@@ -25,13 +21,8 @@ class Client {
      *
      * @example
      * //returns client id name
-     * api.createClient(clientName, domain, description, notes, ipAddress, hardwareAddress, function (res) {
-     * 		if(res.success){
-     *			console.log(res.data) // clients array
-     *		}else if(!res.success){
-     *		  	console.error(res.message)
-     *		}
-     * })
+     * api.createClient(clientName, domain, description, notes, ipAddress, hardwareAddress)
+     *
      * @param {string} clientName - Client Name
      * @param {string} domain - Client domain
      * @param {string} description - description of the client
@@ -40,9 +31,13 @@ class Client {
      * @param {string} hardwareAddress - physical address of the client
      * @returns {Array|Object} Data Array or Object with error message (Object.message).
      */
-    async createClient(this: OPSIApi, clientName: string, domain: string = '', description: string = '', notes: string = '', ipAddress: string = '', hardwareAddress: string = '') {
-        if (!clientName || clientName === '')
-            return {success: false, data:{}, message: 'Please define a client name!'}
+    async createClient(this: OPSIApi, clientName: string, domain: string = '', description: string = '', notes: string = '', ipAddress: string = '', hardwareAddress: string = ''): Promise<Result> {
+        this.resetResult();
+        if (!clientName || clientName === '') {
+            this.res.message = 'Please define a client name!'
+            return this.res
+        }
+
 
         // let res: Result = {success: false, data: {}, message: 'empty'};
 
@@ -54,6 +49,50 @@ class Client {
             ipAddress,
             hardwareAddress
         ], this.id);
+    }
+
+    /**
+     * get client info
+     *
+     * @example
+     * //returns object with client info
+     * api.getClientInfo('clientId',)
+     * @param {string} clientId - Client ID Name
+     * @returns {Object} Object of client data.
+     */
+    async getClientInfo(this: OPSIApi, clientId): Promise<Result> {
+        this.resetResult();
+        if (!clientId || clientId === '') {
+            this.res.message = 'Please define a client ID!'
+            return this.res
+        }
+
+        return await this.sendRequest('getHost_hash', [
+            clientId
+        ], this.id)
+    }
+
+    /**
+     *
+     * @example
+     * //returns boolean only on super bad data it will return an error message
+     *
+     * api.renameClient(name, newname)
+     *
+     * @param {string} name old id of the client
+     * @param {string} newname id
+     * @returns {Boolean|Object} Boolean or Object with error message (Object.message).
+     */
+    async renameClient(this: OPSIApi, name, newname): Promise<Result> {
+        let result = await this.sendRequest('host_renameOpsiClient', [
+            name,
+            newname
+        ], this.id)
+
+        if (result.message === "" || !result.message)
+            return {success: true, message: '', data: true}
+
+        return result
     }
 }
 
