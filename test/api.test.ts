@@ -13,45 +13,39 @@ describe('Test OPSI API', function () {
         });
     })
 
-    // describe('#isAuthenticated()', function () {
-    // 	it('get boolean for is user authenticated', function (done) {
-    // 		api.isAuthenticated(function (res) {
-    // 			assert.isOk(res.success)
-    // 			assert.isOk(res.data)
-    // 			done()
-    // 		})
-    // 	})
-    // })
-    //
-    // describe('#isUserAdmin()', function () {
-    // 	it('get boolean for is user admin', function (done) {
-    // 		api.isUserAdmin(function (res) {
-    // 			assert.isOk(res.success)
-    // 			assert.isOk(res.data)
-    // 			done()
-    // 		})
-    // 	})
-    // })
-    //
-    // describe('#getServerID()', function () {
-    // 	it('more then zreo server id', function (done) {
-    // 		api.serverIDs(function (res) {
-    // 			assert.isOk(res.success)
-    // 			assert.isOk(res.data instanceof Array, 'Array Expected')
-    // 			done()
-    // 		})
-    // 	})
-    // })
-    //
-    // describe('#getOpsiServerInfo()', function () {
-    // 	it('get object woth server infos', function (done) {
-    // 		api.getOpsiServerInfo(function (res) {
-    // 			assert.isOk(res.success)
-    // 			assert.isOk(res.data instanceof Array, 'Array Expected')
-    // 			assert.equal(res.data[0].type, 'OpsiConfigserver')
-    // 			done()
-    // 		})
-    // 	})
-    // })
+    describe('#isAuthenticated()', function () {
+    	it('get boolean for is user authenticated', async () => {
+            const {success, data} = await api.isAuthenticated()
+            assert.isTrue(success)
+            assert.isTrue(data)
+    	})
+    })
+
+    describe('#isUserAdmin()', function () {
+    	it('get boolean for is user admin', async () => {
+            const {success, data} = await api.isUserAdmin()
+            assert.isTrue(success)
+            assert.isTrue(data)
+    	})
+    })
+
+    describe('#getServerID()', function () {
+    	it('more then zreo server id', async () => {
+            const {success, data} = await api.getServerIDs()
+            assert.isTrue(success)
+            assert.isArray(data)
+            expect(data.length).is.greaterThan(0)
+    	})
+    })
+
+    describe('#getOpsiServerInfo()', function () {
+    	it('get object woth server infos', async () => {
+            const {success, data} = await api.getOpsiServerInfo()
+            // console.log(data)
+            assert.isTrue(success)
+            assert.isArray(data)
+            expect(data[0].type).is.equal('OpsiConfigserver')
+    	})
+    })
 
 })

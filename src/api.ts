@@ -1,11 +1,12 @@
 import * as request from "request-promise";
 import {Client} from "./client";
+import {Group} from "./group";
 import {Result} from "./IfcResult";
 
 /**
  * Class OPSIApi
  */
-class OPSIApi implements Client {
+class OPSIApi implements Client, Group {
     /**
      * This callback type is called `requestCallback` and is displayed as a global symbol.
      *
@@ -56,9 +57,10 @@ class OPSIApi implements Client {
      *		  	console.error(res.message)
      *		}
      * })
-     * @returns {Object} Data.
+     * @returns {Result} Data.
      */
-    getOpsiVersion() {
+    getOpsiVersion(): Promise<Result> {
+        this.resetResult();
         return this.sendRequest('backend_info', [], this.id)
     }
 
@@ -74,10 +76,10 @@ class OPSIApi implements Client {
      *		  	console.error(res.message)
      *		}
      * })
-     * @param {Function} callback - Callback function.
-     * @returns {Object} Data.
+     * @returns {Result} Data.
      */
-    serverIDs() {
+    getServerIDs(): Promise<Result> {
+        this.resetResult();
         return this.sendRequest('getServerIds_list', [], this.id)
     }
 
@@ -93,10 +95,10 @@ class OPSIApi implements Client {
      *		  	console.error(res.message)
      *		}
      * })
-     * @param {requestCallback} callback - The callback that handles the response. Function.
-     * @returns {Object} Data.
+     * @returns {Result} Data.
      */
-    isAuthenticated() {
+    isAuthenticated(): Promise<Result> {
+        this.resetResult();
         return this.sendRequest('accessControl_authenticated', [], this.id)
     }
 
@@ -112,10 +114,10 @@ class OPSIApi implements Client {
      *		  	console.error(res.message)
      *		}
      * })
-     * @param {requestCallback} callback - The callback that handles the response.
-     * @returns {Object} Data.
+     * @returns {Result} Data.
      */
-    isUserAdmin() {
+    isUserAdmin(): Promise<Result> {
+        this.resetResult();
         return this.sendRequest('accessControl_userIsAdmin', [], this.id)
     }
 
@@ -131,39 +133,16 @@ class OPSIApi implements Client {
      *		  	console.error(res.message)
      *		}
      * })
-     * @param {Function} callback - Callback function.
-     * @returns {Object} Data.
+     * @returns {Result} Data.
      */
-    getOpsiServerInfo() {
+    getOpsiServerInfo(): Promise<Result> {
+        this.resetResult();
         return this.sendRequest('host_getObjects', [
             '',
             {
                 'type': 'OpsiConfigserver'
             }
         ], this.id)
-    }
-
-    /**
-     * Get all actions for one product.
-     *
-     * @example
-     * //returns array of actions for product
-     * api.serverIDs(function (servers) {
-     *		api.actionsForProduct('', servers[0], function (res) {
-     * 			if(res.success){
-     *				console.log(res.data) // array of product actions
-     *			}else if(!res.success){
-     *			  	console.error(res.message)
-     *			}
-     *		})
-     *	})
-     * @param {string} productid - Any id string.
-     * @param {string }serverid - Serverid string that gets from serverIDs.
-     * @param {requestCallback} callback - The callback that handles the response.
-     * @returns {Object} Data.
-     */
-    actionsForProduct(productid: string, serverid: number) {
-        return this.sendRequest('getPossibleProductActions_list', [productid, serverid], this.id)
     }
 
 
@@ -177,34 +156,7 @@ class OPSIApi implements Client {
 
     renameClient = Client.prototype.renameClient
 
-    /**
-     * delete client.
-     *
-     * @example
-     * //returns boolean only on super bad data it will return an error message
-     *
-     * api.delete(clientId, function (res) {
-     * 		if(!res.success){
-     *			console.error(res.message) // client error message
-     *		}else if(res.success){
-     *		  	console.log(res.data) // true
-     *		}
-     * })
-     * @param {string} clientId - Client ID
-     * @returns {Boolean|Object} Boolean or Object with error message (Object.message).
-     */
-    // deleteClient(clientId) {
-    //     if (!clientId || clientId === '')
-    //         return {success: false, message: 'Please define a clientId!'}
-    //
-    //     let data = this.sendRequest('deleteClient', [
-    //         clientId
-    //     ], this.id)
-    //     return data
-    //     // return data.message ? data : {success: true, data: true}
-    // }
-
-
+    deleteClient = Client.prototype.deleteClient
 
     //
     //
@@ -222,133 +174,21 @@ class OPSIApi implements Client {
 
     // ########### Group actions
 
-    /**
-     * Get all groups.
-     *
-     * @exmaple
-     * //returns an array of opsi groups
-     * api.getAllGroups(function (res) {
-     * 		if(res.success)
-     *			console.log(res.data) // groups array
-     *		}else if(!res.success){
-     *		  	console.error(res.message)
-     *		}
-     *    })
-     * @param {requestCallback} callback - The callback that handles the response.
-     * @returns {Array} Data.
-     */
-    // getAllHostGroups(callback) {
-    //     this.sendRequest('group_getObjects', [], this.id, function (data) {
-    //         // console.log(data)
-    //         return callback(data)
-    //     })
-    // }
+    getAllHostGroups = Group.prototype.getAllHostGroups
 
-    /**
-     * create group
-     *
-     * @example
-     * //returns boolean only on super bad data it will return an error message
-     * api.createHostGroup(
-     *                    'groupName',
-     *                    'members',
-     *                    'description',
-     *                    'parentGroupId', function (res) {
-     * 		if(!res.success){
-     *			console.error(res.message) // client error message
-     *		}else if(res.success){
-     *		  	console.log(res.data) // true
-     *		}
-     * })
-     * @param {string} groupName - Group ID Name
-     * @param {string} members - Members Object? String? Array?
-     * @param {string} description - Group description string
-     * @param {string} parentGroupId - Parent Group ID Name
-     * @param {requestCallback} callback - The callback that handles the response.
-     * @returns {Boolean|Object} Boolean or Object with error message (Object.message).
-     */
-    // createHostGroup(groupName, members = '', description = '', parentGroupId = '', callback) {
-    //     if (!groupName || groupName === '')
-    //         return callback({success: false, message: 'Please define a group name!'})
-    //
-    //     this.sendRequest('createGroup', [
-    //         groupName,
-    //         members,
-    //         description,
-    //         parentGroupId,
-    //     ], this.id, function (data) {
-    //         // console.log(data)
-    //         return callback(data.message ? data : {success: true, data: true})
-    //     })
-    // }
+    createHostGroup = Group.prototype.createHostGroup
 
-    /**
-     * get group info
-     *
-     * @example
-     * //returns object with group info
-     * api.getHostGroupInfo(
-     *                    'groupName',
-     *                    function (res) {
-     * 		if(res.success){
-     *			console.log(res.data) // client data
-     *		}else if(res){
-     *		  	console.error(res.message) // error message
-     *		}
-     * })
-     * @param {string} groupName - Group ID Name
-     * @param {requestCallback} callback - The callback that handles the response.
-     * @returns {Object} Object of group data.
-     */
-    // getHostGroupInfo(groupName = '', callback) {
-    //     if (!groupName || groupName === '')
-    //         return callback({success: false, message: 'Please define a groupName!'})
-    //
-    //     this.sendRequest('group_getObjects', [
-    //         '',
-    //         {
-    //             'id': groupName,
-    //             'type': 'HostGroup'
-    //         }
-    //     ], this.id, function (data) {
-    //         // console.log(data)
-    //         if (data.success)
-    //             data.data = data.data[0]
-    //
-    //         return callback(data)
-    //     })
-    // }
+    getHostGroupInfo = Group.prototype.getHostGroupInfo
 
-    /**
-     * group name exists
-     *
-     * @example
-     * //returns boolean
-     * api.groupNameExists(
-     *                    'groupName',
-     *                    function (res) {
-     * 		if(res.success){
-     *			console.log(res.data) // boolean
-     *		}else if(res){
-     *		  	console.error(res.message) // error message
-     *		}
-     * })
-     * @param {string} groupName - Group ID Name
-     * @param {requestCallback} callback - The callback that handles the response.
-     * @returns {Object} Object
-     */
-    // groupNameExists(groupName, callback) {
-    //     if (!groupName || groupName === '')
-    //         return callback({success: false, message: 'Please define a groupName!'})
-    //
-    //     this.sendRequest('groupname_exists', [
-    //         groupName
-    //     ], this.id, function (data) {
-    //         // console.log(data)
-    //         return callback(data)
-    //     })
-    // }
+    groupNameExists = Group.prototype.groupNameExists
 
+    addClientToGroup = Group.prototype.addClientToGroup
+
+    getGroupClients = Group.prototype.getGroupClients
+
+    removeClientFromGroup = Group.prototype.removeClientFromGroup
+
+    renameGroup = Group.prototype.renameGroup
 
     /**
      * delete group
@@ -381,145 +221,7 @@ class OPSIApi implements Client {
     // }
 
 
-    /**
-     * add client to group
-     *
-     * @example
-     * //returns boolean only on super bad data it will return an error message
-     *
-     * api.addClientToGroup(clientId, groupId, function (res) {
-     * 		if(!res.success){
-     *			console.error(res.message) // client error message
-     *		}else if(res.success){
-     *		  	console.log(res.data) // true
-     *		}
-     * })
-     * @param {string} clientId - Client ID
-     * @param {string} groupId - Group ID
-     * @param {requestCallback} callback - The callback that handles the response.
-     * @returns {Boolean|Object} Boolean or Object with error message (Object.message).
-     */
-    // addClientToGroup(clientId, groupId, callback) {
-    //     if (!groupId || groupId === '' || !clientId || clientId === '')
-    //         return callback({success: false, message: 'Please define a group id and a client id!'})
-    //
-    //     let self = this
-    //     self.groupNameExists(groupId, function (group) {
-    //         if (group.data) {
-    //             self.getClientInfo(clientId, function (client) {
-    //                 if (client.success) {
-    //                     self.sendRequest('objectToGroup_create', [
-    //                         'HostGroup',
-    //                         groupId,
-    //                         clientId
-    //                     ], self.id, function (data) {
-    //                         // console.log(data)
-    //                         return callback(data.message ? data : {success: true, data: true})
-    //                     })
-    //                 } else {
-    //                     return callback({success: false, message: 'Client not exists!'})
-    //                 }
-    //             })
-    //
-    //         } else {
-    //             return callback({success: false, message: 'Group not exists!'})
-    //         }
-    //     })
-    // }
 
-    /**
-     * get clients from group
-     *
-     * @example
-     * //return array of clients
-     *
-     * api.getGroupClients(groupId, function (res) {
-     * 		if(!res.success){
-     *			console.error(res.message) // client error message
-     *		}else if(res.success){
-     *		  	console.log(res.data) // Array of clients
-     *		}
-     * })
-     * @param {string} groupId - Group ID
-     * @param {requestCallback} callback - The callback that handles the response.
-     * @returns {Array} Array with clients or empty array.
-     */
-    // getGroupClients(groupId, callback) {
-    //     if (!groupId || groupId === '')
-    //         return callback({success: false, message: 'Please define a groupId!'})
-    //
-    //     this.sendRequest('objectToGroup_getObjects', [
-    //         '',
-    //         {
-    //             'groupType': 'HostGroup',
-    //             'groupId': groupId
-    //         }
-    //     ], this.id, function (data) {
-    //         // console.log(data.message)
-    //         return callback(data)
-    //     })
-    // }
-
-    /**
-     * remove client from group
-     *
-     * @example
-     * //returns boolean only on super bad data it will return an error message
-     *
-     * api.removeClientFromGroup(clientId, groupId, function (res) {
-     * 		if(!res.success){
-     *			console.error(res.message) // client error message
-     *		}else if(res.success){
-     *		  	console.log(res.data) // true
-     *		}
-     * })
-     * @param {string} clientId - Client ID
-     * @param {string} groupId - Group ID
-     * @param {requestCallback} callback - The callback that handles the response.
-     * @returns {Boolean|Object} Boolean or Object with error message (Object.message).
-     */
-    // removeClientFromGroup(clientId, groupId, callback) {
-    //     if (!groupId || groupId === '' || !clientId || clientId === '')
-    //         return callback({success: false, message: 'Please define a group id and a client id!'})
-    //
-    //     this.sendRequest('objectToGroup_delete', [
-    //         'HostGroup',
-    //         groupId,
-    //         clientId
-    //     ], this.id, function (data) {
-    //         // console.log(data.message)
-    //         callback(data.message ? data : {success: true, data: true})
-    //     })
-    // }
-
-
-    /**
-     *
-     * @example
-     * //returns boolean only on super bad data it will return an error message
-     *
-     * api.renameGroup(name, newname, function (res) {
-     * 		if(!res.success){
-     *			console.error(res.message) // group error message
-     *		}else if(res.success){
-     *		  	console.log(res.data) // true
-     *		}
-     * })
-     *
-     * @param {string} name old id of the group
-     * @param {string} newname id
-     * @param {requestCallback} callback - The callback that handles the response.
-     * @returns {Boolean|Object} Boolean or Object with error message (Object.message).
-     */
-    // renameGroup(name, newname, callback) {
-    //     this.sendRequest('group_rename', [
-    //         name,
-    //         newname
-    //     ], this.id, function (data) {
-    //         // console.log(data)
-    //         return callback(data.message ? data : {success: true, data: true})
-    //     })
-    // }
 
 
     // ########### Host actions
@@ -552,6 +254,28 @@ class OPSIApi implements Client {
     //         // console.log(data)
     //         return callback(data)
     //     })
+    // }
+
+    /**
+     * Get all actions for one product.
+     *
+     * @example
+     * //returns array of actions for product
+     * api.serverIDs(function (servers) {
+     *		api.actionsForProduct('', servers[0], function (res) {
+     * 			if(res.success){
+     *				console.log(res.data) // array of product actions
+     *			}else if(!res.success){
+     *			  	console.error(res.message)
+     *			}
+     *		})
+     *	})
+     * @param {string} productid - Any id string.
+     * @param {string }serverid - Serverid string that gets from serverIDs.
+     * @returns {Result} Data.
+     */
+    // actionsForProduct(productid: string, serverid: number): Promise<Result> {
+    //     return this.sendRequest('getPossibleProductActions_list', [productid, serverid], this.id)
     // }
 
     protected resetResult(){

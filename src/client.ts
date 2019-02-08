@@ -13,6 +13,7 @@ class Client {
      * @returns {Array} Data.
      */
     getAllClients(this: OPSIApi): Promise<Result> {
+        this.resetResult();
         return this.sendRequest('getClientIds_list', [], this.id)
     }
 
@@ -107,7 +108,7 @@ class Client {
      * @param {string} clientId - Client ID
      * @returns {Boolean|Object} Boolean or Object with error message (Object.message).
      */
-    async deleteClient(this: OPSIApi, clientId) {
+    async deleteClient(this: OPSIApi, clientId): Promise<Result> {
         this.resetResult();
         if (!clientId || clientId === '') {
             this.res.message = 'Please define a client ID!'

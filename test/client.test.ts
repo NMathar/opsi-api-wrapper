@@ -61,9 +61,17 @@ describe('Test OPSI API Client Actions', function () {
             expect(data.hostId).is.equal(clientName + '.' + domain)
         })
 
+        it('get client info fail with valid domain', async () => {
+            const {success, data, message} = await api.getClientInfo('test.'+domain)
+            // console.log(message)
+            assert.isObject(data)
+            assert.isFalse(success)
+            assert.isString(message)
+        })
+
         it('get client info fail', async () => {
             const {success, data, message} = await api.getClientInfo('this shoul fail')
-            console.log(message)
+            // console.log(message)
             assert.isObject(data)
             assert.isFalse(success)
             assert.isString(message)
@@ -105,7 +113,7 @@ describe('Test OPSI API Client Actions', function () {
         it('FAILES: rename', async () => {
             const {success, data, message} = await api.renameClient('foo', correctName + '.' + domain)
             // console.log(data)
-            assert.isObject(data) // error datd object
+            assert.isObject(data) // error data object
             assert.isFalse(success)
             assert.isString(message)
         })
