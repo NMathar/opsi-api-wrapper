@@ -84,6 +84,7 @@ class Client {
      * @returns {Boolean|Object} Boolean or Object with error message (Object.message).
      */
     async renameClient(this: OPSIApi, name, newname): Promise<Result> {
+        this.resetResult();
         let result = await this.sendRequest('host_renameOpsiClient', [
             name,
             newname
@@ -93,6 +94,29 @@ class Client {
             return {success: true, message: '', data: true}
 
         return result
+    }
+
+
+    /**
+     * delete client.
+     *
+     * @example
+     * //returns boolean only on super bad data it will return an error message
+     *
+     * api.delete(clientId)
+     * @param {string} clientId - Client ID
+     * @returns {Boolean|Object} Boolean or Object with error message (Object.message).
+     */
+    async deleteClient(this: OPSIApi, clientId) {
+        this.resetResult();
+        if (!clientId || clientId === '') {
+            this.res.message = 'Please define a client ID!'
+            return this.res
+        }
+
+        return await this.sendRequest('deleteClient', [
+            clientId
+        ], this.id)
     }
 }
 

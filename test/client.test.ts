@@ -92,7 +92,7 @@ describe('Test OPSI API Client Actions', function () {
                 '',
             )
 
-            console.log(newClient.data)
+            // console.log(newClient.data)
 
             const {success, data} = await api.renameClient(newClient.data, correctName + '.' + domain)
             // console.log(success)
@@ -104,34 +104,29 @@ describe('Test OPSI API Client Actions', function () {
 
         it('FAILES: rename', async () => {
             const {success, data, message} = await api.renameClient('foo', correctName + '.' + domain)
-            console.log(message)
+            // console.log(data)
+            assert.isObject(data) // error datd object
             assert.isFalse(success)
             assert.isString(message)
         })
     })
-    //
-    // describe('#deleteClient()', function () {
-    // 	it('delete a client', function (done) {
-    // 		api.deleteClient(
-    // 			clientName + '.' + domain,
-    // 			function (res) {
-    // 				assert.ok(res.success)
-    // 				assert.ok(res.data)
-    // 				done()
-    // 			})
-    // 	})
-    //
-    // 	it('FAILED: delete a client', function (done) {
-    // 		api.deleteClient(
-    // 			'del_client_fail',
-    // 			function (res) {
-    // 				// console.error('Error: ', data.message)
-    // 				assert.equal(res.success, false)
-    // 				assert.ok(res.message)
-    // 				done()
-    // 			})
-    // 	})
-    // })
+
+    describe('#deleteClient()', function () {
+    	it('delete a client', async () => {
+            const {success, data, message} = await api.deleteClient(
+    			clientName + '.' + domain,)
+            assert.isNull(data)
+            assert.isTrue(success)
+    	})
+
+    	it('FAILED: delete a client', async () => {
+            const {success, data, message} = await api.deleteClient(
+    			'del_client_fail')
+            assert.isObject(data)
+            assert.isFalse(success)
+            assert.isString(message)
+    	})
+    })
 
 
     // TODO: get software, hardware and product infos for one client
