@@ -7,12 +7,6 @@ import {Result} from "./IfcResult";
  * Class OPSIApi
  */
 class OPSIApi implements Client, Group {
-    /**
-     * This callback type is called `requestCallback` and is displayed as a global symbol.
-     *
-     * @callback requestCallback
-     * @param {any} data
-     */
 
     apiURL: string;
 
@@ -286,9 +280,8 @@ class OPSIApi implements Client, Group {
                 }
             })
             .catch((err) => {
-                this.res = {success: false, data: err, message: err.message}
+                this.res = {success: false, data: err, message: err.error.error.message ? err.error.error.message: 'Error'}
             });
-        // console.log(res)
 
         return this.res
     }
