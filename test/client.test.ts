@@ -3,7 +3,7 @@ import { OPSIApi } from '../src/api';
 
 describe('Test OPSI API Client Actions', function() {
   const api = new OPSIApi('https://localhost:4447', 'opsi', 'opsi');
-  this.timeout(1000);
+  this.timeout(2000);
   const clientName = 'testclient-' + Math.floor(Math.random() * 500 + 1);
   const domain = 'opsi.docker.lan';
 
@@ -61,6 +61,7 @@ describe('Test OPSI API Client Actions', function() {
   describe('#getAllClients()', () => {
     it('get all client list and its greater then zero', async () => {
       const { success, data } = await api.getAllClients();
+      // console.log(data) // tslint:disable-line
       assert.isArray(data);
       assert.isTrue(success);
       expect(data.length).is.greaterThan(0);
@@ -107,4 +108,16 @@ describe('Test OPSI API Client Actions', function() {
   });
 
   // TODO: get software, hardware and product infos for one client
+
+  describe('#getAllClientData()', () => {
+    it('get huge client object', async () => {
+      // prepare test client with data
+
+
+      const { success, data } = await api.getAllClientData(clientName + '.' + domain);
+      console.log(data) // tslint:disable-line
+      assert.isObject(data);
+      assert.isTrue(success);
+    });
+  })
 });

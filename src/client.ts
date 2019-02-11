@@ -74,6 +74,10 @@ class Client {
     return await this.sendRequest('getHost_hash', [clientId], this.id);
   }
 
+  /**
+   *
+   * @param clientId
+   */
   public async getAllClientData(this: OPSIApi, clientId): Promise<IfcResult> {
     this.resetResult();
     if (!clientId || clientId === '') {

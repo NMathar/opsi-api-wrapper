@@ -2,11 +2,12 @@ import * as request from 'request-promise';
 import { Client } from './client';
 import { Group } from './group';
 import { IfcResult } from './IfcResult';
+import { Product} from './product';
 
 /**
  * Class OPSIApi
  */
-class OPSIApi implements Client, Group {
+class OPSIApi implements Client, Group, Product {
   public apiURL: string;
 
   public username: string;
@@ -64,6 +65,13 @@ class OPSIApi implements Client, Group {
   public renameGroup = Group.prototype.renameGroup;
 
   public deleteGroup = Group.prototype.deleteGroup;
+
+
+  // ########### Product actions
+
+  public getAllProducts = Product.prototype.getAllProducts
+
+  public getAllActionsForProduct = Product.prototype.getAllActionsForProduct
 
   /**
    * Create/Initiate OPSIApi.
@@ -213,40 +221,6 @@ class OPSIApi implements Client, Group {
   /**
    * //TODO: host actions
    */
-
-  // ########### Product actions
-
-  /**
-   * Get all products.
-   *
-   * @example
-   * // returns an array of products
-   * api.getAllProducts()
-   *
-   * @returns {Array} Data.
-   */
-  // getAllProducts(callback) {
-  //     this.sendRequest('getProductIds_list', [], this.id, function (data) {
-  //         // console.log(data)
-  //         return callback(data)
-  //     })
-  // }
-
-  /**
-   * Get all actions for one product.
-   *
-   * @example
-   * //returns array of actions for product
-   * api.serverIDs()
-   * api.actionsForProduct('', servers[0])
-   *
-   * @param {string} productid - Any id string.
-   * @param {string } serverid - Serverid string that gets from serverIDs.
-   * @returns {IfcResult} Data.
-   */
-  // actionsForProduct(productid: string, serverid: number): Promise<IfcResult> {
-  //     return this.sendRequest('getPossibleProductActions_list', [productid, serverid], this.id)
-  // }
 
   protected resetResult() {
     return (this.res = { success: false, data: false, message: '' });
