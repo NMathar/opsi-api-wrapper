@@ -35,7 +35,7 @@ describe('Test OPSI API Product Actions', function() {
 
 
   describe('#getAllActionsForProduct()', () => {
-    it('get all actions for' + testProduct, async () => {
+    it('get all actions for ' + testProduct, async () => {
       const server = await api.getServerIDs()
       // console.log(server.data); // tslint:disable-line
       const { success, data } = await api.getAllActionsForProduct(testProduct, server.data[0]);

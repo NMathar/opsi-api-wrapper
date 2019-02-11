@@ -109,15 +109,15 @@ describe('Test OPSI API Client Actions', function() {
 
   // TODO: get software, hardware and product infos for one client
 
-  describe('#getAllClientData()', () => {
-    it('get huge client object', async () => {
-      // prepare test client with data
-
-
-      const { success, data } = await api.getAllClientData(clientName + '.' + domain);
-      console.log(data) // tslint:disable-line
-      assert.isObject(data);
-      assert.isTrue(success);
-    });
-  })
+  // describe('#getAllClientData()', () => {
+  //   it('get huge client object', async () => {
+  //     // prepare test client with data
+  //
+  //
+  //     const { success, data } = await api.getAllClientData(clientName + '.' + domain);
+  //     console.log(data) // tslint:disable-line
+  //     assert.isObject(data);
+  //     assert.isTrue(success);
+  //   });
+  // })
 });
