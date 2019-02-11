@@ -17,6 +17,21 @@ class Product {
   }
 
   /**
+   * get Product infos
+   *
+   * @example
+   * // returns an object of product data
+   *
+   * api.getProductInfo('swaudit')
+   *
+   * @param productId
+   */
+  public getProductInfo(this:OPSIApi, productId): Promise<IfcResult>{
+    this.resetResult()
+    return this.sendRequest('getProduct_hash', [productId], this.id)
+  }
+
+  /**
    * Get all actions for one product.
    *
    * @example

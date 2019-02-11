@@ -134,6 +134,19 @@ class Client {
 
     return await this.sendRequest('deleteClient', [clientId], this.id);
   }
+
+  // # client actions
+
+  // TODO: Test
+  // public async getProductActionRequests(this: OPSIApi, clientId): Promise<IfcResult>{
+  //   this.resetResult()
+  //   if (!clientId || clientId === '') {
+  //     this.res.message = 'Please define a client ID!';
+  //     return this.res;
+  //   }
+  //
+  //   return await this.sendRequest('getProductActionRequests_listOfHashes', [clientId], this.id);
+  // }
 }
 
 export { Client };

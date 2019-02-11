@@ -73,6 +73,8 @@ class OPSIApi implements Client, Group, Product {
 
   public getAllActionsForProduct = Product.prototype.getAllActionsForProduct
 
+  public getProductInfo = Product.prototype.getProductInfo
+
   /**
    * Create/Initiate OPSIApi.
    *
