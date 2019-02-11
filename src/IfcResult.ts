@@ -1,8 +1,8 @@
 /**
  * Result Interface
  */
-export interface Result {
-    success: Boolean
-    data: any
-    message: String
+export interface IfcResult {
+  success: boolean;
+  data: any;
+  message: string;
 }
