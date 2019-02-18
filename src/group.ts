@@ -7,17 +7,20 @@ class Group {
    *
    * @example
    * //returns boolean only on super bad data it will return an error message
-   * api.createHostGroup(
-   *                    'groupName',
-   *                    'members',
-   *                    'description',
-   *                    'parentGroupId')
+   * const { success, data, message } = await api.createHostGroup(
+   *                    'group01',
+   *                    '',
+   *                    'Group description',
+   *                    '')
+   * console.log(success) // if all data are ok then this should return true else false
+   * console.log(message) // message is empty if success is true. if success is false there is a error message
+   * console.log(data) // data returns also true or an error object on fail
    *
    * @param {string} groupName - Group ID Name
    * @param {string} members - Members Object? String? Array?
    * @param {string} description - Group description string
    * @param {string} parentGroupId - Parent Group ID Name
-   * @returns {IfcResult} Boolean or Object with error message (Object.message).
+   * @returns {IfcResult} Object with result data
    */
   public async createHostGroup(
     this: OPSIApi,
@@ -46,10 +49,19 @@ class Group {
    *
    * @example
    * //returns object with group info
-   * api.getHostGroupInfo(
-   *                    'groupName')
+   * const { success, data, message } = await api.getHostGroupInfo('group01')
+   * console.log(success) // if all data are ok then this should return true else false
+   * console.log(message) // message is empty if success is true. if success is false there is a error message
+   * console.log(data)
+   * { ident: 'group01',
+   *   description: 'Group description',
+   *   notes: '',
+   *   parentGroupId: null,
+   *   type: 'HostGroup',
+   *   id: 'group01' }
+   * 
    * @param {string} groupName - Group ID Name
-   * @returns {IfcResult} Object of group data.
+   * @returns {IfcResult} Object with result data
    */
   public async getHostGroupInfo(this: OPSIApi, groupName = ''): Promise<IfcResult> {
     this.resetResult();
@@ -80,11 +92,14 @@ class Group {
   /**
    * Get all groups.
    *
-   * @exmaple
+   * @example
    * //returns an array of opsi groups
-   * api.getAllGroups())
+   * const { success, data, message } = await api.getAllGroups())
+   * console.log(success) // if all data are ok then this should return true else false
+   * console.log(message) // message is empty if success is true. if success is false there is a error message
+   * console.log(data) // returns array of group infos or an error object on fail
    *
-   * @returns {IfcResult} Data.
+   * @returns {IfcResult} Object with result data
    */
   public async getAllHostGroups(this: OPSIApi): Promise<IfcResult> {
     this.resetResult();
@@ -96,10 +111,14 @@ class Group {
    *
    * @example
    * //returns boolean
-   * api.groupNameExists('groupName')
+   * const { success, data, message } = await api.groupNameExists('group01')
+   * console.log(success) // if all data are ok then this should return true else false
+   * console.log(message) // message is empty if success is true. if success is false there is a error message
+   * console.log(data) // returns true, false or an error object on fail 
+   *
    *
    * @param {string} groupName - Group ID Name
-   * @returns {IfcResult} Object
+   * @returns {IfcResult} Object with result data
    */
   public async groupNameExists(this: OPSIApi, groupName): Promise<IfcResult> {
     this.resetResult();
@@ -116,11 +135,14 @@ class Group {
    *
    * @example
    * //returns boolean only on super bad data it will return an error message
-   *
-   * api.addClientToGroup()
+   * const { success, data, message } = await api.addClientToGroup()
+   * console.log(success) // if all data are ok then this should return true else false
+   * console.log(message) // message is empty if success is true. if success is false there is a error message
+   * console.log(data) // returns true, false or an error object on fail 
+   * 
    * @param {string} clientId - Client ID
    * @param {string} groupId - Group ID
-   * @returns {IfcResult} Boolean or Object with error message (Object.message).
+   * @returns {IfcResult} Object with result data
    */
   public async addClientToGroup(this: OPSIApi, clientId, groupId): Promise<IfcResult> {
     this.resetResult();
@@ -158,11 +180,18 @@ class Group {
    *
    * @example
    * //return array of clients
-   *
-   * api.getGroupClients(groupId)
-   *
+   * const { success, data, message } = await api.getGroupClients('group01')
+   * console.log(success) // if all data are ok then this should return true else false
+   * console.log(message) // message is empty if success is true. if success is false there is a error message
+   * console.log(data) // returns array of client ids in group or an error object on fail
+   * [ { groupType: 'HostGroup',
+   * ident: 'HostGroup;group01;grouptestclient.opsi.lan',
+   * type: 'ObjectToGroup',
+   * groupId: 'group01',
+   * objectId: 'grouptestclient.opsi.lan' } ]
+   * 
    * @param {string} groupId - Group ID
-   * @returns {IfcResult} Array with clients or empty array.
+   * @returns {IfcResult} Object with result data
    */
   public async getGroupClients(this: OPSIApi, groupId): Promise<IfcResult> {
     this.resetResult();
@@ -177,7 +206,7 @@ class Group {
       [
         '',
         {
-          groupId: groupId,
+          groupId,
           groupType: 'HostGroup',
         },
       ],
@@ -190,12 +219,14 @@ class Group {
    *
    * @example
    * //returns boolean only on super bad data it will return an error message
-   *
-   * api.removeClientFromGroup(clientId, groupId)
-   *
+   * const { success, data, message } = await api.removeClientFromGroup('grouptestclient.opsi.lan', 'group01')
+   * console.log(success) // if all data are ok then this should return true else false
+   * console.log(message) // message is empty if success is true. if success is false there is a error message
+   * console.log(data) // returns also boolean or an error object on fail
+   * 
    * @param {string} clientId - Client ID
    * @param {string} groupId - Group ID
-   * @returns {IfcResult} Boolean or Object with error message (Object.message).
+   * @returns {IfcResult} Object with result data
    */
   public async removeClientFromGroup(this: OPSIApi, clientId, groupId): Promise<IfcResult> {
     this.resetResult();
@@ -232,12 +263,14 @@ class Group {
    *
    * @example
    * //returns boolean only on super bad data it will return an error message
-   *
-   * api.renameGroup(name, newname)
+   * const { success, data, message } = await api.renameGroup('group01', 'group01-renamed')
+   * console.log(success) // if all data are ok then this should return true else false
+   * console.log(message) // message is empty if success is true. if success is false there is a error message
+   * console.log(data) // returns also boolean or an error object on fail
    *
    * @param {string} name old id of the group
    * @param {string} newname id
-   * @returns {IfcResult} Boolean or Object with error message (Object.message).
+   * @returns {IfcResult} Object with result data
    */
   public async renameGroup(this: OPSIApi, name, newname): Promise<IfcResult> {
     this.resetResult();
@@ -256,11 +289,13 @@ class Group {
    *
    *  @example
    * //returns boolean only on super bad data it will return an error message
-   *
-   * api.delete(groupId)
+   * const { success, data, message } = await api.deleteGroup('group01')
+   * console.log(success) // if all data are ok then this should return true else false
+   * console.log(message) // message is empty if success is true. if success is false there is a error message
+   * console.log(data) // returns also boolean or an error object on fail
    *
    * @param {string} groupId - Group ID
-   * @returns {IfcResult}
+   * @returns {IfcResult} Object with result data
    */
   public async deleteGroup(this: OPSIApi, groupId): Promise<IfcResult> {
     this.resetResult();
