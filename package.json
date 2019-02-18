@@ -2,18 +2,28 @@
   "name": "opsi-api",
   "version": "1.0.0",
   "description": "OPSI Api Wrapper",
-  "main": "src/index.js",
+  "main": "lib/src/api.js",
+  "types": "lib/src/api.d.ts",
   "directories": {
     "test": "tests"
   },
+  "files": ["lib/**/*"],
   "scripts": {
-    "test": "mocha",
-    "lint": "eslint src",
+    "test": "mocha --require ts-node/register test/**/*.ts",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\" \"test/**/*.ts\" \"test/**/*.js\"",
+    "lint": "tslint -p tsconfig.json",
+    "build": "tsc",
     "documentation:build": "documentation build src/api.js -f md -o docs/index.md",
     "docker:dev-server": "npm run install:docker && npm run docker:init $$ echo 'URL: https://localhost:4447/'",
     "install:docker": "docker run -itd --name docker-opsi -h opsi.docker.lan -p 4447:4447 -e OPSI_USER=opsi -e OPSI_PASSWORD=opsi nmonst4/opsi",
     "docker:init": "docker exec docker-opsi /usr/local/bin/entrypoint.sh",
-    "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
+    "docker:install:opsi-packages": "docker exec docker-opsi opsi-product-updater -i -vv",
+    "create-coverage": "nyc mocha --require ts-node/register test/**/*.ts",
+    "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
+    "prepare" : "npm run build",
+    "prepublishOnly" : "npm test && npm run lint",
+    "preversion" : "npm run lint",
+    "version" : "npm run format && git add -A src"
   },
   "keywords": [
     "nodejs",
@@ -25,11 +35,21 @@
   "license": "MIT",
   "repository": "git@github.com:NMathar/opsi-api-wrapper.git",
   "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.5",
+    "chai": "^4.2.0",
     "documentation": "^9.1.1",
-    "eslint": "^5.6.0",
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "nyc": "^13.2.0",
+    "prettier": "^1.16.4",
+    "ts-node": "^8.0.2",
+    "tslint": "^5.12.1",
+    "tslint-config-prettier": "^1.18.0"
   },
   "dependencies": {
-    "request": "^2.88.0"
+    "@types/request-promise": "^4.1.42",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2",
+    "typescript": "^3.3.1"
   }
 }

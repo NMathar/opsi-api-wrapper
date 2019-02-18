@@ -34,38 +34,40 @@
     -   [deleteClient][30]
         -   [Parameters][31]
         -   [Examples][32]
-    -   [getAllHostGroups][33]
+    -   [renameClient][33]
         -   [Parameters][34]
-    -   [getAllHostGroups][35]
-        -   [Parameters][36]
-    -   [getAllHostGroups][37]
-        -   [Parameters][38]
-    -   [createHostGroup][39]
-        -   [Parameters][40]
-        -   [Examples][41]
-    -   [getHostGroupInfo][42]
-        -   [Parameters][43]
-        -   [Examples][44]
-    -   [groupNameExists][45]
-        -   [Parameters][46]
-        -   [Examples][47]
-    -   [deleteGroup][48]
-        -   [Parameters][49]
-        -   [Examples][50]
-    -   [addClientToGroup][51]
-        -   [Parameters][52]
-        -   [Examples][53]
-    -   [getGroupClients][54]
-        -   [Parameters][55]
-        -   [Examples][56]
-    -   [removeClientFromGroup][57]
-        -   [Parameters][58]
-        -   [Examples][59]
-    -   [getAllProducts][60]
-        -   [Parameters][61]
+        -   [Examples][35]
+    -   [getAllHostGroups][36]
+        -   [Parameters][37]
+    -   [createHostGroup][38]
+        -   [Parameters][39]
+        -   [Examples][40]
+    -   [getHostGroupInfo][41]
+        -   [Parameters][42]
+        -   [Examples][43]
+    -   [groupNameExists][44]
+        -   [Parameters][45]
+        -   [Examples][46]
+    -   [deleteGroup][47]
+        -   [Parameters][48]
+        -   [Examples][49]
+    -   [addClientToGroup][50]
+        -   [Parameters][51]
+        -   [Examples][52]
+    -   [getGroupClients][53]
+        -   [Parameters][54]
+        -   [Examples][55]
+    -   [removeClientFromGroup][56]
+        -   [Parameters][57]
+        -   [Examples][58]
+    -   [renameGroup][59]
+        -   [Parameters][60]
+        -   [Examples][61]
     -   [getAllProducts][62]
         -   [Parameters][63]
-        -   [Examples][64]
+    -   [getAllProducts][64]
+        -   [Parameters][65]
+        -   [Examples][66]
 
 ## OPSIApi
 
@@ -73,9 +75,9 @@ Class OPSIApi
 
 ### Parameters
 
--   `apiURL` **[string][65]** OPSI Api URL String Example: Https&#x3A;//opsiserver:4447.
--   `username` **[string][65]** OPSI user with acces rights.
--   `password` **[string][65]** Password of the api user.
+-   `apiURL` **[string][67]** OPSI Api URL String Example: Https&#x3A;//opsiserver:4447.
+-   `username` **[string][67]** OPSI user with acces rights.
+-   `password` **[string][67]** Password of the api user.
 -   `id` **int** OPSI Api Server ID. Default is 1 (optional, default `1`)
 
 ### getOpsiVersion
@@ -84,7 +86,7 @@ Get opsi version or false.
 
 #### Parameters
 
--   `callback` **[Function][66]** Callback function.
+-   `callback` **[Function][68]** Callback function.
 
 #### Examples
 
@@ -99,7 +101,7 @@ api.getOpsiVersion(function (obj) {
 })
 ```
 
-Returns **[Object][67]** Data.
+Returns **[Object][69]** Data.
 
 ### serverIDs
 
@@ -107,7 +109,7 @@ Get all server ids.
 
 #### Parameters
 
--   `callback` **[Function][66]** Callback function.
+-   `callback` **[Function][68]** Callback function.
 
 #### Examples
 
@@ -122,7 +124,7 @@ api.serverIDs(function (res) {
 })
 ```
 
-Returns **[Object][67]** Data.
+Returns **[Object][69]** Data.
 
 ### isAuthenticated
 
@@ -145,7 +147,7 @@ api.isAuthenticated(function (res) {
 })
 ```
 
-Returns **[Object][67]** Data.
+Returns **[Object][69]** Data.
 
 ### isUserAdmin
 
@@ -168,7 +170,7 @@ api.isUserAdmin(function (res) {
 })
 ```
 
-Returns **[Object][67]** Data.
+Returns **[Object][69]** Data.
 
 ### getOpsiServerInfo
 
@@ -176,7 +178,7 @@ Get server infos.
 
 #### Parameters
 
--   `callback` **[Function][66]** Callback function.
+-   `callback` **[Function][68]** Callback function.
 
 #### Examples
 
@@ -191,7 +193,7 @@ api.getOpsiServerInfo(function (res) {
 })
 ```
 
-Returns **[Object][67]** Data.
+Returns **[Object][69]** Data.
 
 ### actionsForProduct
 
@@ -199,8 +201,8 @@ Get all actions for one product.
 
 #### Parameters
 
--   `productid` **[string][65]** Any id string.
--   `serverid` **[string][65]** Serverid string that gets from serverIDs.
+-   `productid` **[string][67]** Any id string.
+-   `serverid` **[string][67]** Serverid string that gets from serverIDs.
 -   `callback` **requestCallback** The callback that handles the response.
 
 #### Examples
@@ -218,7 +220,7 @@ api.serverIDs(function (servers) {
 })
 ```
 
-Returns **[Object][67]** Data.
+Returns **[Object][69]** Data.
 
 ### getAllClients
 
@@ -241,7 +243,7 @@ api.getAllClients(function (res) {
 })
 ```
 
-Returns **[Array][68]** Data.
+Returns **[Array][70]** Data.
 
 ### createClient
 
@@ -249,12 +251,12 @@ create client.
 
 #### Parameters
 
--   `clientName` **[string][65]** Client Name (optional, default `''`)
--   `domain` **[string][65]** Client domain (optional, default `''`)
--   `description` **[string][65]** description of the client (optional, default `''`)
--   `notes` **[string][65]** Notes for this client (optional, default `''`)
--   `ipAddress` **[string][65]** Client IP Address (optional, default `''`)
--   `hardwareAddress` **[string][65]** physical address of the client (optional, default `''`)
+-   `clientName` **[string][67]** Client Name
+-   `domain` **[string][67]** Client domain (optional, default `''`)
+-   `description` **[string][67]** description of the client (optional, default `''`)
+-   `notes` **[string][67]** Notes for this client (optional, default `''`)
+-   `ipAddress` **[string][67]** Client IP Address (optional, default `''`)
+-   `hardwareAddress` **[string][67]** physical address of the client (optional, default `''`)
 -   `callback` **requestCallback** The callback that handles the response.
 
 #### Examples
@@ -270,7 +272,7 @@ api.createClient(clientName, domain, description, notes, ipAddress, hardwareAddr
 })
 ```
 
-Returns **([Array][68] \| [Object][67])** Data Array or Object with error message (Object.message).
+Returns **([Array][70] \| [Object][69])** Data Array or Object with error message (Object.message).
 
 ### getClientInfo
 
@@ -278,7 +280,7 @@ get client info
 
 #### Parameters
 
--   `clientId` **[string][65]** Client ID Name (optional, default `''`)
+-   `clientId` **[string][67]** Client ID Name
 -   `callback` **requestCallback** The callback that handles the response.
 
 #### Examples
@@ -296,7 +298,7 @@ api.getHostGroupInfo(
 })
 ```
 
-Returns **[Object][67]** Object of client data.
+Returns **[Object][69]** Object of client data.
 
 ### deleteClient
 
@@ -304,7 +306,7 @@ delete client.
 
 #### Parameters
 
--   `clientId` **[string][65]** Client ID (optional, default `''`)
+-   `clientId` **[string][67]** Client ID
 -   `callback` **requestCallback** The callback that handles the response.
 
 #### Examples
@@ -321,23 +323,31 @@ api.delete(clientId, function (res) {
 })
 ```
 
-Returns **([Boolean][69] \| [Object][67])** Boolean or Object with error message (Object.message).
+Returns **([Boolean][71] \| [Object][69])** Boolean or Object with error message (Object.message).
 
-### getAllHostGroups
-
-clientExist
+### renameClient
 
 #### Parameters
 
--   `callback`  
+-   `name` **[string][67]** old id of the client
+-   `newname` **[string][67]** id
+-   `callback` **requestCallback** The callback that handles the response.
 
-### getAllHostGroups
+#### Examples
 
-//TODO: rename client -> method -> host_renameOpsiClient
+```javascript
+//returns boolean only on super bad data it will return an error message
 
-#### Parameters
+api.renameClient(name, newname, function (res) {
+		if(!res.success){
+		console.error(res.message) // client error message
+	}else if(res.success){
+	  	console.log(res.data) // true
+	}
+})
+```
 
--   `callback`  
+Returns **([Boolean][71] \| [Object][69])** Boolean or Object with error message (Object.message).
 
 ### getAllHostGroups
 
@@ -347,7 +357,7 @@ Get all groups.
 
 -   `callback` **requestCallback** The callback that handles the response.
 
-Returns **[Array][68]** Data.
+Returns **[Array][70]** Data.
 
 ### createHostGroup
 
@@ -355,10 +365,10 @@ create group
 
 #### Parameters
 
--   `groupId` **[string][65]** Group ID Name (optional, default `''`)
--   `members` **[string][65]** Members Object? String? Array? (optional, default `''`)
--   `description` **[string][65]** Group description string (optional, default `''`)
--   `parentGroupId` **[string][65]** Parent Group ID Name (optional, default `''`)
+-   `groupName` **[string][67]** Group ID Name
+-   `members` **[string][67]** Members Object? String? Array? (optional, default `''`)
+-   `description` **[string][67]** Group description string (optional, default `''`)
+-   `parentGroupId` **[string][67]** Parent Group ID Name (optional, default `''`)
 -   `callback` **requestCallback** The callback that handles the response.
 
 #### Examples
@@ -378,7 +388,7 @@ api.createHostGroup(
 })
 ```
 
-Returns **([Boolean][69] \| [Object][67])** Boolean or Object with error message (Object.message).
+Returns **([Boolean][71] \| [Object][69])** Boolean or Object with error message (Object.message).
 
 ### getHostGroupInfo
 
@@ -386,7 +396,7 @@ get group info
 
 #### Parameters
 
--   `groupName` **[string][65]** Group ID Name (optional, default `''`)
+-   `groupName` **[string][67]** Group ID Name (optional, default `''`)
 -   `callback` **requestCallback** The callback that handles the response.
 
 #### Examples
@@ -404,7 +414,7 @@ api.getHostGroupInfo(
 })
 ```
 
-Returns **[Object][67]** Object of group data.
+Returns **[Object][69]** Object of group data.
 
 ### groupNameExists
 
@@ -412,7 +422,7 @@ group name exists
 
 #### Parameters
 
--   `groupName` **[string][65]** Group ID Name
+-   `groupName` **[string][67]** Group ID Name
 -   `callback` **requestCallback** The callback that handles the response.
 
 #### Examples
@@ -430,7 +440,7 @@ api.groupNameExists(
 })
 ```
 
-Returns **[Object][67]** Object
+Returns **[Object][69]** Object
 
 ### deleteGroup
 
@@ -439,7 +449,7 @@ if group id string is an empty string all groups would be deleted WARNING!!!
 
 #### Parameters
 
--   `groupId` **[string][65]** Group ID
+-   `groupId` **[string][67]** Group ID
 -   `callback` **requestCallback** The callback that handles the response.
 
 #### Examples
@@ -456,7 +466,7 @@ api.delete(groupId, function (res) {
 })
 ```
 
-Returns **([Boolean][69] \| [Object][67])** Boolean or Object with error message (Object.message).
+Returns **([Boolean][71] \| [Object][69])** Boolean or Object with error message (Object.message).
 
 ### addClientToGroup
 
@@ -464,8 +474,8 @@ add client to group
 
 #### Parameters
 
--   `clientId` **[string][65]** Client ID
--   `groupId` **[string][65]** Group ID
+-   `clientId` **[string][67]** Client ID
+-   `groupId` **[string][67]** Group ID
 -   `callback` **requestCallback** The callback that handles the response.
 
 #### Examples
@@ -482,7 +492,7 @@ api.addClientToGroup(clientId, groupId, function (res) {
 })
 ```
 
-Returns **([Boolean][69] \| [Object][67])** Boolean or Object with error message (Object.message).
+Returns **([Boolean][71] \| [Object][69])** Boolean or Object with error message (Object.message).
 
 ### getGroupClients
 
@@ -490,7 +500,7 @@ get clients from group
 
 #### Parameters
 
--   `groupId` **[string][65]** Group ID
+-   `groupId` **[string][67]** Group ID
 -   `callback` **requestCallback** The callback that handles the response.
 
 #### Examples
@@ -507,7 +517,7 @@ api.getGroupClients(groupId, function (res) {
 })
 ```
 
-Returns **[Array][68]** Array with clients or empty array.
+Returns **[Array][70]** Array with clients or empty array.
 
 ### removeClientFromGroup
 
@@ -515,8 +525,8 @@ remove client from group
 
 #### Parameters
 
--   `clientId` **[string][65]** Client ID
--   `groupId` **[string][65]** Group ID
+-   `clientId` **[string][67]** Client ID
+-   `groupId` **[string][67]** Group ID
 -   `callback` **requestCallback** The callback that handles the response.
 
 #### Examples
@@ -533,7 +543,31 @@ api.removeClientFromGroup(clientId, groupId, function (res) {
 })
 ```
 
-Returns **([Boolean][69] \| [Object][67])** Boolean or Object with error message (Object.message).
+Returns **([Boolean][71] \| [Object][69])** Boolean or Object with error message (Object.message).
+
+### renameGroup
+
+#### Parameters
+
+-   `name` **[string][67]** old id of the group
+-   `newname` **[string][67]** id
+-   `callback` **requestCallback** The callback that handles the response.
+
+#### Examples
+
+```javascript
+//returns boolean only on super bad data it will return an error message
+
+api.renameGroup(name, newname, function (res) {
+		if(!res.success){
+		console.error(res.message) // group error message
+	}else if(res.success){
+	  	console.log(res.data) // true
+	}
+})
+```
+
+Returns **([Boolean][71] \| [Object][69])** Boolean or Object with error message (Object.message).
 
 ### getAllProducts
 
@@ -564,7 +598,7 @@ api.getAllProducts(function (res) {
    })
 ```
 
-Returns **[Array][68]** Data.
+Returns **[Array][70]** Data.
 
 [1]: #opsiapi
 
@@ -630,76 +664,80 @@ Returns **[Array][68]** Data.
 
 [32]: #examples-9
 
-[33]: #getallhostgroups
+[33]: #renameclient
 
 [34]: #parameters-11
 
-[35]: #getallhostgroups-1
+[35]: #examples-10
 
-[36]: #parameters-12
+[36]: #getallhostgroups
 
-[37]: #getallhostgroups-2
+[37]: #parameters-12
 
-[38]: #parameters-13
+[38]: #createhostgroup
 
-[39]: #createhostgroup
+[39]: #parameters-13
 
-[40]: #parameters-14
+[40]: #examples-11
 
-[41]: #examples-10
+[41]: #gethostgroupinfo
 
-[42]: #gethostgroupinfo
+[42]: #parameters-14
 
-[43]: #parameters-15
+[43]: #examples-12
 
-[44]: #examples-11
+[44]: #groupnameexists
 
-[45]: #groupnameexists
+[45]: #parameters-15
 
-[46]: #parameters-16
+[46]: #examples-13
 
-[47]: #examples-12
+[47]: #deletegroup
 
-[48]: #deletegroup
+[48]: #parameters-16
 
-[49]: #parameters-17
+[49]: #examples-14
 
-[50]: #examples-13
+[50]: #addclienttogroup
 
-[51]: #addclienttogroup
+[51]: #parameters-17
 
-[52]: #parameters-18
+[52]: #examples-15
 
-[53]: #examples-14
+[53]: #getgroupclients
 
-[54]: #getgroupclients
+[54]: #parameters-18
 
-[55]: #parameters-19
+[55]: #examples-16
 
-[56]: #examples-15
+[56]: #removeclientfromgroup
 
-[57]: #removeclientfromgroup
+[57]: #parameters-19
 
-[58]: #parameters-20
+[58]: #examples-17
 
-[59]: #examples-16
+[59]: #renamegroup
 
-[60]: #getallproducts
+[60]: #parameters-20
 
-[61]: #parameters-21
+[61]: #examples-18
 
-[62]: #getallproducts-1
+[62]: #getallproducts
 
-[63]: #parameters-22
+[63]: #parameters-21
 
-[64]: #examples-17
+[64]: #getallproducts-1
 
-[65]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[65]: #parameters-22
 
-[66]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
+[66]: #examples-19
 
-[67]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+[67]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 
-[68]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+[68]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
 
-[69]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+[69]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+
+[70]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+
+[71]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
