@@ -36,6 +36,7 @@ describe('Test OPSI API Client Actions', function() {
   describe('#getClientInfo()', () => {
     it('get client info', async () => {
       const { success, data } = await api.getClientInfo(clientName + '.' + domain);
+      // console.log(data) // tslint:disable-line
       assert.isObject(data);
       assert.isTrue(success);
       expect(data.hostId).is.equal(clientName + '.' + domain);
