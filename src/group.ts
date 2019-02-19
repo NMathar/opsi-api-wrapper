@@ -24,10 +24,10 @@ class Group {
    */
   public async createHostGroup(
     this: OPSIApi,
-    groupName,
-    members = '',
-    description = '',
-    parentGroupId = '',
+    groupName:string,
+    members:string = '',
+    description:string = '',
+    parentGroupId:string = '',
   ): Promise<IfcResult> {
     this.resetResult();
     if (!groupName || groupName === '') {
@@ -63,7 +63,7 @@ class Group {
    */
   public async updateHostGroup(
     this: OPSIApi,
-    groupObject,
+    groupObject: object,
   ): Promise<IfcResult> {
     this.resetResult();
 
@@ -95,7 +95,7 @@ class Group {
    * @param {string} groupName - Group ID Name
    * @returns {IfcResult} Object with result data
    */
-  public async getHostGroupInfo(this: OPSIApi, groupName = ''): Promise<IfcResult> {
+  public async getHostGroupInfo(this: OPSIApi, groupName:string = ''): Promise<IfcResult> {
     this.resetResult();
     if (!groupName || groupName === '') {
       this.res.message = 'Please define a group name!';
@@ -148,7 +148,7 @@ class Group {
    * @param {string} groupName - Group ID Name
    * @returns {IfcResult} Object with result data
    */
-  public async groupNameExists(this: OPSIApi, groupName): Promise<IfcResult> {
+  public async groupNameExists(this: OPSIApi, groupName:string): Promise<IfcResult> {
     this.resetResult();
     if (!groupName || groupName === '') {
       this.res.message = 'Please define a group name!';
@@ -172,7 +172,7 @@ class Group {
    * @param {string} groupId - Group ID
    * @returns {IfcResult} Object with result data
    */
-  public async addClientToGroup(this: OPSIApi, clientId, groupId): Promise<IfcResult> {
+  public async addClientToGroup(this: OPSIApi, clientId:string, groupId:string): Promise<IfcResult> {
     this.resetResult();
     if (!groupId || groupId === '' || !clientId || clientId === '') {
       this.resetResult();
@@ -221,7 +221,7 @@ class Group {
    * @param {string} groupId - Group ID
    * @returns {IfcResult} Object with result data
    */
-  public async getGroupClients(this: OPSIApi, groupId): Promise<IfcResult> {
+  public async getGroupClients(this: OPSIApi, groupId:string): Promise<IfcResult> {
     this.resetResult();
     if (!groupId || groupId === '') {
       this.resetResult();
@@ -256,7 +256,7 @@ class Group {
    * @param {string} groupId - Group ID
    * @returns {IfcResult} Object with result data
    */
-  public async removeClientFromGroup(this: OPSIApi, clientId, groupId): Promise<IfcResult> {
+  public async removeClientFromGroup(this: OPSIApi, clientId:string, groupId:string): Promise<IfcResult> {
     this.resetResult();
     if (!groupId || groupId === '' || !clientId || clientId === '') {
       this.resetResult();
@@ -300,7 +300,7 @@ class Group {
    * @param {string} newname id
    * @returns {IfcResult} Object with result data
    */
-  public async renameGroup(this: OPSIApi, name, newname): Promise<IfcResult> {
+  public async renameGroup(this: OPSIApi, name:string, newname:string): Promise<IfcResult> {
     this.resetResult();
     const result = await this.sendRequest('group_rename', [name, newname], this.id);
 
@@ -325,7 +325,7 @@ class Group {
    * @param {string} groupId - Group ID
    * @returns {IfcResult} Object with result data
    */
-  public async deleteGroup(this: OPSIApi, groupId): Promise<IfcResult> {
+  public async deleteGroup(this: OPSIApi, groupId:string): Promise<IfcResult> {
     this.resetResult();
     if (!groupId || groupId === '') {
       this.resetResult();
