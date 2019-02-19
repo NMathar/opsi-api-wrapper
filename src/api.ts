@@ -2,7 +2,7 @@ import * as request from 'request-promise';
 import { Client } from './client';
 import { Group } from './group';
 import { IfcResult } from './IfcResult';
-import { Product} from './product';
+import { Product } from './product';
 
 /**
  * Class OPSIApi
@@ -23,6 +23,8 @@ class OPSIApi implements Client, Group, Product {
   public getAllClients = Client.prototype.getAllClients;
 
   public createClient = Client.prototype.createClient;
+
+  public updateClient = Client.prototype.updateClient;
 
   public getClientInfo = Client.prototype.getClientInfo;
 
@@ -71,11 +73,11 @@ class OPSIApi implements Client, Group, Product {
 
   // ########### Product actions
 
-  public getAllProducts = Product.prototype.getAllProducts
+  public getAllProducts = Product.prototype.getAllProducts;
 
-  public getAllActionsForProduct = Product.prototype.getAllActionsForProduct
+  public getAllActionsForProduct = Product.prototype.getAllActionsForProduct;
 
-  public getProductInfo = Product.prototype.getProductInfo
+  public getProductInfo = Product.prototype.getProductInfo;
 
   /**
    * Create/Initiate OPSIApi.
@@ -176,6 +178,19 @@ class OPSIApi implements Client, Group, Product {
       ],
       this.id,
     );
+  }
+
+  // ########### Helper
+
+  public returnOneResult(result, notFroundMessage): IfcResult {
+    if (result.success && result.data.length > 0) {
+      result.data = result.data[0];
+    } else {
+      this.resetResult();
+      this.res.message = notFroundMessage;
+      return this.res;
+    }
+    return result;
   }
 
   /**

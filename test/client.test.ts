@@ -33,27 +33,53 @@ describe('Test OPSI API Client Actions', function() {
     });
   });
 
+
+  describe('#updateClient()', () => {
+    it('update client', async () => {
+      const clientInfo = await api.getClientInfo(clientName + '.' + domain);
+      clientInfo.data.note = 'Add note on Update';
+
+      const { success, data, message } = await api.updateClient(clientInfo.data);
+      // assert.isTrue(data);
+      // console.log(data); // tslint:disable-line
+      // console.log(message); // tslint:disable-line
+      assert.isTrue(data);
+      assert.isTrue(success);
+    });
+
+    it('update client with wrong object', async () => {
+      const faileObj = {
+        notes: '',
+      };
+
+      const { success, data, message } = await api.updateClient(faileObj);
+      // assert.isTrue(data);
+      // console.log(data); // tslint:disable-line
+      // console.log(message); // tslint:disable-line
+      assert.isObject(data);
+      assert.isFalse(success);
+    });
+  });
+
   describe('#getClientInfo()', () => {
     it('get client info', async () => {
       const { success, data } = await api.getClientInfo(clientName + '.' + domain);
-      // console.log(data) // tslint:disable-line
+      console.log(data) // tslint:disable-line
       assert.isObject(data);
       assert.isTrue(success);
-      expect(data.hostId).is.equal(clientName + '.' + domain);
+      expect(data.id).is.equal(clientName + '.' + domain);
     });
 
     it('get client info fail with valid domain', async () => {
       const { success, data, message } = await api.getClientInfo('test.' + domain);
-      // console.log(message)
-      assert.isObject(data);
+      assert.isFalse(data);
       assert.isFalse(success);
       assert.isString(message);
     });
 
     it('get client info fail', async () => {
       const { success, data, message } = await api.getClientInfo('this shoul fail');
-      // console.log(message)
-      assert.isObject(data);
+      assert.isFalse(data);
       assert.isFalse(success);
       assert.isString(message);
     });

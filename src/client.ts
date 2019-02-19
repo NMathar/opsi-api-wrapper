@@ -29,7 +29,7 @@ class Client {
   public getAllClients(this: OPSIApi): Promise<IfcResult> {
     this.resetResult();
     return this.sendRequest('host_getObjects', ['', {
-      type: 'OpsiClient'
+      type: 'OpsiClient',
     }], this.id);
   }
 
@@ -73,6 +73,38 @@ class Client {
     );
   }
 
+
+  /**
+   * update client
+   *
+   * @example
+   * //returns boolean only on super bad data it will return an error message
+   * const { success, data, message } = await api.updateClient(
+   * {ident: 'client01.opsi.lan', note: 'add update note'}
+   * )
+   * console.log(success) // if all data are ok then this should return true else false
+   * console.log(message) // message is empty if success is true. if success is false there is a error message
+   * console.log(data) // data returns also true or an error object on fail
+   *
+   *
+   * @param {Object} groupObject - group object with ident key
+   * @returns {IfcResult} Object with result data
+   */
+  public async updateClient(
+    this: OPSIApi,
+    clientObject,
+  ): Promise<IfcResult> {
+    this.resetResult();
+
+    const result = await this.sendRequest('host_updateObject', [clientObject], this.id);
+
+    if (result.message === '' || !result.message) {
+      return { success: true, message: '', data: true };
+    }
+
+    return result;
+  }
+
   /**
    * get client info
    *
@@ -80,16 +112,18 @@ class Client {
    * //returns object with client info
    * const { success, data, message } = await api.getClientInfo('client01.opsi.lan',)
    * console.log(data) // returns
-   * { hostId: 'client01.opsi.lan',
-   *   description: 'Description',
-   *   created: '20190218185538',
+   * { ident: 'client01.opsi.lan',
+   *  description: 'Description',
+   *  created: '2019-02-19 18:11:10',
    *   inventoryNumber: '',
-   *   notes: 'Client notes',
-   *   hardwareAddress: 'xx:xx:xx:xx:xx:01',
-   *   lastSeen: '20190218185538',
-   *   oneTimePassword: '',
-   *   opsiHostKey: 'c7c082be4587a964af065724cbccc272',
-   *   ipAddress: '192.168.0.1'}
+   *   ipAddress: null,
+   *   notes: '',
+   *   oneTimePassword: null,
+   *   lastSeen: '2019-02-19 18:11:10',
+   *   hardwareAddress: null,
+   *   opsiHostKey: 'c748d0b0d2015dfda0306dc0a862a612',
+   *   type: 'OpsiClient',
+   *   id: 'client01.opsi.lan' }
    * console.log(success) // if all data are ok then this should return true else false
    * console.log(message) // message is empty if success is true. if success is false there is a error message
    *
@@ -103,7 +137,15 @@ class Client {
       return this.res;
     }
 
-    return await this.sendRequest('getHost_hash', [clientId], this.id);
+    const result = await this.sendRequest('host_getObjects', [
+      '',
+      {
+        id: clientId,
+        type: 'OpsiClient',
+      },
+    ], this.id);
+
+    return this.returnOneResult(result, 'client not found!');
   }
 
   /**
