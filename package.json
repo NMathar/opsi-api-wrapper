@@ -40,7 +40,6 @@
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.6",
     "chai": "^4.2.0",
-    "documentation": "^9.1.1",
     "mocha": "^5.2.0",
     "nyc": "^13.3.0",
     "prettier": "^1.16.4",
