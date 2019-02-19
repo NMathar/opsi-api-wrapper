@@ -103,3 +103,5 @@ Temporary Items
 
 .idea
 .vscode
+
+lib/*
