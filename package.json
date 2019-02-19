@@ -38,7 +38,7 @@
   "repository": "git@github.com:NMathar/opsi-api-wrapper.git",
   "devDependencies": {
     "@types/chai": "^4.1.7",
-    "@types/mocha": "^5.2.5",
+    "@types/mocha": "^5.2.6",
     "chai": "^4.2.0",
     "documentation": "^9.1.1",
     "mocha": "^5.2.0",
@@ -51,7 +51,7 @@
   "dependencies": {
     "@types/request-promise": "^4.1.42",
     "request": "^2.88.0",
-    "request-promise": "^4.2.2",
-    "typescript": "^3.3.1"
+    "request-promise": "^4.2.4",
+    "typescript": "^3.3.3"
   }
 }
