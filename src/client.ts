@@ -8,15 +8,29 @@ class Client {
    * @example
    * //returns array of all clients
    * const { success, data, message } = await api.getAllClients()
-   * console.log(data) // returns array of clients or an error object on fail
    * console.log(success) // if all data are ok then this should return true else false
    * console.log(message) // message is empty if success is true. if success is false there is a error message
-   * 
+   * console.log(data) // returns array of client objects or an error object on fail
+   * [ { ident: 'client01.opsi.lan',
+   *     description: 'Description',
+   *     created: '2019-02-18 18:50:33',
+   *     inventoryNumber: '',
+   *     ipAddress: null,
+   *     notes: '',
+   *     oneTimePassword: null,
+   *     lastSeen: '2019-02-18 18:50:33',
+   *     hardwareAddress: null,
+   *     opsiHostKey: '8b3ffde7170a25d48104141786ad9ba2',
+   *     type: 'OpsiClient',
+   *     id: 'client01.opsi.lan' } ]
+   *
    * @returns {IfcResult} Object with result data
    */
   public getAllClients(this: OPSIApi): Promise<IfcResult> {
     this.resetResult();
-    return this.sendRequest('getClientIds_list', [], this.id);
+    return this.sendRequest('host_getObjects', ['', {
+      type: 'OpsiClient'
+    }], this.id);
   }
 
   /**
@@ -28,7 +42,7 @@ class Client {
    * console.log(data) // returns client01.opsi.lan or an error object on fail
    * console.log(success) // if all data are ok then this should return true else false
    * console.log(message) // message is empty if success is true. if success is false there is a error message
-   * 
+   *
    * @param {string} clientName - Client Name
    * @param {string} domain - Client domain
    * @param {string} description - description of the client
@@ -65,7 +79,7 @@ class Client {
    * @example
    * //returns object with client info
    * const { success, data, message } = await api.getClientInfo('client01.opsi.lan',)
-   * console.log(data) // returns 
+   * console.log(data) // returns
    * { hostId: 'client01.opsi.lan',
    *   description: 'Description',
    *   created: '20190218185538',
@@ -75,10 +89,10 @@ class Client {
    *   lastSeen: '20190218185538',
    *   oneTimePassword: '',
    *   opsiHostKey: 'c7c082be4587a964af065724cbccc272',
-   *   ipAddress: '192.168.0.1'} 
+   *   ipAddress: '192.168.0.1'}
    * console.log(success) // if all data are ok then this should return true else false
    * console.log(message) // message is empty if success is true. if success is false there is a error message
-   * 
+   *
    * @param {string} clientId - Client ID Name
    * @returns {IfcResult} Object with result data
    */
@@ -94,7 +108,7 @@ class Client {
 
   /**
    * // TODO: Add more data to this function
-   * 
+   *
    * @param clientId
    * @returns {IfcResult} Object with result data
    */
@@ -146,7 +160,7 @@ class Client {
    * console.log(success) // if all data are ok then this should return true else false
    * console.log(message) // message is empty if success is true. if success is false there is a error message
    * console.log(data) // data returns null on success or an error object on fail
-   * 
+   *
    * @param {string} clientId - Client ID
    * @returns {IfcResult} Object with result data
    */
