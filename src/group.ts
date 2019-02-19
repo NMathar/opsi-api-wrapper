@@ -44,6 +44,38 @@ class Group {
     return result;
   }
 
+
+  /**
+   * update group
+   *
+   * @example
+   * //returns boolean only on super bad data it will return an error message
+   * const { success, data, message } = await api.updateHostGroup(
+   * {ident: 'group01', note: 'add update note'}
+   * )
+   * console.log(success) // if all data are ok then this should return true else false
+   * console.log(message) // message is empty if success is true. if success is false there is a error message
+   * console.log(data) // data returns also true or an error object on fail
+   *
+   *
+   * @param {Object} groupObject - group object with ident key
+   * @returns {IfcResult} Object with result data
+   */
+  public async updateHostGroup(
+    this: OPSIApi,
+    groupObject,
+  ): Promise<IfcResult> {
+    this.resetResult();
+
+    const result = await this.sendRequest('group_updateObject', [groupObject], this.id);
+
+    if (result.message === '' || !result.message) {
+      return { success: true, message: '', data: true };
+    }
+
+    return result;
+  }
+
   /**
    * get group info
    *
@@ -59,7 +91,7 @@ class Group {
    *   parentGroupId: null,
    *   type: 'HostGroup',
    *   id: 'group01' }
-   * 
+   *
    * @param {string} groupName - Group ID Name
    * @returns {IfcResult} Object with result data
    */
@@ -114,7 +146,7 @@ class Group {
    * const { success, data, message } = await api.groupNameExists('group01')
    * console.log(success) // if all data are ok then this should return true else false
    * console.log(message) // message is empty if success is true. if success is false there is a error message
-   * console.log(data) // returns true, false or an error object on fail 
+   * console.log(data) // returns true, false or an error object on fail
    *
    *
    * @param {string} groupName - Group ID Name
@@ -138,8 +170,8 @@ class Group {
    * const { success, data, message } = await api.addClientToGroup()
    * console.log(success) // if all data are ok then this should return true else false
    * console.log(message) // message is empty if success is true. if success is false there is a error message
-   * console.log(data) // returns true, false or an error object on fail 
-   * 
+   * console.log(data) // returns true, false or an error object on fail
+   *
    * @param {string} clientId - Client ID
    * @param {string} groupId - Group ID
    * @returns {IfcResult} Object with result data
@@ -189,7 +221,7 @@ class Group {
    * type: 'ObjectToGroup',
    * groupId: 'group01',
    * objectId: 'grouptestclient.opsi.lan' } ]
-   * 
+   *
    * @param {string} groupId - Group ID
    * @returns {IfcResult} Object with result data
    */
@@ -223,7 +255,7 @@ class Group {
    * console.log(success) // if all data are ok then this should return true else false
    * console.log(message) // message is empty if success is true. if success is false there is a error message
    * console.log(data) // returns also boolean or an error object on fail
-   * 
+   *
    * @param {string} clientId - Client ID
    * @param {string} groupId - Group ID
    * @returns {IfcResult} Object with result data
