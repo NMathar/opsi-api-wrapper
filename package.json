@@ -7,7 +7,9 @@
   "directories": {
     "test": "tests"
   },
-  "files": ["lib/**/*"],
+  "files": [
+    "lib/**/*"
+  ],
   "scripts": {
     "test": "mocha --require ts-node/register test/**/*.ts",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\" \"test/**/*.ts\" \"test/**/*.js\"",
@@ -20,10 +22,10 @@
     "docker:install:opsi-packages": "docker exec docker-opsi opsi-product-updater -i -vv",
     "create-coverage": "nyc mocha --require ts-node/register test/**/*.ts",
     "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
-    "prepare" : "npm run build",
-    "prepublishOnly" : "npm test && npm run lint",
-    "preversion" : "npm run lint",
-    "version" : "npm run format && git add -A src"
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src"
   },
   "keywords": [
     "nodejs",
@@ -40,7 +42,7 @@
     "chai": "^4.2.0",
     "documentation": "^9.1.1",
     "mocha": "^5.2.0",
-    "nyc": "^13.2.0",
+    "nyc": "^13.3.0",
     "prettier": "^1.16.4",
     "ts-node": "^8.0.2",
     "tslint": "^5.12.1",
