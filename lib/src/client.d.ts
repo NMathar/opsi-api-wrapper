@@ -1,14 +1,6 @@
-"use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-class Client {
+import { OPSIApi } from './api';
+import { IfcResult } from './IfcResult';
+declare class Client {
     /**
      * Get all clients.
      *
@@ -21,10 +13,7 @@ class Client {
      *
      * @returns {IfcResult} Object with result data
      */
-    getAllClients() {
-        this.resetResult();
-        return this.sendRequest('getClientIds_list', [], this.id);
-    }
+    getAllClients(this: OPSIApi): Promise<IfcResult>;
     /**
      * create client.
      *
@@ -43,16 +32,7 @@ class Client {
      * @param {string} hardwareAddress - physical address of the client
      * @returns {IfcResult} Object with result data
      */
-    createClient(clientName, domain = '', description = '', notes = '', ipAddress = '', hardwareAddress = '') {
-        return __awaiter(this, void 0, void 0, function* () {
-            this.resetResult();
-            if (!clientName || clientName === '') {
-                this.res.message = 'Please define a client name!';
-                return this.res;
-            }
-            return yield this.sendRequest('createClient', [clientName, domain, description, notes, ipAddress, hardwareAddress], this.id);
-        });
-    }
+    createClient(this: OPSIApi, clientName: string, domain?: string, description?: string, notes?: string, ipAddress?: string, hardwareAddress?: string): Promise<IfcResult>;
     /**
      * get client info
      *
@@ -76,36 +56,14 @@ class Client {
      * @param {string} clientId - Client ID Name
      * @returns {IfcResult} Object with result data
      */
-    getClientInfo(clientId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            this.resetResult();
-            if (!clientId || clientId === '') {
-                this.res.message = 'Please define a client ID!';
-                return this.res;
-            }
-            return yield this.sendRequest('getHost_hash', [clientId], this.id);
-        });
-    }
+    getClientInfo(this: OPSIApi, clientId: any): Promise<IfcResult>;
     /**
      * // TODO: Add more data to this function
      *
      * @param clientId
      * @returns {IfcResult} Object with result data
      */
-    getAllClientData(clientId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            this.resetResult();
-            if (!clientId || clientId === '') {
-                this.res.message = 'Please define a client ID!';
-                return this.res;
-            }
-            const baseInfo = yield this.sendRequest('getHost_hash', [clientId], this.id);
-            this.res.data = {
-                info: baseInfo,
-            };
-            return this.res;
-        });
-    }
+    getAllClientData(this: OPSIApi, clientId: any): Promise<IfcResult>;
     /**
      *
      * @example
@@ -119,16 +77,7 @@ class Client {
      * @param {string} newname new id
      * @returns {IfcResult} Object with result data
      */
-    renameClient(name, newname) {
-        return __awaiter(this, void 0, void 0, function* () {
-            this.resetResult();
-            const result = yield this.sendRequest('host_renameOpsiClient', [name, newname], this.id);
-            if (result.message === '' || !result.message) {
-                return { success: true, message: '', data: true };
-            }
-            return result;
-        });
-    }
+    renameClient(this: OPSIApi, name: any, newname: any): Promise<IfcResult>;
     /**
      * delete one client by id.
      *
@@ -142,16 +91,6 @@ class Client {
      * @param {string} clientId - Client ID
      * @returns {IfcResult} Object with result data
      */
-    deleteClient(clientId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            this.resetResult();
-            if (!clientId || clientId === '') {
-                this.res.message = 'Please define a client ID!';
-                return this.res;
-            }
-            return yield this.sendRequest('deleteClient', [clientId], this.id);
-        });
-    }
+    deleteClient(this: OPSIApi, clientId: any): Promise<IfcResult>;
 }
-exports.Client = Client;
-//# sourceMappingURL=client.js.map
+export { Client };
