@@ -15,15 +15,19 @@ This API wrapper provide more readable and documented API Actions against a OPSI
 # Usage
 
 ```typescript
+import {OPSIApi} from './src/api'
+
 const api = new OPSIApi('https://localhost:4447', 'username', 'password');
-const { success, data, message } = await api.createHostGroup(
-                'group01',
-                '',
-                'Group description',
-                '')
-console.log(success) // if all data are ok then this should return true else false
-console.log(message) // message is empty if success is true. if success is false there is a error message
-console.log(data) // data returns also true or an error object on fail
+(async function(){
+   const { success, data, message } = await api.createHostGroup(
+                       'group01',
+                       '',
+                       'Group description',
+                       '')
+       console.log(success) // if all data are ok then this should return true else false
+       console.log(message) // message is empty if success is true. if success is false there is a error message
+       console.log(data) // data returns also true or an error object on fail
+})();
 ```
 
 
