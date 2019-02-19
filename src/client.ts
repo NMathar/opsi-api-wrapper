@@ -92,7 +92,7 @@ class Client {
    */
   public async updateClient(
     this: OPSIApi,
-    clientObject,
+    clientObject: object,
   ): Promise<IfcResult> {
     this.resetResult();
 
@@ -130,7 +130,7 @@ class Client {
    * @param {string} clientId - Client ID Name
    * @returns {IfcResult} Object with result data
    */
-  public async getClientInfo(this: OPSIApi, clientId): Promise<IfcResult> {
+  public async getClientInfo(this: OPSIApi, clientId: string): Promise<IfcResult> {
     this.resetResult();
     if (!clientId || clientId === '') {
       this.res.message = 'Please define a client ID!';
@@ -154,7 +154,7 @@ class Client {
    * @param clientId
    * @returns {IfcResult} Object with result data
    */
-  public async getAllClientData(this: OPSIApi, clientId): Promise<IfcResult> {
+  public async getAllClientData(this: OPSIApi, clientId: string): Promise<IfcResult> {
     this.resetResult();
     if (!clientId || clientId === '') {
       this.res.message = 'Please define a client ID!';
@@ -182,7 +182,7 @@ class Client {
    * @param {string} newname new id
    * @returns {IfcResult} Object with result data
    */
-  public async renameClient(this: OPSIApi, name, newname): Promise<IfcResult> {
+  public async renameClient(this: OPSIApi, name: string, newname: string): Promise<IfcResult> {
     this.resetResult();
     const result = await this.sendRequest('host_renameOpsiClient', [name, newname], this.id);
 
@@ -206,7 +206,7 @@ class Client {
    * @param {string} clientId - Client ID
    * @returns {IfcResult} Object with result data
    */
-  public async deleteClient(this: OPSIApi, clientId): Promise<IfcResult> {
+  public async deleteClient(this: OPSIApi, clientId: string): Promise<IfcResult> {
     this.resetResult();
     if (!clientId || clientId === '') {
       this.res.message = 'Please define a client ID!';
