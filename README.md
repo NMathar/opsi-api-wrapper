@@ -1,5 +1,6 @@
 # OPSI Api Wrapper
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ce946037f6764ea585c0ee3100a9a814)](https://app.codacy.com/app/NMathar/opsi-api-wrapper?utm_source=github.com&utm_medium=referral&utm_content=NMathar/opsi-api-wrapper&utm_campaign=Badge_Grade_Dashboard)
 [![Build Status](https://travis-ci.com/NMathar/opsi-api-wrapper.svg?branch=master)](https://travis-ci.com/NMathar/opsi-api-wrapper)
 
 [![Known Vulnerabilities](https://snyk.io/test/github/NMathar/opsi-api-wrapper/badge.svg?targetFile=package.json)](https://snyk.io/test/github/NMathar/opsi-api-wrapper?targetFile=package.json)
