@@ -53,7 +53,7 @@ describe('Test OPSI API Product Actions', function() {
       const { success, data } = await api.getProductInfo(testProduct);
       assert.isTrue(success);
       assert.isObject(data);
-      console.log(data); // tslint:disable-line
+      // console.log(data); // tslint:disable-line
     });
 
     it('get product infos for not existent product', async () => {
