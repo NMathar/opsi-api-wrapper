@@ -87,7 +87,7 @@ class Client {
    * console.log(data) // data returns also true or an error object on fail
    *
    *
-   * @param {Object} groupObject - group object with ident key
+   * @param {Object} clientObject - group object with ident key
    * @returns {IfcResult} Object with result data
    */
   public async updateClient(
