@@ -1,0 +1,63 @@
+
+OPSI Api Wrapper
+================
+
+[![Build Status](https://travis-ci.com/NMathar/opsi-api-wrapper.svg?branch=master)](https://travis-ci.com/NMathar/opsi-api-wrapper)
+
+[![Known Vulnerabilities](https://snyk.io/test/github/NMathar/opsi-api-wrapper/badge.svg?targetFile=package.json)](https://snyk.io/test/github/NMathar/opsi-api-wrapper?targetFile=package.json)
+
+[![dependencies](https://david-dm.org/NMathar/opsi-api-wrapper.svg)](https://david-dm.org/NMathar/opsi-api-wrapper)
+
+[![codecov](https://codecov.io/gh/NMathar/opsi-api-wrapper/branch/master/graph/badge.svg)](https://codecov.io/gh/NMathar/opsi-api-wrapper)
+
+API-Doku: [https://nmathar.github.io/opsi-api-wrapper/](https://nmathar.github.io/opsi-api-wrapper/)
+
+This API wrapper provide more readable and documented API Actions against a OPSI Server.
+
+Usage
+=====
+
+```typescript
+const api = new OPSIApi('https://localhost:4447', 'username', 'password');
+const { success, data, message } = await api.createHostGroup(
+                'group01',
+                '',
+                'Group description',
+                '')
+console.log(success) // if all data are ok then this should return true else false
+console.log(message) // message is empty if success is true. if success is false there is a error message
+console.log(data) // data returns also true or an error object on fail
+```
+
+Development
+===========
+
+Start Docker Dev Environment
+----------------------------
+
+`npm run docker:dev-server`
+
+Build documentation update
+--------------------------
+
+`npm run documentation:build`
+
+Test with httpie
+----------------
+
+`echo '{ "method": "group_createHostGroup", "params": ["test_group"], "id": 1 }' \| http --verify=no -a opsi:opsi https://localhost:4447/rpc`
+
+`http --verify=no -a opsi:opsi https://localhost:4447/rpc < test/testdata/client.json`
+
+## Index
+
+### External modules
+
+* ["IfcResult"](modules/_ifcresult_.md)
+* ["api"](modules/_api_.md)
+* ["client"](modules/_client_.md)
+* ["group"](modules/_group_.md)
+* ["product"](modules/_product_.md)
+
+---
+
