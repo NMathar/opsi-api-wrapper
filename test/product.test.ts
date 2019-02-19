@@ -25,6 +25,27 @@ describe('Test OPSI API Product Actions', function() {
       // console.log(data); // tslint:disable-line
       assert.isArray(data);
     });
+
+    it('get all actions for not existent product', async () => {
+      const server = await api.getServerIDs();
+      // console.log(server.data); // tslint:disable-line
+      const { success, data, message } = await api.getAllActionsForProduct('foo', server.data[0]);
+      assert.isFalse(success);
+      // console.log(data); // tslint:disable-line
+      // console.log(message); // tslint:disable-line
+      // assert.isArray(data);
+      assert.isString(message);
+    });
+
+    it('get all actions product on not existent server', async () => {
+      // console.log(server.data); // tslint:disable-line
+      const { success, data, message } = await api.getAllActionsForProduct(testProduct, 5);
+      assert.isFalse(success);
+      // console.log(data); // tslint:disable-line
+      // console.log(message); // tslint:disable-line
+      // assert.isArray(data);
+      assert.isString(message);
+    });
   });
 
   describe('#getProductInfo()', () => {
@@ -32,7 +53,7 @@ describe('Test OPSI API Product Actions', function() {
       const { success, data } = await api.getProductInfo(testProduct);
       assert.isTrue(success);
       assert.isObject(data);
-      // console.log(data); // tslint:disable-line
+      console.log(data); // tslint:disable-line
     });
 
     it('get product infos for not existent product', async () => {

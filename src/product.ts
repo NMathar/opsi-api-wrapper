@@ -13,7 +13,7 @@ class Product {
    */
   public getAllProducts(this: OPSIApi): Promise<IfcResult> {
     this.resetResult();
-    return this.sendRequest('getProductIds_list', [], this.id);
+    return this.sendRequest('product_getObjects', [], this.id);
   }
 
   /**
@@ -21,7 +21,6 @@ class Product {
    *
    * @example
    * // returns an object of product data
-   *
    * api.getProductInfo('swaudit')
    *
    * @param productId
