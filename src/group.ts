@@ -113,12 +113,8 @@ class Group {
       ],
       this.id,
     );
-    // console.log(data)
-    if (result.success) {
-      result.data = result.data[0];
-    }
 
-    return result;
+    return this.returnOneResult(result, 'group not found!');
   }
 
   /**

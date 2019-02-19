@@ -60,6 +60,13 @@ describe('Test OPSI API Groups Actions', function() {
       assert.isObject(data);
       expect(data.ident).is.equal(randomGroupName);
     });
+
+    it('get group info of not extent group', async () => {
+      const { success, data, message } = await api.getHostGroupInfo('foo');
+      assert.isFalse(success);
+      assert.isFalse(data);
+      assert.isString(message);
+    });
   });
 
   describe('#getAllHostGroups()', () => {
@@ -113,7 +120,7 @@ describe('Test OPSI API Groups Actions', function() {
   describe('#getGroupClients()', () => {
     it('get clients from group', async () => {
       const { success, data } = await api.getGroupClients(randomGroupName);
-      console.log(data); // tslint:disable-line
+      // console.log(data); // tslint:disable-line
       assert.isTrue(success);
       assert.isArray(data);
     });
