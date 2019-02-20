@@ -1,8 +1,8 @@
 import * as request from 'request-promise';
 import { Client } from './implements/client';
 import { Group } from './implements/group';
-import { IfcResult } from './interfaces/IfcResult';
 import { Product } from './implements/product';
+import { IfcResult } from './interfaces/IfcResult';
 
 /**
  * Class OPSIApi
