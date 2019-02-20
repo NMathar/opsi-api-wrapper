@@ -46,19 +46,6 @@ describe('Test OPSI API Client Actions', function() {
       assert.isTrue(data);
       assert.isTrue(success);
     });
-
-    it('update client with wrong object', async () => {
-      const faileObj = {
-        notes: '',
-      };
-
-      const { success, data, message } = await api.updateClient(faileObj);
-      // assert.isTrue(data);
-      // console.log(data); // tslint:disable-line
-      // console.log(message); // tslint:disable-line
-      assert.isObject(data);
-      assert.isFalse(success);
-    });
   });
 
   describe('#getClientInfo()', () => {
@@ -88,7 +75,7 @@ describe('Test OPSI API Client Actions', function() {
   describe('#getAllClientData()', () => {
     it('get huge client object', async () => {
       // prepare test client with data
-  
+
       const { success, data } = await api.getAllClientData(clientName + '.' + domain);
       console.log(data) // tslint:disable-line
       assert.isObject(data);
