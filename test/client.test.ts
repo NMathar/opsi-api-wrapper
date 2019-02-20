@@ -77,7 +77,7 @@ describe('Test OPSI API Client Actions', function() {
       // prepare test client with data
 
       const { success, data } = await api.getAllClientData(clientName + '.' + domain);
-      console.log(data) // tslint:disable-line
+      // console.log(data) // tslint:disable-line
       assert.isObject(data);
       assert.isObject(data.hardware);
       assert.isObject(data.info);
