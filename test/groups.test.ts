@@ -36,20 +36,6 @@ describe('Test OPSI API Groups Actions', function() {
       assert.isTrue(data);
       assert.isTrue(success);
     });
-
-    it('update group with wrong object', async () => {
-      const faileObj = {
-        notes: '',
-        type: 'HostGroup',
-      };
-
-      const { success, data, message } = await api.updateHostGroup(faileObj);
-      // assert.isTrue(data);
-      // console.log(data); // tslint:disable-line
-      // console.log(message); // tslint:disable-line
-      assert.isObject(data);
-      assert.isFalse(success);
-    });
   });
 
   describe('#getHostGroupInfo()', () => {
