@@ -2,7 +2,7 @@
 export interface IfcProduct {
     onceScript?: string;
     ident: string;
-    windowsSoftwareIds?: Array<String>;
+    windowsSoftwareIds?: string[];
     description?: string;
     setupScript: string;
     changelog?: string;
@@ -15,7 +15,7 @@ export interface IfcProduct {
     packageVersion: string;
     productVersion?: string;
     updateScript?: string;
-    productClassIds?: Array<String>;
+    productClassIds?: string[];
     alwaysScript: string;
     type: string;
     id: string;
