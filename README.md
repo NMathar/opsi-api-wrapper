@@ -9,11 +9,11 @@
 
 [![codecov](https://codecov.io/gh/NMathar/opsi-api-wrapper/branch/master/graph/badge.svg)](https://codecov.io/gh/NMathar/opsi-api-wrapper)
 
-API-Doku: https://nmathar.github.io/opsi-api-wrapper/
+[Documentation](https://nmathar.github.io/opsi-api-wrapper/)
 
 This API wrapper provide more readable and documented API Actions against a OPSI Server.
 
-# Usage
+## Usage
 
 ```typescript
 import {OPSIApi} from './src/api'
@@ -31,18 +31,17 @@ const api = new OPSIApi('https://localhost:4447', 'username', 'password');
 })();
 ```
 
+## Development 
 
-# Development 
-
-## Start Docker Dev Environment
+### Start Docker Dev Environment
 
 `npm run docker:dev-server` 
 
-## Build documentation update
+### Build documentation update
 
 `npm run documentation:build`
 
-## Test with httpie
+### Test with httpie
 
 `echo '{ "method": "group_createHostGroup", "params": ["test_group"], "id": 1 }' | http --verify=no -a opsi:opsi https://localhost:4447/rpc`
 
