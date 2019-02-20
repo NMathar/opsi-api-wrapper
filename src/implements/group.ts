@@ -1,5 +1,5 @@
 import { OPSIApi } from '../api';
-import { IfcGroup } from '../interfaces/IfcGroup';
+import { EGroupType, IfcGroup } from '../interfaces/IfcGroup';
 import { IfcResult } from '../interfaces/IfcResult';
 
 class Group {
@@ -109,7 +109,7 @@ class Group {
         '',
         {
           id: groupName,
-          type: 'HostGroup',
+          type: EGroupType.HostGroup,
         },
       ],
       this.id,
@@ -195,7 +195,9 @@ class Group {
       return this.res;
     }
 
-    const result = await this.sendRequest('objectToGroup_create', ['HostGroup', groupId, clientId], this.id);
+    const result = await this.sendRequest('objectToGroup_create',
+      [EGroupType.HostGroup, groupId, clientId]
+      , this.id);
 
     if (result.message === '' || !result.message) {
       return { success: true, message: '', data: true };
@@ -236,7 +238,7 @@ class Group {
         '',
         {
           groupId,
-          groupType: 'HostGroup',
+          groupType: EGroupType.HostGroup,
         },
       ],
       this.id,
@@ -279,7 +281,7 @@ class Group {
       return this.res;
     }
 
-    const result = await this.sendRequest('objectToGroup_delete', ['HostGroup', groupId, clientId], this.id);
+    const result = await this.sendRequest('objectToGroup_delete', [EGroupType.HostGroup, groupId, clientId], this.id);
     this.resetResult();
     if (result.message === '' || !result.message) {
       return { success: true, message: '', data: true };

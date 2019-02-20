@@ -1,5 +1,5 @@
 
-enum EGroupType {
+export enum EGroupType {
   HostGroup = 'HostGroup',
   ProductGroup = 'ProductGroup'
 }
