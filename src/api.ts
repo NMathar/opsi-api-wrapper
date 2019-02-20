@@ -182,12 +182,19 @@ class OPSIApi implements Client, Group, Product {
 
   // ########### Helper
 
-  public returnOneResult(result, notFroundMessage): IfcResult {
+  /**
+   * manipulate the result to an error or to one return object
+   * 
+   * @param {IfcResult} result - IfcResult to manipulate 
+   * @param {string} notFoundMessage - message string that returns if result is empty
+   * @returns {IfcResult} - nice IfcResult with useful data
+   */
+  public returnOneResult(result, notFoundMessage): IfcResult {
     if (result.success && result.data.length > 0) {
       result.data = result.data[0];
     } else {
       this.resetResult();
-      this.res.message = notFroundMessage;
+      this.res.message = notFoundMessage;
       return this.res;
     }
     return result;

@@ -24,6 +24,7 @@ jobs:
     - stage: build_docs
       install:
         - npm install
+        - npm install typescript
         - npm install -g vuepress
       script:
         - npm run docs:build
