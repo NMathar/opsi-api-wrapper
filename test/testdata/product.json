@@ -1,0 +1,10 @@
+{
+    "method": "productOnClient_getObjects",
+    "params": [
+      "",
+      {
+        "clientId": "opsitestvm2.zlw-ima.rwth-aachen.de"
+      }
+    ],
+    "id": 1
+  }
