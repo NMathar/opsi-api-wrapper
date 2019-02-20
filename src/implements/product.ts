@@ -1,5 +1,5 @@
-import { OPSIApi } from './api';
-import { IfcResult } from './IfcResult';
+import { OPSIApi } from '../api';
+import { IfcResult } from '../interfaces/IfcResult';
 
 class Product {
   /**

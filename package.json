@@ -48,12 +48,12 @@
     "tslint": "^5.12.1",
     "tslint-config-prettier": "^1.18.0",
     "typedoc": "^0.14.2",
-    "typedoc-plugin-markdown": "^1.1.26"
+    "typedoc-plugin-markdown": "^1.1.26",
+    "typescript": "^3.3.3"
   },
   "dependencies": {
     "@types/request-promise": "^4.1.42",
     "request": "^2.88.0",
-    "request-promise": "^4.2.4",
-    "typescript": "^3.3.3"
+    "request-promise": "^4.2.4"
   }
 }
