@@ -1,6 +1,6 @@
-enum EHostType {
+export enum EHostType {
   OpsiClient = 'OpsiClient',
-OpsiConfigserver = 'OpsiConfigserver'
+  OpsiConfigserver = 'OpsiConfigserver'
 }
 
 export interface IfcHost {

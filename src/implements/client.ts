@@ -1,5 +1,5 @@
 import { OPSIApi } from '../api';
-import { IfcHost } from '../interfaces/IfcHost';
+import { EHostType, IfcHost } from '../interfaces/IfcHost';
 import { IfcResult } from '../interfaces/IfcResult';
 
 class Client {
@@ -30,7 +30,7 @@ class Client {
   public getAllClients(this: OPSIApi): Promise<IfcResult> {
     this.resetResult();
     return this.sendRequest('host_getObjects', ['', {
-      type: 'OpsiClient',
+      type: EHostType.OpsiClient,
     }], this.id);
   }
 
@@ -142,7 +142,7 @@ class Client {
       '',
       {
         id: clientId,
-        type: 'OpsiClient',
+        type: EHostType.OpsiClient,
       },
     ], this.id);
 
