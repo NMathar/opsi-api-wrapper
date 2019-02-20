@@ -25,9 +25,19 @@ class Product {
    *
    * @param productId
    */
-  public getProductInfo(this:OPSIApi, productId): Promise<IfcResult>{
+  public async getProductInfo(this:OPSIApi, productId): Promise<IfcResult>{
     this.resetResult()
-    return this.sendRequest('getProduct_hash', [productId], this.id)
+
+    const result = await this.sendRequest('product_getObjects', 
+    [
+      '',
+      {
+        id: productId
+      },
+    ]
+    , this.id)
+
+    return this.returnOneResult(result, 'product not found!');
   }
 
   /**

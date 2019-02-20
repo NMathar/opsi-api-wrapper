@@ -59,7 +59,7 @@ describe('Test OPSI API Product Actions', function() {
     it('get product infos for not existent product', async () => {
       const { success, message, data } = await api.getProductInfo('foo');
       assert.isFalse(success);
-      assert.isObject(data);
+      assert.isFalse(data);
       // error object
       // { message:
       //   'Backend missing data error: No product with id \'foo\' found',
