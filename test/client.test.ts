@@ -3,7 +3,7 @@ import { OPSIApi } from '../src/api';
 
 describe('Test OPSI API Client Actions', function() {
   const api = new OPSIApi('https://localhost:4447', 'opsi', 'opsi');
-  this.timeout(2000);
+  this.timeout(5000);
   const clientName = 'testclient-' + Math.floor(Math.random() * 500 + 1);
   const domain = 'opsi.docker.lan';
 
@@ -85,6 +85,21 @@ describe('Test OPSI API Client Actions', function() {
     });
   });
 
+  describe('#getAllClientData()', () => {
+    it('get huge client object', async () => {
+      // prepare test client with data
+  
+      const { success, data } = await api.getAllClientData(clientName + '.' + domain);
+      console.log(data) // tslint:disable-line
+      assert.isObject(data);
+      assert.isObject(data.hardware);
+      assert.isObject(data.info);
+      assert.isArray(data.products);
+
+      assert.isTrue(success);
+    });
+  })
+
   describe('#getAllClients()', () => {
     it('get all client list and its greater then zero', async () => {
       const { success, data } = await api.getAllClients();
@@ -133,18 +148,4 @@ describe('Test OPSI API Client Actions', function() {
       assert.isString(message);
     });
   });
-
-  // TODO: get software, hardware and product infos for one client
-
-  // describe('#getAllClientData()', () => {
-  //   it('get huge client object', async () => {
-  //     // prepare test client with data
-  //
-  //
-  //     const { success, data } = await api.getAllClientData(clientName + '.' + domain);
-  //     console.log(data) // tslint:disable-line
-  //     assert.isObject(data);
-  //     assert.isTrue(success);
-  //   });
-  // })
 });

@@ -162,9 +162,21 @@ class Client {
     }
 
     const baseInfo = await this.sendRequest('getHost_hash', [clientId], this.id);
+    const products = await this.sendRequest('productOnClient_getObjects', [
+      "",
+      {
+        "clientId": clientId
+      }], this.id)
+    const hardware = await this.sendRequest('auditHardwareOnHost_getObjects', [
+      "",
+      {
+        "hostId": clientId
+      }], this.id)
 
     this.res.data = {
-      info: baseInfo,
+      hardware: hardware.data.length > 0 ? hardware.data[0] : {},
+      info: baseInfo.data,
+      products: products.data
     };
     return this.res;
   }
