@@ -21,15 +21,14 @@ jobs:
         - npm run create-coverage
         - npm run report-coverage
       #  - npm test
-    - stage: build_docs
-      install:
-        - npm install
-        - npm install typescript
-        - npm install -g vuepress
-      script:
-        - npm run docs:build
-      cache:
-        directories:
-          - "node_modules"
-      notifications:
-        email: false
+    #- stage: build_docs
+    #  install:
+    #    - npm install
+    #    - npm install -g vuepress
+    #  script:
+    #    - npm run docs:build
+    #  cache:
+    #    directories:
+    #      - "node_modules"
+    #  notifications:
+    #    email: false
