@@ -7,6 +7,7 @@ class Client {
    * Get all clients.
    *
    * @example
+   * ```typescript
    * //returns array of all clients
    * const { success, data, message } = await api.getAllClients()
    * console.log(success) // if all data are ok then this should return true else false
@@ -24,6 +25,7 @@ class Client {
    *     opsiHostKey: '8b3ffde7170a25d48104141786ad9ba2',
    *     type: 'OpsiClient',
    *     id: 'client01.opsi.lan' } ]
+   * ```
    *
    * @returns {IfcResult} Object with result data
    */
@@ -38,11 +40,13 @@ class Client {
    * create client.
    *
    * @example
+   * ```typescript
    * //returns client id name in data
    * const { success, data, message } = await api.createClient('client01', 'opsi.lan', 'Description', 'Client notes', '192.168.0.1', 'xx:xx:xx:xx:xx:01')
    * console.log(data) // returns client01.opsi.lan or an error object on fail
    * console.log(success) // if all data are ok then this should return true else false
    * console.log(message) // message is empty if success is true. if success is false there is a error message
+   * ```
    *
    * @param {string} clientName - Client Name
    * @param {string} domain - Client domain
@@ -79,6 +83,7 @@ class Client {
    * update client
    *
    * @example
+   * ```typescript
    * //returns boolean only on super bad data it will return an error message
    * const { success, data, message } = await api.updateClient(
    * {ident: 'client01.opsi.lan', note: 'add update note'}
@@ -86,7 +91,7 @@ class Client {
    * console.log(success) // if all data are ok then this should return true else false
    * console.log(message) // message is empty if success is true. if success is false there is a error message
    * console.log(data) // data returns also true or an error object on fail
-   *
+   * ```
    *
    * @param {Object} clientObject - group object with ident key
    * @returns {IfcResult} Object with result data
@@ -110,6 +115,7 @@ class Client {
    * get client info
    *
    * @example
+   * ```typescript
    * //returns object with client info
    * const { success, data, message } = await api.getClientInfo('client01.opsi.lan',)
    * console.log(data) // returns
@@ -127,7 +133,8 @@ class Client {
    *   id: 'client01.opsi.lan' }
    * console.log(success) // if all data are ok then this should return true else false
    * console.log(message) // message is empty if success is true. if success is false there is a error message
-   *
+   * ```
+   * 
    * @param {string} clientId - Client ID Name
    * @returns {IfcResult} Object with result data
    */
@@ -183,13 +190,16 @@ class Client {
   }
 
   /**
-   *
+   * rename a client
+   * 
    * @example
+   * ```typescript
    * //returns boolean only on super bad data it will return an error message
    * const { success, data, message } = await api.renameClient('client01.opsi.lan', 'client01-renamed.opsi.lan')
    * console.log(success) // if all data are ok then this should return true else false
    * console.log(message) // message is empty if success is true. if success is false there is a error message
    * console.log(data) // data returns also true or an error object on fail
+   * ```
    *
    * @param {string} name old id of the client
    * @param {string} newname new id
@@ -210,11 +220,13 @@ class Client {
    * delete one client by id.
    *
    * @example
+   * ```typescript
    * //returns boolean only on super bad data it will return an error message
    * const { success, data, message } = await api.delete(clientId)
    * console.log(success) // if all data are ok then this should return true else false
    * console.log(message) // message is empty if success is true. if success is false there is a error message
    * console.log(data) // data returns null on success or an error object on fail
+   * ```
    *
    * @param {string} clientId - Client ID
    * @returns {IfcResult} Object with result data
