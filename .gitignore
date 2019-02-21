@@ -104,5 +104,5 @@ Temporary Items
 .idea
 .vscode
 
-lib/*
-docs/.vuepress/dist
+dist/*
+docs/*
