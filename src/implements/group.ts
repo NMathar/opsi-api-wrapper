@@ -7,6 +7,7 @@ class Group {
    * create group
    *
    * @example
+   * ```typescript
    * //returns boolean only on super bad data it will return an error message
    * const { success, data, message } = await api.createHostGroup(
    *                    'group01',
@@ -16,6 +17,7 @@ class Group {
    * console.log(success) // if all data are ok then this should return true else false
    * console.log(message) // message is empty if success is true. if success is false there is a error message
    * console.log(data) // data returns also true or an error object on fail
+   * ```
    *
    * @param {string} groupName - Group ID Name
    * @param {string} members - Members Object? String? Array?
@@ -50,6 +52,7 @@ class Group {
    * update group
    *
    * @example
+   * ```typescript
    * //returns boolean only on super bad data it will return an error message
    * const { success, data, message } = await api.updateHostGroup(
    * {ident: 'group01', note: 'add update note'}
@@ -57,6 +60,7 @@ class Group {
    * console.log(success) // if all data are ok then this should return true else false
    * console.log(message) // message is empty if success is true. if success is false there is a error message
    * console.log(data) // data returns also true or an error object on fail
+   * ```
    *
    *
    * @param {Object} groupObject - group object with ident key
@@ -81,6 +85,7 @@ class Group {
    * get group info
    *
    * @example
+   * ```typescript
    * //returns object with group info
    * const { success, data, message } = await api.getHostGroupInfo('group01')
    * console.log(success) // if all data are ok then this should return true else false
@@ -92,6 +97,7 @@ class Group {
    *   parentGroupId: null,
    *   type: 'HostGroup',
    *   id: 'group01' }
+   * ```
    *
    * @param {string} groupName - Group ID Name
    * @returns {IfcResult} Object with result data
@@ -122,11 +128,13 @@ class Group {
    * Get all groups.
    *
    * @example
+   * ```typescript
    * //returns an array of opsi groups
-   * const { success, data, message } = await api.getAllGroups())
+   * const { success, data, message } = await api.getAllGroups()
    * console.log(success) // if all data are ok then this should return true else false
    * console.log(message) // message is empty if success is true. if success is false there is a error message
    * console.log(data) // returns array of group infos or an error object on fail
+   * ```
    *
    * @returns {IfcResult} Object with result data
    */
@@ -139,11 +147,13 @@ class Group {
    * group name exists
    *
    * @example
+   * ```typescript
    * //returns boolean
    * const { success, data, message } = await api.groupNameExists('group01')
    * console.log(success) // if all data are ok then this should return true else false
    * console.log(message) // message is empty if success is true. if success is false there is a error message
    * console.log(data) // returns true, false or an error object on fail
+   * ```
    *
    *
    * @param {string} groupName - Group ID Name
@@ -163,11 +173,13 @@ class Group {
    * add client to group
    *
    * @example
+   * ```typescript
    * //returns boolean only on super bad data it will return an error message
    * const { success, data, message } = await api.addClientToGroup()
    * console.log(success) // if all data are ok then this should return true else false
    * console.log(message) // message is empty if success is true. if success is false there is a error message
    * console.log(data) // returns true, false or an error object on fail
+   * ```
    *
    * @param {string} clientId - Client ID
    * @param {string} groupId - Group ID
@@ -210,6 +222,7 @@ class Group {
    * get clients from group
    *
    * @example
+   * ```typescript
    * //return array of clients
    * const { success, data, message } = await api.getGroupClients('group01')
    * console.log(success) // if all data are ok then this should return true else false
@@ -220,6 +233,7 @@ class Group {
    * type: 'ObjectToGroup',
    * groupId: 'group01',
    * objectId: 'grouptestclient.opsi.lan' } ]
+   * ```
    *
    * @param {string} groupId - Group ID
    * @returns {IfcResult} Object with result data
@@ -249,11 +263,13 @@ class Group {
    * remove client from group
    *
    * @example
+   * ```typescript
    * //returns boolean only on super bad data it will return an error message
    * const { success, data, message } = await api.removeClientFromGroup('grouptestclient.opsi.lan', 'group01')
    * console.log(success) // if all data are ok then this should return true else false
    * console.log(message) // message is empty if success is true. if success is false there is a error message
    * console.log(data) // returns also boolean or an error object on fail
+   * ```
    *
    * @param {string} clientId - Client ID
    * @param {string} groupId - Group ID
@@ -293,11 +309,13 @@ class Group {
   /**
    *
    * @example
+   * ```typescript
    * //returns boolean only on super bad data it will return an error message
    * const { success, data, message } = await api.renameGroup('group01', 'group01-renamed')
    * console.log(success) // if all data are ok then this should return true else false
    * console.log(message) // message is empty if success is true. if success is false there is a error message
    * console.log(data) // returns also boolean or an error object on fail
+   * ```
    *
    * @param {string} name old id of the group
    * @param {string} newname id
@@ -319,11 +337,13 @@ class Group {
    * if group id string is an empty string all groups would be deleted WARNING!!!
    *
    *  @example
+   * ```typescript
    * //returns boolean only on super bad data it will return an error message
    * const { success, data, message } = await api.deleteGroup('group01')
    * console.log(success) // if all data are ok then this should return true else false
    * console.log(message) // message is empty if success is true. if success is false there is a error message
    * console.log(data) // returns also boolean or an error object on fail
+   * ```
    *
    * @param {string} groupId - Group ID
    * @returns {IfcResult} Object with result data
