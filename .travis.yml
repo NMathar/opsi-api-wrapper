@@ -23,9 +23,10 @@ jobs:
       #  - npm test
     - stage: build_and_deploy_docs
       install:
-        - npm install
+        - npm install yarn -g
+        - yarn
       script:
-        - npm run docs:build
+        - yarn docs:build
       cache:
         directories:
           - "node_modules"
