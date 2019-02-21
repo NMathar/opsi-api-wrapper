@@ -1,6 +1,6 @@
 export enum EHostType {
   OpsiClient = 'OpsiClient',
-  OpsiConfigserver = 'OpsiConfigserver'
+  OpsiConfigserver = 'OpsiConfigserver',
 }
 
 export interface IfcHost {
@@ -10,7 +10,7 @@ export interface IfcHost {
   inventoryNumber?: string;
   ipAddress?: string;
   notes?: string;
-  oneTimePassword?: null,
+  oneTimePassword?: null;
   lastSeen?: string;
   hardwareAddress?: string;
   opsiHostKey?: string;

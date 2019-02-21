@@ -47,7 +47,6 @@ class Group {
     return result;
   }
 
-
   /**
    * update group
    *
@@ -66,10 +65,7 @@ class Group {
    * @param {Object} groupObject - group object with ident key
    * @returns {IfcResult} Object with result data
    */
-  public async updateHostGroup(
-    this: OPSIApi,
-    groupObject: IfcGroup,
-  ): Promise<IfcResult> {
+  public async updateHostGroup(this: OPSIApi, groupObject: IfcGroup): Promise<IfcResult> {
     this.resetResult();
 
     const result = await this.sendRequest('group_updateObject', [groupObject], this.id);
@@ -207,9 +203,7 @@ class Group {
       return this.res;
     }
 
-    const result = await this.sendRequest('objectToGroup_create',
-      [EGroupType.HostGroup, groupId, clientId]
-      , this.id);
+    const result = await this.sendRequest('objectToGroup_create', [EGroupType.HostGroup, groupId, clientId], this.id);
 
     if (result.message === '' || !result.message) {
       return { success: true, message: '', data: true };

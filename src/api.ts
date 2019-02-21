@@ -70,7 +70,6 @@ class OPSIApi implements Client, Group, Product {
 
   public deleteGroup = Group.prototype.deleteGroup;
 
-
   // ########### Product actions
 
   public getAllProducts = Product.prototype.getAllProducts;
@@ -184,8 +183,8 @@ class OPSIApi implements Client, Group, Product {
 
   /**
    * manipulate the result to an error or to one return object
-   * 
-   * @param {IfcResult} result - IfcResult to manipulate 
+   *
+   * @param {IfcResult} result - IfcResult to manipulate
    * @param {string} notFoundMessage - message string that returns if result is empty
    * @returns {IfcResult} - nice IfcResult with useful data
    */

@@ -31,9 +31,16 @@ class Client {
    */
   public getAllClients(this: OPSIApi): Promise<IfcResult> {
     this.resetResult();
-    return this.sendRequest('host_getObjects', ['', {
-      type: EHostType.OpsiClient,
-    }], this.id);
+    return this.sendRequest(
+      'host_getObjects',
+      [
+        '',
+        {
+          type: EHostType.OpsiClient,
+        },
+      ],
+      this.id,
+    );
   }
 
   /**
@@ -78,7 +85,6 @@ class Client {
     );
   }
 
-
   /**
    * update client
    *
@@ -96,10 +102,7 @@ class Client {
    * @param {Object} clientObject - group object with ident key
    * @returns {IfcResult} Object with result data
    */
-  public async updateClient(
-    this: OPSIApi,
-    clientObject: IfcHost,
-  ): Promise<IfcResult> {
+  public async updateClient(this: OPSIApi, clientObject: IfcHost): Promise<IfcResult> {
     this.resetResult();
 
     const result = await this.sendRequest('host_updateObject', [clientObject], this.id);
@@ -134,7 +137,7 @@ class Client {
    * console.log(success) // if all data are ok then this should return true else false
    * console.log(message) // message is empty if success is true. if success is false there is a error message
    * ```
-   * 
+   *
    * @param {string} clientId - Client ID Name
    * @returns {IfcResult} Object with result data
    */
@@ -145,13 +148,17 @@ class Client {
       return this.res;
     }
 
-    const result = await this.sendRequest('host_getObjects', [
-      '',
-      {
-        id: clientId,
-        type: EHostType.OpsiClient,
-      },
-    ], this.id);
+    const result = await this.sendRequest(
+      'host_getObjects',
+      [
+        '',
+        {
+          id: clientId,
+          type: EHostType.OpsiClient,
+        },
+      ],
+      this.id,
+    );
 
     return this.returnOneResult(result, 'client not found!');
   }
@@ -170,16 +177,26 @@ class Client {
     }
 
     const baseInfo = await this.sendRequest('getHost_hash', [clientId], this.id);
-    const products = await this.sendRequest('productOnClient_getObjects', [
-      '',
-      {
-        'clientId': clientId,
-      }], this.id);
-    const hardware = await this.sendRequest('auditHardwareOnHost_getObjects', [
-      '',
-      {
-        'hostId': clientId,
-      }], this.id);
+    const products = await this.sendRequest(
+      'productOnClient_getObjects',
+      [
+        '',
+        {
+          clientId: clientId,
+        },
+      ],
+      this.id,
+    );
+    const hardware = await this.sendRequest(
+      'auditHardwareOnHost_getObjects',
+      [
+        '',
+        {
+          hostId: clientId,
+        },
+      ],
+      this.id,
+    );
 
     this.res.data = {
       hardware: hardware.data.length > 0 ? hardware.data[0] : {},
@@ -191,7 +208,7 @@ class Client {
 
   /**
    * rename a client
-   * 
+   *
    * @example
    * ```typescript
    * //returns boolean only on super bad data it will return an error message

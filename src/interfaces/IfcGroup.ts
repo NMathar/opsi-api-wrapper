@@ -1,7 +1,6 @@
-
 export enum EGroupType {
   HostGroup = 'HostGroup',
-  ProductGroup = 'ProductGroup'
+  ProductGroup = 'ProductGroup',
 }
 
 /**
