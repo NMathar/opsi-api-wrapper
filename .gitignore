@@ -105,4 +105,4 @@ Temporary Items
 .vscode
 
 dist/*
-docs/*
+docs/.vuepress/dist

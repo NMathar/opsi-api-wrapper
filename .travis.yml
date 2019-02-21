@@ -20,6 +20,24 @@ jobs:
       script:
         - npm run create-coverage
         - npm run report-coverage
+
+      after_success:
+        - npm pack
+
+      deploy:
+        - provider: releases
+          api_key: $GITHUB_TOKEN
+          file_glob: true
+          file: "{YOURLIB}-*.tgz"
+          skip_cleanup: true
+          on:
+            tags: true
+        - provider: npm
+          skip_cleanup: true
+          email: "mail@mathar.work"
+          api_key: $NPM_TOKEN
+          on:
+            tags: true
       #  - npm test
     - stage: build_and_deploy_docs
       before_install:
