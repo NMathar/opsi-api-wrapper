@@ -1,56 +1,41 @@
-language: nodejs
-  services:
-    - docker
+language: node_js
 
-  before_install:
-    - docker pull nmonst4/opsi
-    - docker run -itd --name docker-opsi -h opsi.docker.lan -p 4447:4447 -e OPSI_USER=opsi -e OPSI_PASSWORD=opsi nmonst4/opsi
-    - docker exec docker-opsi /usr/local/bin/entrypoint.sh
-    - docker exec docker-opsi opsi-product-updater -i -vv -p hwaudit,swaudit
+jobs:
+  include:
+    - stage: test
+      services:
+        - docker
 
-  before_script:
-    - nvm install --lts
-    - npm install -g codecov
-    - npm install
+      before_install:
+        - docker pull nmonst4/opsi
+        - docker run -itd --name docker-opsi -h opsi.docker.lan -p 4447:4447 -e OPSI_USER=opsi -e OPSI_PASSWORD=opsi nmonst4/opsi
+        - docker exec docker-opsi /usr/local/bin/entrypoint.sh
+        - docker exec docker-opsi opsi-product-updater -i -vv -p hwaudit,swaudit
 
-  script:
-    - npm run create-coverage
-    - npm run report-coverage
+      before_script:
+        - nvm install --lts
+        - npm install -g codecov
+        - npm install
 
-  after_success:
-    - npm run docs:build
-    - npm pack
-
-  deploy:
-    - provider: pages
-      skip_cleanup: true
-      local_dir: docs/.vuepress/dist
-      github_token: $GITHUB_TOKEN
-      keep-history: true
-      on:
-        branch: master
-    - provider: releases
-      api_key: $GITHUB_TOKEN
-      file_glob: true
-      file: "{YOURLIB}-*.tgz"
-      skip_cleanup: true
-      on:
-        tags: true
-    - provider: npm
-      skip_cleanup: true
-      email: "mail@mathar.work"
-      api_key: $NPM_TOKEN
-      on:
-        tags: true
+      script:
+        - npm run create-coverage
+        - npm run report-coverage
       #  - npm test
-    #- stage: build_docs
-    #  install:
-    #    - npm install
-    #    - npm install -g vuepress
-    #  script:
-    #    - npm run docs:build
-    #  cache:
-    #    directories:
-    #      - "node_modules"
-    #  notifications:
-    #    email: false
+    - stage: build_and_deploy_docs
+      install:
+        - npm install
+      script:
+        - npm run docs:build
+      cache:
+        directories:
+          - "node_modules"
+      notifications:
+        email: false
+      deploy:
+        - provider: pages
+          skip_cleanup: true
+          local_dir: docs/.vuepress/dist
+          github_token: $GITHUB_TOKEN
+          keep-history: true
+          on:
+            branch: master
