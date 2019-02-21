@@ -15,7 +15,6 @@ describe('Test OPSI API Product Actions', function() {
     });
   });
 
-
   describe('#getAllActionsForProduct()', () => {
     it('get all actions for ' + testProduct, async () => {
       const server = await api.getServerIDs();
@@ -64,7 +63,7 @@ describe('Test OPSI API Product Actions', function() {
       // { message:
       //   'Backend missing data error: No product with id \'foo\' found',
       //     class: 'BackendMissingDataError' }
-      assert.isString(message)
+      assert.isString(message);
       // console.log(message); // tslint:disable-line
       // console.log(data); // tslint:disable-line
     });

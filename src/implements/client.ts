@@ -164,7 +164,7 @@ class Client {
   }
 
   /**
-   * // TODO: Add more data to this function
+   * // returns full info of client
    *
    * @param clientId
    * @returns {IfcResult} Object with result data
@@ -182,7 +182,7 @@ class Client {
       [
         '',
         {
-          clientId: clientId,
+          clientId,
         },
       ],
       this.id,

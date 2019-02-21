@@ -33,7 +33,6 @@ describe('Test OPSI API Client Actions', function() {
     });
   });
 
-
   describe('#updateClient()', () => {
     it('update client', async () => {
       const clientInfo = await api.getClientInfo(clientName + '.' + domain);
@@ -85,7 +84,7 @@ describe('Test OPSI API Client Actions', function() {
 
       assert.isTrue(success);
     });
-  })
+  });
 
   describe('#getAllClients()', () => {
     it('get all client list and its greater then zero', async () => {
