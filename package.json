@@ -1,6 +1,6 @@
 {
   "name": "opsi-api",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "OPSI Api Wrapper",
   "main": "./dist/src/api.js",
   "types": "./dist/src/api.d.ts",
