@@ -8,7 +8,7 @@
     "test": "tests"
   },
   "files": [
-    "lib/**/*"
+    "./dist/**/*"
   ],
   "scripts": {
     "test": "mocha --require ts-node/register test/**/*.ts",
