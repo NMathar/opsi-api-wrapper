@@ -164,7 +164,19 @@ class Client {
   }
 
   /**
-   * // get full client details
+   * get full client details
+   * ```typescript
+   * const { success, data, message } = await api.getClientDetails('client01.opsi.lan')
+   * console.log(success) // if all data are ok then this should return true else false
+   * console.log(message) // message is empty if success is true. if success is false there is a error message
+   * console.log(data) // data returns a huge object with relevant client data
+   * // object structure
+   * {
+   *   hardware: {}
+   *   info: {},
+   *   products: {}
+   * };
+   * ```
    *
    * @param clientId
    * @returns {IfcResult} Object with result data
