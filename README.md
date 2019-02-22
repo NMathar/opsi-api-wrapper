@@ -46,3 +46,7 @@ const api = new OPSIApi('https://localhost:4447', 'username', 'password');
 `echo '{ "method": "group_createHostGroup", "params": ["test_group"], "id": 1 }' | http --verify=no -a opsi:opsi https://localhost:4447/rpc`
 
 `http --verify=no -a opsi:opsi https://localhost:4447/rpc < test/testdata/client.json`
+
+### Publish new Version
+
+`npm version patch -m "Upgrade to %s for reasons"`

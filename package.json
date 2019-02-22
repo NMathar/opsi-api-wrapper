@@ -2,13 +2,13 @@
   "name": "opsi-api",
   "version": "0.0.4",
   "description": "OPSI Api Wrapper",
-  "main": "./dist/src/api.js",
-  "types": "./dist/src/api.d.ts",
+  "main": "dist/src/api.js",
+  "types": "dist/src/api.d.ts",
   "directories": {
     "test": "tests"
   },
   "files": [
-    "./dist/**/*"
+    "dist/**/*"
   ],
   "scripts": {
     "test": "mocha --require ts-node/register test/**/*.ts",
