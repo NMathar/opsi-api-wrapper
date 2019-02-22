@@ -28,7 +28,7 @@ class OPSIApi implements Client, Group, Product {
 
   public getClientInfo = Client.prototype.getClientInfo;
 
-  public getAllClientData = Client.prototype.getAllClientData;
+  public getClientDetails = Client.prototype.getClientDetails;
 
   public renameClient = Client.prototype.renameClient;
 

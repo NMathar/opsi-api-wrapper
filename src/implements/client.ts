@@ -164,12 +164,12 @@ class Client {
   }
 
   /**
-   * // returns full info of client
+   * // get full client details
    *
    * @param clientId
    * @returns {IfcResult} Object with result data
    */
-  public async getAllClientData(this: OPSIApi, clientId: string): Promise<IfcResult> {
+  public async getClientDetails(this: OPSIApi, clientId: string): Promise<IfcResult> {
     this.resetResult();
     if (!clientId || clientId === '') {
       this.res.message = 'Please define a client ID!';
