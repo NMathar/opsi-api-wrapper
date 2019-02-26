@@ -155,19 +155,20 @@ class Group {
    */
   public async getAllHostGroupsWithClients(this: OPSIApi): Promise<IfcResult> {
     this.resetResult();
-    const result = await this.sendRequest('objectToGroup_getObjects',
+    const result = await this.sendRequest(
+      'objectToGroup_getObjects',
       [
         '',
         {
-          'groupType': 'HostGroup',
+          groupType: 'HostGroup',
         },
-      ]
-      , this.id,
+      ],
+      this.id,
     );
 
     const niceGroupArray: any = [];
     if (result.success && result.data.length > 0) {
-      await result.data.forEach((element) => {
+      await result.data.forEach(element => {
         if (!niceGroupArray.hasOwnProperty(element.groupId)) {
           niceGroupArray[element.groupId] = [];
         }
@@ -177,8 +178,6 @@ class Group {
     } else {
       return result;
     }
-
-
   }
 
   /**
