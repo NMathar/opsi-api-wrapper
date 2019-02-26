@@ -3,7 +3,8 @@
   "params": [
     "",
     {
-      "groupType": "HostGroup"
+      "groupType": "HostGroup",
+      "objectId": "testclient-366.opsi.docker.lan"
     }
   ],
   "id": 1

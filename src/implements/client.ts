@@ -210,7 +210,21 @@ class Client {
       this.id,
     );
 
+    // get groups for client
+    const groups = await this.sendRequest(
+      'objectToGroup_getObjects',
+      [
+        '',
+        {
+          "groupType": "HostGroup",
+          "objectId": clientId
+        },
+      ],
+      this.id,
+    );
+
     this.res.data = {
+      groups: groups.data,
       hardware: hardware.data.length > 0 ? hardware.data[0] : {},
       info: baseInfo.data,
       products: products.data,
