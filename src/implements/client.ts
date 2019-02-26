@@ -216,8 +216,8 @@ class Client {
       [
         '',
         {
-          "groupType": "HostGroup",
-          "objectId": clientId
+          groupType: 'HostGroup',
+          objectId: clientId,
         },
       ],
       this.id,
