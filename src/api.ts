@@ -52,6 +52,8 @@ class OPSIApi implements Client, Group, Product {
 
   public getAllHostGroups = Group.prototype.getAllHostGroups;
 
+  public getAllHostGroupsWithClients = Group.prototype.getAllHostGroupsWithClients;
+
   public createHostGroup = Group.prototype.createHostGroup;
 
   public updateHostGroup = Group.prototype.updateHostGroup;

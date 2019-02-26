@@ -3,8 +3,7 @@
   "params": [
     "",
     {
-      "groupType": "HostGroup",
-      "groupId": "testgroup"
+      "groupType": "HostGroup"
     }
   ],
   "id": 1

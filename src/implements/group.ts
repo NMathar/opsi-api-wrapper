@@ -140,6 +140,48 @@ class Group {
   }
 
   /**
+   * Get all groups with clients.
+   *
+   * @example
+   * ```typescript
+   * //returns an array of opsi groups
+   * const { success, data, message } = await api.getAllHostGroupsWithClients()
+   * console.log(success) // if all data are ok then this should return true else false
+   * console.log(message) // message is empty if success is true. if success is false there is a error message
+   * console.log(data) // returns array of group infos or an error object on fail
+   * ```
+   *
+   * @returns {IfcResult} Object with result data
+   */
+  public async getAllHostGroupsWithClients(this: OPSIApi): Promise<IfcResult> {
+    this.resetResult();
+    const result = await this.sendRequest('objectToGroup_getObjects',
+      [
+        '',
+        {
+          'groupType': 'HostGroup',
+        },
+      ]
+      , this.id,
+    );
+
+    const niceGroupArray: any = [];
+    if (result.success && result.data.length > 0) {
+      await result.data.forEach((element) => {
+        if (!niceGroupArray.hasOwnProperty(element.groupId)) {
+          niceGroupArray[element.groupId] = [];
+        }
+        niceGroupArray[element.groupId].push({ clientId: element.objectId });
+      });
+      return { success: result.success, data: niceGroupArray, message: '' };
+    } else {
+      return result;
+    }
+
+
+  }
+
+  /**
    * group name exists
    *
    * @example
@@ -171,7 +213,7 @@ class Group {
    * @example
    * ```typescript
    * //returns boolean only on super bad data it will return an error message
-   * const { success, data, message } = await api.addClientToGroup()
+   * const { success, data, message } = await api.addClientToGroup('grouptestclient.opsi.lan', 'group01')
    * console.log(success) // if all data are ok then this should return true else false
    * console.log(message) // message is empty if success is true. if success is false there is a error message
    * console.log(data) // returns true, false or an error object on fail
