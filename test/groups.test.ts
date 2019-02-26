@@ -114,12 +114,12 @@ describe('Test OPSI API Groups Actions', function() {
 
   describe('#getAllHostGroupsWithClients', () => {
     it('get all groups with clients', async () => {
-      const {success, data} = await api.getAllHostGroupsWithClients();
+      const { success, data } = await api.getAllHostGroupsWithClients();
       // console.log(data); // tslint:disable-line
       assert.isTrue(success);
       assert.isArray(data);
-    })
-  })
+    });
+  });
 
   describe('#removeClientFromGroup()', () => {
     it('remove client from group by id', async () => {
