@@ -200,16 +200,10 @@ class Client {
       this.id,
     );
     const hardware = await this.sendRequest(
-      'auditHardwareOnHost_getObjects',
-      [
-        '',
-        {
-          hostId: clientId,
-        },
-      ],
+      'getHardwareInformation_hash',
+      [clientId],
       this.id,
     );
-
     // get groups for client
     const groups = await this.sendRequest(
       'objectToGroup_getObjects',
@@ -225,7 +219,7 @@ class Client {
 
     this.res.data = {
       groups: groups.data,
-      hardware: hardware.data.length > 0 ? hardware.data[0] : {},
+      hardware: hardware.data,
       info: baseInfo.data,
       products: products.data,
     };
