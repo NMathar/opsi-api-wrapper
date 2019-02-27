@@ -112,7 +112,7 @@ describe('Test OPSI API Client Actions', function() {
       const { success, data, message } = await api.getClientHardware('this should fail');
       // console.log(message); // tslint:disable-line
       assert.isObject(data);
-      assert.isString(message)
+      assert.isString(message);
       assert.isFalse(success);
     });
   });
@@ -136,11 +136,10 @@ describe('Test OPSI API Client Actions', function() {
       const { success, data, message } = await api.getClientSoftware('this should fail');
       // console.log(message); // tslint:disable-line
       assert.isArray(data);
-      assert.isString(message)
+      assert.isString(message);
       assert.isTrue(success);
     });
   });
-
 
   describe('#getClientDetails()', () => {
     it('get huge client object', async () => {
