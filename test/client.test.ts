@@ -64,12 +64,83 @@ describe('Test OPSI API Client Actions', function() {
     });
 
     it('get client info fail', async () => {
-      const { success, data, message } = await api.getClientInfo('this shoul fail');
+      const { success, data, message } = await api.getClientInfo('this should fail');
       assert.isFalse(data);
       assert.isFalse(success);
       assert.isString(message);
     });
   });
+
+  describe('#getClientGroups()', () => {
+    it('get client groups', async () => {
+      const { success, data } = await api.getClientGroups(clientName + '.' + domain);
+      // console.log(data) // tslint:disable-line
+      assert.isArray(data);
+      assert.isTrue(success);
+    });
+
+    it('get client groups fail with empty clientId string', async () => {
+      const { success, data, message } = await api.getClientGroups('');
+      // console.log(data); // tslint:disable-line
+      assert.isFalse(success);
+      assert.isString(message);
+    });
+
+    it('get client groups fail', async () => {
+      const { success, data, message } = await api.getClientGroups('this should fail');
+      assert.isArray(data);
+      assert.isTrue(success);
+    });
+  });
+
+  describe('#getClientHardware()', () => {
+    it('get client hardware', async () => {
+      const { success, data } = await api.getClientHardware(clientName + '.' + domain);
+      // console.log(data) // tslint:disable-line
+      assert.isObject(data);
+      assert.isTrue(success);
+    });
+
+    it('get client hardware fail with empty clientId string', async () => {
+      const { success, data, message } = await api.getClientHardware('');
+      // console.log(data); // tslint:disable-line
+      assert.isFalse(success);
+      assert.isString(message);
+    });
+
+    it('get client hardware for not existent client', async () => {
+      const { success, data, message } = await api.getClientHardware('this should fail');
+      // console.log(message); // tslint:disable-line
+      assert.isObject(data);
+      assert.isString(message)
+      assert.isFalse(success);
+    });
+  });
+
+  describe('#getClientSoftware()', () => {
+    it('get client software', async () => {
+      const { success, data } = await api.getClientSoftware(clientName + '.' + domain);
+      // console.log(data) // tslint:disable-line
+      assert.isArray(data);
+      assert.isTrue(success);
+    });
+
+    it('get client software fail with empty clientId string', async () => {
+      const { success, data, message } = await api.getClientSoftware('');
+      // console.log(data); // tslint:disable-line
+      assert.isFalse(success);
+      assert.isString(message);
+    });
+
+    it('get client software for not existent client', async () => {
+      const { success, data, message } = await api.getClientSoftware('this should fail');
+      // console.log(message); // tslint:disable-line
+      assert.isArray(data);
+      assert.isString(message)
+      assert.isTrue(success);
+    });
+  });
+
 
   describe('#getClientDetails()', () => {
     it('get huge client object', async () => {
@@ -80,6 +151,7 @@ describe('Test OPSI API Client Actions', function() {
       assert.isObject(data);
       assert.isObject(data.hardware);
       assert.isObject(data.info);
+      assert.isArray(data.groups);
       assert.isArray(data.products);
 
       assert.isTrue(success);

@@ -164,7 +164,108 @@ class Client {
   }
 
   /**
+   * get all groups for one client. if client not exists it will return
+   * also true and an empty array
+   *
+   * @example
+   * ```typescript
+   * const { success, data, message } = await api.getClientGroups('client01.opsi.lan')
+   * console.log(success) // if all data are ok then this should return true else false
+   * console.log(message) // message is empty if success is true. if success is false there is a error message
+   * console.log(data) // data returns a array of groups or an empty array
+   * ```
+   *
+   * @param clientId
+   * @returns {IfcResult} Object with result data
+   */
+  public async getClientGroups(this: OPSIApi, clientId: string): Promise<IfcResult> {
+    this.resetResult();
+    if (!clientId || clientId === '') {
+      this.res.message = 'Please define a client ID!';
+      return this.res;
+    }
+
+    return await this.sendRequest(
+      'objectToGroup_getObjects',
+      [
+        '',
+        {
+          groupType: 'HostGroup',
+          objectId: clientId,
+        },
+      ],
+      this.id,
+    );
+  }
+
+  /**
+   * if hwaudit is successfully ran on this client you will get a huge object of hardware
+   * information
+   *
+   * @example
+   * ```typescript
+   * const { success, data, message } = await api.getClientHardware('client01.opsi.lan')
+   * console.log(success) // if all data are ok then this should return true else false
+   * console.log(message) // message is empty if success is true. if success is false there is a error message
+   * console.log(data) // data returns a object of hardware information or an empty object
+   * ```
+   *
+   * @param clientId
+   * @returns {IfcResult} Object with result data
+   */
+  public async getClientHardware(this: OPSIApi, clientId: string): Promise<IfcResult> {
+    this.resetResult();
+    if (!clientId || clientId === '') {
+      this.res.message = 'Please define a client ID!';
+      return this.res;
+    }
+
+    return await this.sendRequest(
+      'getHardwareInformation_hash',
+      [clientId],
+      this.id,
+    );
+  }
+
+  /**
+   * if swaudit is successfully ran on this client you will get a huge array of software
+   * information. If client not exists it will return
+   * also true and an empty array
+   *
+   * @example
+   * ```typescript
+   * const { success, data, message } = await api.getClientSoftware('client01.opsi.lan')
+   * console.log(success) // if all data are ok then this should return true else false
+   * console.log(message) // message is empty if success is true. if success is false there is a error message
+   * console.log(data) // data returns a array of software information or an empty array
+   * ```
+   *
+   * @param clientId
+   * @returns {IfcResult} Object with result data
+   */
+  public async getClientSoftware(this: OPSIApi, clientId: string): Promise<IfcResult> {
+    this.resetResult();
+    if (!clientId || clientId === '') {
+      this.res.message = 'Please define a client ID!';
+      return this.res;
+    }
+
+    return this.sendRequest(
+      'productOnClient_getObjects',
+      [
+        '',
+        {
+          clientId,
+        },
+      ],
+      this.id,
+    );
+  }
+
+  /**
    * get full client details
+   *
+   * @example
    * ```typescript
    * const { success, data, message } = await api.getClientDetails('client01.opsi.lan')
    * console.log(success) // if all data are ok then this should return true else false
@@ -172,7 +273,8 @@ class Client {
    * console.log(data) // data returns a huge object with relevant client data
    * // object structure
    * {
-   *   hardware: {}
+   *   groups: [],
+   *   hardware: {},
    *   info: {},
    *   products: {}
    * };
@@ -188,40 +290,19 @@ class Client {
       return this.res;
     }
 
-    const baseInfo = await this.sendRequest('getHost_hash', [clientId], this.id);
-    const products = await this.sendRequest(
-      'productOnClient_getObjects',
-      [
-        '',
-        {
-          clientId,
-        },
-      ],
-      this.id,
-    );
-    const hardware = await this.sendRequest(
-      'getHardwareInformation_hash',
-      [clientId],
-      this.id,
-    );
-    // get groups for client
-    const groups = await this.sendRequest(
-      'objectToGroup_getObjects',
-      [
-        '',
-        {
-          groupType: 'HostGroup',
-          objectId: clientId,
-        },
-      ],
-      this.id,
-    );
+    const baseInfo = await this.getClientInfo(clientId);
+
+    const software = await this.getClientSoftware(clientId);
+
+    const hardware = await this.getClientHardware(clientId);
+
+    const groups = await this.getClientGroups(clientId);
 
     this.res.data = {
       groups: groups.data,
       hardware: hardware.data,
       info: baseInfo.data,
-      products: products.data,
+      products: software.data,
     };
     return this.res;
   }
