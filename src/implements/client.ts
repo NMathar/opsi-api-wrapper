@@ -220,11 +220,7 @@ class Client {
       return this.res;
     }
 
-    return await this.sendRequest(
-      'getHardwareInformation_hash',
-      [clientId],
-      this.id,
-    );
+    return await this.sendRequest('getHardwareInformation_hash', [clientId], this.id);
   }
 
   /**
