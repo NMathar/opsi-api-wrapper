@@ -162,7 +162,7 @@ describe('Test OPSI API Client Actions', function() {
       const { success, message } = await api.getLoggedInUser(clientName + '.' + domain);
       // console.log(data) // tslint:disable-line
       // console.log(message) // tslint:disable-line
-      expect(message).to.equal('Failed to resolve ip address for host \'' + clientName + '.' + domain + '\'');
+      expect(message).to.equal("Failed to resolve ip address for host '" + clientName + '.' + domain + "'");
       assert.isString(message);
       assert.isFalse(success);
     });
@@ -173,12 +173,11 @@ describe('Test OPSI API Client Actions', function() {
       const { success, data, message } = await api.getUptimeClient(clientName + '.' + domain);
       // console.log(data) // tslint:disable-line
       // console.log(message) // tslint:disable-line
-      expect(message).to.equal('Failed to resolve ip address for host \'' + clientName + '.' + domain + '\'');
+      expect(message).to.equal("Failed to resolve ip address for host '" + clientName + '.' + domain + "'");
       assert.isString(message);
       assert.isFalse(success);
     });
   });
-
 
   describe('#getInstallableProductIds()', () => {
     it('get all software packages to install', async () => {
@@ -231,7 +230,6 @@ describe('Test OPSI API Client Actions', function() {
       assert.isTrue(success);
     });
   });
-
 
   describe('#getAllClients()', () => {
     it('get all client list and its greater then zero', async () => {
