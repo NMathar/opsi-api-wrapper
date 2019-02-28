@@ -225,8 +225,7 @@ class Client {
 
   /**
    * if swaudit is successfully ran on this client you will get a huge array of software
-   * information. If client not exists it will return
-   * also true and an empty array
+   * information.
    *
    * @example
    * ```typescript
@@ -247,13 +246,9 @@ class Client {
     }
 
     return this.sendRequest(
-      'productOnClient_getObjects',
-      [
-        '',
-        {
-          clientId,
-        },
-      ],
+      // 'productOnClient_getObjects',
+      'getProductInstallationStatus_listOfHashes',
+      [clientId],
       this.id,
     );
   }
@@ -355,9 +350,82 @@ class Client {
     return await this.sendRequest('deleteClient', [clientId], this.id);
   }
 
-  // # client actions
+  /**
+   * get the update in seconds from client
+   *
+   * @param clientId
+   * @returns {IfcResult} Object with result data
+   */
+  public async getUptimeClient(this: OPSIApi, clientId: string): Promise<IfcResult> {
+    this.resetResult();
+    if (!clientId || clientId === '') {
+      this.res.message = 'Please define a client ID!';
+      return this.res;
+    }
 
-  // TODO: Test
+    const result = await this.sendRequest('hostControlSafe_uptime', [clientId], this.id);
+
+    return this.reduceReturnClientObject(result, clientId);
+  }
+
+  /**
+   * get logged in user data
+   *
+   * @param clientId
+   * @returns {IfcResult} Object with result data
+   */
+  public async getLoggedInUser(this: OPSIApi, clientId: string): Promise<IfcResult> {
+    this.resetResult();
+    if (!clientId || clientId === '') {
+      this.res.message = 'Please define a client ID!';
+      return this.res;
+    }
+
+    const result = await this.sendRequest('hostControlSafe_getActiveSessions', [clientId], this.id);
+
+    return this.reduceReturnClientObject(result, clientId);
+  }
+
+  /**
+   * get all installable software packages for one client
+   *
+   * @param clientId
+   * @returns {IfcResult} Object with result data
+   */
+  public async getInstallableProductIds(this: OPSIApi, clientId: string): Promise<IfcResult> {
+    this.resetResult();
+    if (!clientId || clientId === '') {
+      this.res.message = 'Please define a client ID!';
+      return this.res;
+    }
+
+    return await this.sendRequest('getInstallableProductIds_list', [clientId], this.id);
+  }
+
+  /**
+   * get logs for client. some possible log data
+   * instlog (opsi-winst), clientconnect (opsiclientd), userlogin, bootimage and opsiconfd
+   *
+   * @param clientId
+   * @param logType
+   * @returns {IfcResult} Object with result data
+   */
+  public async getClientLogs(this: OPSIApi, clientId: string, logType: string = 'instlog'): Promise<IfcResult> {
+    this.resetResult();
+    if (!clientId || clientId === '') {
+      this.res.message = 'Please define a client ID!';
+      return this.res;
+    }
+
+    return await this.sendRequest('readLog', [logType, clientId], this.id);
+  }
+
+  // ########################################
+  //
+  //          client actions
+  //
+  // ########################################
+
   // public async getProductActionRequests(this: OPSIApi, clientId): Promise<IfcResult>{
   //   this.resetResult()
   //   if (!clientId || clientId === '') {
@@ -367,6 +435,111 @@ class Client {
   //
   //   return await this.sendRequest('getProductActionRequests_listOfHashes', [clientId], this.id);
   // }
+
+  /**
+   * triggers a reboot command on the given clientId
+   *
+   * @param clientId
+   * @returns {IfcResult} Object with result data
+   */
+  public async rebootClient(this: OPSIApi, clientId: string): Promise<IfcResult> {
+    this.resetResult();
+    if (!clientId || clientId === '') {
+      this.res.message = 'Please define a client ID!';
+      return this.res;
+    }
+
+    return await this.sendRequest('hostControlSafe_reboot', [clientId], this.id);
+  }
+
+  /**
+   * triggers a shutdown command on the given clientId
+   *
+   * @param clientId
+   * @returns {IfcResult} Object with result data
+   */
+  public async shutdownClient(this: OPSIApi, clientId: string): Promise<IfcResult> {
+    this.resetResult();
+    if (!clientId || clientId === '') {
+      this.res.message = 'Please define a client ID!';
+      return this.res;
+    }
+
+    return await this.sendRequest('hostControlSafe_shutdown', [clientId], this.id);
+  }
+
+  /**
+   * triggers a wake-on-lan command from the opsi server to the given clientId. Wake on Lan
+   * needs to be activated and the client.
+   *
+   * @param clientId
+   * @returns {IfcResult} Object with result data
+   */
+  public async startClient(this: OPSIApi, clientId: string): Promise<IfcResult> {
+    this.resetResult();
+    if (!clientId || clientId === '') {
+      this.res.message = 'Please define a client ID!';
+      return this.res;
+    }
+
+    return await this.sendRequest('hostControlSafe_start', [clientId], this.id);
+  }
+
+  /**
+   * sent a popup message to the client that appears instantly on the client desktop.
+   *
+   * @param clientId
+   * @param message
+   * @returns {IfcResult} Object with result data
+   */
+  public async sendPopupMessageToClient(this: OPSIApi, clientId: string, message: string): Promise<IfcResult> {
+    this.resetResult();
+    if (!clientId || clientId === '') {
+      this.res.message = 'Please define a client ID!';
+      return this.res;
+    }
+
+    return await this.sendRequest('hostControlSafe_showPopup', [message, clientId], this.id);
+  }
+
+  /**
+   * set an action request for the given product and the given client.
+   *
+   * @param clientId
+   * @param productId
+   * @param action
+   * @returns {IfcResult} Object with result data
+   */
+  public async callActionForProductOnClient(
+    this: OPSIApi,
+    clientId: string,
+    productId: string,
+    action: string,
+  ): Promise<IfcResult> {
+    this.resetResult();
+    if (!clientId || clientId === '' || productId === '' || !productId) {
+      this.res.message = 'Please define a client ID and a product ID!';
+      return this.res;
+    }
+
+    return await this.sendRequest('setProductActionRequest', [productId, clientId, action], this.id);
+  }
+
+  /**
+   * is client on or off
+   *
+   * @param clientId
+   * @returns {IfcResult} Object with result data
+   */
+  public async isClientOn(this: OPSIApi, clientId: string): Promise<IfcResult> {
+    this.resetResult();
+    if (!clientId || clientId === '') {
+      this.res.message = 'Please define a client ID!';
+      return this.res;
+    }
+
+    return await this.sendRequest('hostControlSafe_reachable', [clientId], this.id);
+  }
 }
 
 export { Client };

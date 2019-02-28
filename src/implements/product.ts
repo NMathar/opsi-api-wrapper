@@ -72,6 +72,12 @@ class Product {
   public getAllActionsForProduct(this: OPSIApi, productid: string, serverid: number): Promise<IfcResult> {
     return this.sendRequest('getPossibleProductActions_list', [productid, serverid], this.id);
   }
+
+  // TODO: set action request where outdated => setActionRequestWhereOutdated // this is useful to trigger updates for all outdated clients
+
+  // TODO: get clients with outdated products => getClientsWithOutdatedProduct
+
+  // TODO: get installable products => getInstallableProductIds_list
 }
 
 export { Product };

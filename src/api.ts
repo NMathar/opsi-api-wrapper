@@ -40,19 +40,27 @@ class OPSIApi implements Client, Group, Product {
 
   public deleteClient = Client.prototype.deleteClient;
 
-  //
-  //
-  // clientReboot(clientId, callback) {
-  //     if (!clientId || clientId === '')
-  //         return callback({success: false, message: 'Please define a clientId!'})
-  //
-  //     this.sendRequest('hostControl_reboot', [
-  //         clientId
-  //     ], this.id, function (data) {
-  //         // console.log(data.message)
-  //         return callback(data.message ? data : {success: true, data: true})
-  //     })
-  // }
+  public getLoggedInUser = Client.prototype.getLoggedInUser;
+
+  public isClientOn = Client.prototype.isClientOn;
+
+  public getClientLogs = Client.prototype.getClientLogs;
+
+  public getInstallableProductIds = Client.prototype.getInstallableProductIds;
+
+  public getUptimeClient = Client.prototype.getUptimeClient;
+
+  // untested client actions
+
+  public rebootClient = Client.prototype.rebootClient;
+
+  public shutdownClient = Client.prototype.shutdownClient;
+
+  public startClient = Client.prototype.startClient;
+
+  public sendPopupMessageToClient = Client.prototype.sendPopupMessageToClient;
+
+  public callActionForProductOnClient = Client.prototype.callActionForProductOnClient;
 
   // ########### Group actions
 
@@ -205,6 +213,20 @@ class OPSIApi implements Client, Group, Product {
       return this.res;
     }
     return result;
+  }
+
+  public reduceReturnClientObject(result, clientId): IfcResult {
+    this.resetResult();
+    if (result.success && result.data[clientId].result !== null) {
+      this.res.data = result.data[clientId];
+    } else if (result.data[clientId].result === null) {
+      this.res.data = result.data[clientId].result;
+      this.res.message = result.data[clientId].error;
+      this.res.success = false;
+    } else {
+      this.res = result;
+    }
+    return this.res;
   }
 
   /**
