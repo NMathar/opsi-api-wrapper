@@ -94,6 +94,10 @@ class OPSIApi implements Client, Group, Product {
 
   public getProductInfo = Product.prototype.getProductInfo;
 
+  public getClientsWithOutdatedVersion = Product.prototype.getClientsWithOutdatedVersion;
+
+  public updateOutdatedClients = Product.prototype.updateOutdatedClients;
+
   /**
    * Create/Initiate OPSIApi.
    *

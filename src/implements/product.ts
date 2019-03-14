@@ -54,7 +54,6 @@ class Product {
    * Get all actions for one product.
    *
    * @example
-   * @example
    * ```typescript
    * const server = await api.getServerIDs();
    * const { success, data, message } = await api.getAllActionsForProduct('swaudit', server.data[0]);
@@ -73,11 +72,44 @@ class Product {
     return this.sendRequest('getPossibleProductActions_list', [productid, serverid], this.id);
   }
 
-  // TODO: set action request where outdated => setActionRequestWhereOutdated // this is useful to trigger updates for all outdated clients
 
-  // TODO: get clients with outdated products => getClientsWithOutdatedProduct
+  /**
+   * Get all clients with outdated software version for one product.
+   *
+   * @example
+   * ```typescript
+   * const { success, data, message } = await api.getClientsWithOutdatedVersion('swaudit');
+   * console.log(success) // if all data are ok then this should return true else false
+   * console.log(message) // message is empty if success is true. if success is false there is a error message
+   * console.log(data) // array of client ids
+   * ```
+   *
+   * @param {string} productid - Any id string.
+   * @returns {IfcResult} Data.
+   */
+  public getClientsWithOutdatedVersion(this: OPSIApi, productid: string): Promise<IfcResult> {
+    return this.sendRequest('getClientsWithOutdatedProduct', [productid], this.id);
+  }
 
-  // TODO: get installable products => getInstallableProductIds_list
+  /**
+   * Update clients with outdated software.
+   *
+   * @example
+   * ```typescript
+   * const { success, data, message } = await api.updateOutdatedClients('swaudit');
+   * console.log(success) // if all data are ok then this should return true else false
+   * console.log(message) // message is empty if success is true. if success is false there is a error message
+   * console.log(data) // array of client ids
+   * ```
+   *
+   * @param {string} productid - Any id string.
+   * @returns {IfcResult} Data.
+   */
+  public updateOutdatedClients(this: OPSIApi, productid: string): Promise<IfcResult> {
+    // could this work better -> setActionRequestWhereOutdatedWithDependencies ???
+    return this.sendRequest('setActionRequestWhereOutdated', [productid], this.id);
+  }
+
 }
 
 export { Product };
