@@ -72,7 +72,6 @@ class Product {
     return this.sendRequest('getPossibleProductActions_list', [productid, serverid], this.id);
   }
 
-
   /**
    * Get all clients with outdated software version for one product.
    *
@@ -109,7 +108,6 @@ class Product {
     // could this work better -> setActionRequestWhereOutdatedWithDependencies ???
     return this.sendRequest('setActionRequestWhereOutdated', [productid], this.id);
   }
-
 }
 
 export { Product };
