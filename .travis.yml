@@ -14,12 +14,10 @@ jobs:
 
       before_script:
         - nvm install --lts
-        - npm install -g codecov
         - npm install
 
       script:
-        - npm run create-coverage
-        - npm run report-coverage
+        - npm run test
 
       after_success:
         - npm pack
@@ -38,7 +36,6 @@ jobs:
           api_key: $NPM_TOKEN
           on:
             tags: true
-      #  - npm test
     - stage: build_and_deploy_docs
       before_install:
         - nvm install --lts
