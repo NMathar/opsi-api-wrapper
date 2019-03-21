@@ -51,7 +51,7 @@
     "typedoc": "^0.14.2",
     "typedoc-plugin-markdown": "^1.1.26",
     "typescript": "^3.3.3",
-    "vuepress": "^0.14.9"
+    "vuepress": "^0.14.10"
   },
   "dependencies": {
     "@types/request-promise": "^4.1.42",
