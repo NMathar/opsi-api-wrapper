@@ -1,8 +1,9 @@
-import * as request from 'request-promise';
+import fetch from 'node-fetch';
 import { Client } from './implements/client';
 import { Group } from './implements/group';
 import { Product } from './implements/product';
 import { IfcResult } from './interfaces/IfcResult';
+
 
 /**
  * Class OPSIApi
@@ -244,23 +245,30 @@ class OPSIApi implements Client, Group, Product {
   public async sendRequest(method: string, params: any[], id: number): Promise<IfcResult> {
     this.resetResult();
     const url = `${this.apiURL}/rpc`;
-    const options: any = {
-      auth: {
-        pass: this.password,
-        sendImmediately: false,
-        user: this.username,
-      },
-      json: {
+
+    // add support for self signet certificate
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+    const fetchOptions = {
+      body: JSON.stringify({
         id,
         method,
         params,
-      },
-      rejectUnauthorized: false,
-      uri: url,
-    };
+      }), // body data type must match "Content-Type" header
+      // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+      // credentials: "same-origin", // include, *same-origin, omit
+      headers: {
+        'Authorization': 'Basic ' + Buffer.from(this.username + ':' + this.password).toString('base64'),
+        'Content-Type': 'application/json',
 
-    await request
-      .post(options)
+        // "Content-Type": "application/x-www-form-urlencoded",
+      },
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      // mode: "cors", // no-cors, cors, *same-origin
+      // redirect: "follow", // manual, *follow, error
+      referrer: 'no-referrer', // no-referrer, *client
+    };
+    await fetch(url, fetchOptions)
+      .then(response => response.json())
       .then(body => {
         if (!body.error) {
           this.res = { success: true, data: body.result, message: '' };
@@ -269,6 +277,7 @@ class OPSIApi implements Client, Group, Product {
         }
       })
       .catch(err => {
+        console.log(err); // tslint:disable-line
         this.res = { success: false, data: err, message: err.error.error.message ? err.error.error.message : 'Error' };
       });
 
