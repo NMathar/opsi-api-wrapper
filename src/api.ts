@@ -4,7 +4,6 @@ import { Group } from './implements/group';
 import { Product } from './implements/product';
 import { IfcResult } from './interfaces/IfcResult';
 
-
 /**
  * Class OPSIApi
  */
@@ -257,7 +256,7 @@ class OPSIApi implements Client, Group, Product {
       // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
       // credentials: "same-origin", // include, *same-origin, omit
       headers: {
-        'Authorization': 'Basic ' + Buffer.from(this.username + ':' + this.password).toString('base64'),
+        Authorization: 'Basic ' + Buffer.from(this.username + ':' + this.password).toString('base64'),
         'Content-Type': 'application/json',
 
         // "Content-Type": "application/x-www-form-urlencoded",
