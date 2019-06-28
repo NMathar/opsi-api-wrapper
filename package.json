@@ -38,20 +38,20 @@
   "repository": "git@github.com:NMathar/opsi-api-wrapper.git",
   "devDependencies": {
     "@types/chai": "^4.1.7",
-    "@types/mocha": "^5.2.6",
+    "@types/mocha": "^5.2.7",
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
-    "prettier": "^1.16.4",
-    "ts-node": "^8.0.3",
-    "tslint": "^5.14.0",
+    "prettier": "^1.18.2",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
     "typedoc": "^0.14.2",
-    "typedoc-plugin-markdown": "^1.1.27",
-    "typescript": "^3.4.1",
-    "vuepress": "^0.14.10"
+    "typedoc-plugin-markdown": "^1.2.1",
+    "typescript": "^3.5.2",
+    "vuepress": "^0.14.11"
   },
   "dependencies": {
-    "@types/node-fetch": "^2.1.7",
-    "node-fetch": "^2.3.0"
+    "@types/node-fetch": "^2.3.7",
+    "node-fetch": "^2.6.0"
   }
 }
