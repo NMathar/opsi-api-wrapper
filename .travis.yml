@@ -14,7 +14,7 @@ jobs:
 
       before_script:
         - nvm install --lts
-        - npm install
+        - npm install --quiet
 
       script:
         - npm run test
