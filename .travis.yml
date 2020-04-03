@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "8"
+  - "lts/*"
 jobs:
   include:
     - stage: test
@@ -9,12 +9,13 @@ jobs:
 
       before_install:
         - docker pull nmonst4/opsi
-        - docker run -itd --name docker-opsi -h opsi.docker.lan -p 4447:4447 -e OPSI_USER=opsi -e OPSI_PASSWORD=opsi nmonst4/opsi
+        - docker run -itd --name docker-opsi -h opsi.docker.lan -p 127.0.0.1:4447:4447 -e OPSI_USER=opsi -e OPSI_PASSWORD=opsi nmonst4/opsi
+        - docker ps -a
         - docker exec docker-opsi /usr/local/bin/entrypoint.sh
         - docker exec docker-opsi opsi-product-updater -i -vv
 
       before_script:
-        - curl -sSf --insecure https://localhost:4447 > /dev/null
+        - curl -sSf --insecure https://127.0.0.1:4447 > /dev/null
         #- nvm install --lts
         - npm install
 
@@ -40,8 +41,7 @@ jobs:
             tags: true
     - stage: build_and_deploy_docs
       before_install:
-        - nvm install --lts
-        - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.12.3
+        - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.22.4
         - export PATH="$HOME/.yarn/bin:$PATH"
       install:
         - yarn
