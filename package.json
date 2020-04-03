@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "test": "mocha --require ts-node/register test/**/*.ts",
-    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\" \"test/**/*.ts\" \"test/**/*.js\"",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"test/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
     "build": "tsc",
     "docs:build": "typedoc --disableOutputCheck --out ./docs ./src --theme markdown && vuepress build docs",

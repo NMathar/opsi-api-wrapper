@@ -1,7 +1,7 @@
 import { assert, expect } from 'chai';
 import { OPSIApi } from '../src/api';
 
-describe('Test OPSI API Groups Actions', function() {
+describe('Test OPSI API Groups Actions', function () {
   this.timeout(5000);
   const randomGroupName = 'testgroup_' + Math.floor(Math.random() * 500 + 1);
   // create group add/remove test client

@@ -1,7 +1,7 @@
 import { assert, expect, should } from 'chai';
 import { OPSIApi } from '../src/api';
 
-describe('Test OPSI API Login', function() {
+describe('Test OPSI API Login', function () {
   this.timeout(15000);
 
   describe('Api Login Fail', () => {

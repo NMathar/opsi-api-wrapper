@@ -1,7 +1,7 @@
 import { assert, expect } from 'chai';
 import { OPSIApi } from '../src/api';
 
-describe('Test OPSI API Client Actions', function() {
+describe('Test OPSI API Client Actions', function () {
   const api = new OPSIApi('https://localhost:4447', 'opsi', 'opsi');
   this.timeout(5000);
   const clientName = 'testclient-' + Math.floor(Math.random() * 500 + 1);

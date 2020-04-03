@@ -1,7 +1,7 @@
 import { assert, expect } from 'chai';
 import { OPSIApi } from '../src/api';
 
-describe('Test OPSI API Product Actions', function() {
+describe('Test OPSI API Product Actions', function () {
   const api = new OPSIApi('https://localhost:4447', 'opsi', 'opsi');
   const testProduct = 'swaudit';
   this.timeout(4000);

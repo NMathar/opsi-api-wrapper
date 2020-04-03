@@ -3,14 +3,14 @@ let API = require('../src/api');
 
 let api = new API('https://localhost:4447', 'opsi', 'opsi');
 
-describe('Test OPSI API Client Command Actions', function() {
+describe('Test OPSI API Client Command Actions', function () {
   this.timeout(500);
 
   //TODO: create test client
 
-  describe('#clientReboot()', function() {
-    it('reboot client', function(done) {
-      api.clientReboot('testclient', function(res) {
+  describe('#clientReboot()', function () {
+    it('reboot client', function (done) {
+      api.clientReboot('testclient', function (res) {
         console.log(res);
         // assert.ok(res.success)
 
@@ -21,8 +21,8 @@ describe('Test OPSI API Client Command Actions', function() {
       });
     });
 
-    it('FAILED: try to reboot not existent client', function(done) {
-      api.clientReboot('foo', function(res) {
+    it('FAILED: try to reboot not existent client', function (done) {
+      api.clientReboot('foo', function (res) {
         assert.ok(res.message);
         assert.equal(res.success, false);
         done();

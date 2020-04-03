@@ -267,17 +267,17 @@ class OPSIApi implements Client, Group, Product {
       referrer: 'no-referrer', // no-referrer, *client
     };
     await fetch(url, fetchOptions)
-      .then(response => response.json())
-      .then(body => {
+      .then((response) => response.json())
+      .then((body) => {
         if (!body.error) {
           this.res = { success: true, data: body.result, message: '' };
         } else {
           this.res = { success: false, data: body.error, message: body.error.message };
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err); // tslint:disable-line
-        this.res = { success: false, data: err, message: err.error.error.message ? err.error.error.message : 'Error' };
+        this.res = { success: false, data: err, message: err.error ? err.error.error.message : 'Error' };
       });
 
     return this.res;

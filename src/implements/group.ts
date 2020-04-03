@@ -168,7 +168,7 @@ class Group {
 
     const niceGroupArray: object = {};
     if (result.success && result.data.length > 0) {
-      await result.data.forEach(element => {
+      await result.data.forEach((element) => {
         if (!niceGroupArray.hasOwnProperty(element.groupId)) {
           niceGroupArray[element.groupId] = [];
         }
