@@ -14,6 +14,7 @@ jobs:
         - docker exec docker-opsi opsi-product-updater -i -vv -p hwaudit,swaudit
 
       before_script:
+        - curl -sSf --insecure https://localhost:4447 > /dev/null
         #- nvm install --lts
         - npm install
 
