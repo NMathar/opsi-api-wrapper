@@ -11,7 +11,7 @@ jobs:
         - docker pull nmonst4/opsi
         - docker run -itd --name docker-opsi -h opsi.docker.lan -p 4447:4447 -e OPSI_USER=opsi -e OPSI_PASSWORD=opsi nmonst4/opsi
         - docker exec docker-opsi /usr/local/bin/entrypoint.sh
-        - docker exec docker-opsi opsi-product-updater -i -vv -p hwaudit,swaudit
+        - docker exec docker-opsi opsi-product-updater -i -vv
 
       before_script:
         - curl -sSf --insecure https://localhost:4447 > /dev/null
