@@ -14,9 +14,9 @@ jobs:
         - docker exec docker-opsi opsi-product-updater -i -vv
 
       before_script:
-        - docker ps
-        - sleep 2m
-        - curl -sSf --insecure https://127.0.0.1:4447 > /dev/null
+#        - docker ps
+#        - sleep 2m
+        - curl -sSf --insecure https://localhost:4447 > /dev/null
         #- nvm install --lts
         - npm install
 
