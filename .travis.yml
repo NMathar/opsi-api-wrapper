@@ -10,11 +10,12 @@ jobs:
       before_install:
         - docker pull nmonst4/opsi
         - docker run -itd --name docker-opsi -h opsi.docker.lan -p 127.0.0.1:4447:4447 -e OPSI_USER=opsi -e OPSI_PASSWORD=opsi nmonst4/opsi
-        - docker ps -a
         - docker exec docker-opsi /usr/local/bin/entrypoint.sh
         - docker exec docker-opsi opsi-product-updater -i -vv
 
       before_script:
+        - docker ps
+        - sleep 2m
         - curl -sSf --insecure https://127.0.0.1:4447 > /dev/null
         #- nvm install --lts
         - npm install
