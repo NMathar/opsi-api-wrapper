@@ -117,23 +117,23 @@ describe('Test OPSI API Client Actions', function () {
     });
   });
 
-  describe('#getClientSoftware()', () => {
-    it('get client software', async () => {
-      const { success, data } = await api.getClientSoftware(clientName + '.' + domain);
+  describe('#getClientProducts()', () => {
+    it('get client products', async () => {
+      const { success, data } = await api.getClientProducts(clientName + '.' + domain);
       // console.log(data) // tslint:disable-line
       assert.isArray(data);
       assert.isTrue(success);
     });
 
     it('get client software fail with empty clientId string', async () => {
-      const { success, data, message } = await api.getClientSoftware('');
+      const { success, data, message } = await api.getClientProducts('');
       // console.log(data); // tslint:disable-line
       assert.isFalse(success);
       assert.isString(message);
     });
 
     it('get client software for not existent client', async () => {
-      const { success, data, message } = await api.getClientSoftware('this should fail');
+      const { success, data, message } = await api.getClientProducts('this should fail');
       // console.log(message); // tslint:disable-line
       assert.isObject(data);
       assert.isString(message);
