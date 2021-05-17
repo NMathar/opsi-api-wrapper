@@ -246,8 +246,6 @@ class Client {
     }
 
     return this.sendRequest(
-      // 'productOnClient_getObjects',
-      //'getProductInstallationStatus_listOfHashes',
       'auditSoftwareOnClient_getObjects',
       [clientId],
       this.id,
