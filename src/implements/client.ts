@@ -245,13 +245,8 @@ class Client {
       return this.res;
     }
 
-    return this.sendRequest(
-      'auditSoftwareOnClient_getObjects',
-      [clientId],
-      this.id,
-    );
+    return this.sendRequest('auditSoftwareOnClient_getObjects', [clientId], this.id);
   }
-
 
   /**
    * get all installed and not installed opsi product for client
@@ -267,18 +262,14 @@ class Client {
    * @param clientId
    * @returns {IfcResult} Object with result data
    */
-   public async getClientProducts(this: OPSIApi, clientId: string): Promise<IfcResult> {
+  public async getClientProducts(this: OPSIApi, clientId: string): Promise<IfcResult> {
     this.resetResult();
     if (!clientId || clientId === '') {
       this.res.message = 'Please define a client ID!';
       return this.res;
     }
 
-    return this.sendRequest(
-      'getProductInstallationStatus_listOfHashes',
-      [clientId],
-      this.id,
-    );
+    return this.sendRequest('getProductInstallationStatus_listOfHashes', [clientId], this.id);
   }
 
   /**
@@ -313,7 +304,7 @@ class Client {
 
     const software = await this.getClientSoftware(clientId);
 
-    const products = await this.getClientProducts(clientId)
+    const products = await this.getClientProducts(clientId);
 
     const hardware = await this.getClientHardware(clientId);
 
@@ -324,7 +315,7 @@ class Client {
       hardware: hardware.data,
       info: baseInfo.data,
       products: products.data,
-      software: software.data
+      software: software.data,
     };
     return this.res;
   }
