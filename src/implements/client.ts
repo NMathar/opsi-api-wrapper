@@ -245,7 +245,7 @@ class Client {
       return this.res;
     }
 
-    return this.sendRequest('auditSoftwareOnClient_getObjects', [clientId], this.id);
+    return this.sendRequest('auditSoftwareOnClient_getObjects', ['', { clientId }], this.id);
   }
 
   /**
