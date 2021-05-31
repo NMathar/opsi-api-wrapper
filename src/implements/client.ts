@@ -548,21 +548,21 @@ class Client {
   }
 
   /**
-    * fire event for clients for example on_demand
-    *
-    * @param clientId
-    * @param event
-    * @returns {IfcResult} Object with result data
-    * 
-    * * @example
-    * ```typescript
-    * //returns boolean only on super bad data it will return an error message
-    * const { success, data, message } = await api.fireEventForClient(clientId, 'on_demand')
-    * console.log(success) // if all data are ok then this should return true else false
-    * console.log(message) // message is empty if success is true. if success is false there is a error message
-    * console.log(data) // data returns null on success or an error object on fail
-    * ```
-    */
+   * fire event for clients for example on_demand
+   *
+   * @param clientId
+   * @param event
+   * @returns {IfcResult} Object with result data
+   * 
+   * @example
+   * ```typescript
+   * //returns boolean only on super bad data it will return an error message
+   * const { success, data, message } = await api.fireEventForClient(clientId, 'on_demand')
+   * console.log(success) // if all data are ok then this should return true else false
+   * console.log(message) // message is empty if success is true. if success is false there is a error message
+   * console.log(data) // data returns null on success or an error object on fail
+   * ```
+   */
   public async fireEventForClient(
     this: OPSIApi,
     clientId: string,
