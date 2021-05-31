@@ -55,7 +55,7 @@ class OPSIApi implements Client, Group, Product {
   // untested client actions
 
   public fireEventForClient = Client.prototype.fireEventForClient;
-  
+
   public rebootClient = Client.prototype.rebootClient;
 
   public shutdownClient = Client.prototype.shutdownClient;

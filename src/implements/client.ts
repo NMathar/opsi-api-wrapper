@@ -553,7 +553,7 @@ class Client {
    * @param clientId
    * @param event
    * @returns {IfcResult} Object with result data
-   * 
+   *
    * @example
    * ```typescript
    * //returns boolean only on super bad data it will return an error message
@@ -563,11 +563,7 @@ class Client {
    * console.log(data) // data returns null on success or an error object on fail
    * ```
    */
-  public async fireEventForClient(
-    this: OPSIApi,
-    clientId: string,
-    event: string,
-  ): Promise<IfcResult> {
+  public async fireEventForClient(this: OPSIApi, clientId: string, event: string): Promise<IfcResult> {
     this.resetResult();
     if (!clientId || clientId === '' || event === '' || !event) {
       this.res.message = 'Please define a client ID and a event string!';
