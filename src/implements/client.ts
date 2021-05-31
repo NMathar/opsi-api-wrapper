@@ -547,6 +547,36 @@ class Client {
     return await this.sendRequest('setProductActionRequest', [productId, clientId, action], this.id);
   }
 
+ /**
+   * fire event for clients for example on_demand
+   *
+   * @param clientId
+   * @param event
+   * @returns {IfcResult} Object with result data
+   * 
+   * * @example
+   * ```typescript
+   * //returns boolean only on super bad data it will return an error message
+   * const { success, data, message } = await api.fireEventForClient(clientId, 'on_demand')
+   * console.log(success) // if all data are ok then this should return true else false
+   * console.log(message) // message is empty if success is true. if success is false there is a error message
+   * console.log(data) // data returns null on success or an error object on fail
+   * ```
+   */
+  public async fireEventForClient(
+    this: OPSIApi,
+    clientId: string,
+    event: string,
+  ): Promise<IfcResult> {
+    this.resetResult();
+    if (!clientId || clientId === '' || event === '' || !event) {
+      this.res.message = 'Please define a client ID and a event string!';
+      return this.res;
+    }
+
+    return await this.sendRequest('hostControl_fireEvent', [event, clientId], this.id);
+  }
+
   /**
    * is client on or off
    *
