@@ -269,9 +269,16 @@ class Client {
       return this.res;
     }
 
-    return this.sendRequest('productOnClient_getObjects', ['', {
-      clientId
-    }], this.id);
+    return this.sendRequest(
+      'productOnClient_getObjects',
+      [
+        '',
+        {
+          clientId,
+        },
+      ],
+      this.id,
+    );
   }
 
   /**
