@@ -120,7 +120,7 @@ describe('Test OPSI API Client Actions', function () {
   describe('#getClientProducts()', () => {
     it('get client products', async () => {
       const { success, data } = await api.getClientProducts(clientName + '.' + domain);
-      console.log(data) // tslint:disable-line
+      console.log(data); // tslint:disable-line
       assert.isObject(data);
       assert.isTrue(success);
     });
