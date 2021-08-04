@@ -269,6 +269,32 @@ class Client {
       return this.res;
     }
 
+    return this.sendRequest('productOnClient_getObjects', ['', {
+      clientId
+    }], this.id);
+  }
+
+  /**
+   * get all installed and not installed opsi product for client
+   *
+   * @example
+   * ```typescript
+   * const { success, data, message } = await api.getClientProductsInstallationStatus('client01.opsi.lan')
+   * console.log(success) // if all data are ok then this should return true else false
+   * console.log(message) // message is empty if success is true. if success is false there is a error message
+   * console.log(data) // data returns a array of product information or an empty array
+   * ```
+   *
+   * @param clientId
+   * @returns {IfcResult} Object with result data
+   */
+  public async getClientProductsInstallationStatus(this: OPSIApi, clientId: string): Promise<IfcResult> {
+    this.resetResult();
+    if (!clientId || clientId === '') {
+      this.res.message = 'Please define a client ID!';
+      return this.res;
+    }
+
     return this.sendRequest('getProductInstallationStatus_listOfHashes', [clientId], this.id);
   }
 
