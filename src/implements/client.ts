@@ -249,7 +249,7 @@ class Client {
   }
 
   /**
-   * get all installed and not installed opsi product for client
+   * get all products on client 
    *
    * @example
    * ```typescript
