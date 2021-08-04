@@ -249,7 +249,7 @@ class Client {
   }
 
   /**
-   * get all products on client 
+   * get all products on client
    *
    * @example
    * ```typescript
