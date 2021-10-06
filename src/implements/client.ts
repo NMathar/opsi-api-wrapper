@@ -466,7 +466,12 @@ class Client {
    * @param length number of characters to show
    * @returns {IfcResult} Object with result data
    */
-  public async getClientLogs(this: OPSIApi, clientId: string, logType: string = 'instlog', length: number = 0): Promise<IfcResult> {
+  public async getClientLogs(
+    this: OPSIApi,
+    clientId: string,
+    logType: string = 'instlog',
+    length: number = 0,
+  ): Promise<IfcResult> {
     this.resetResult();
     if (!clientId || clientId === '') {
       this.res.message = 'Please define a client ID!';
