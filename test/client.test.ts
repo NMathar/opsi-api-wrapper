@@ -157,6 +157,26 @@ describe('Test OPSI API Client Actions', function () {
     });
   });
 
+  describe('#SetAndUnsetUefiBoot', () => {
+    it('uefiEnabled', async() => {
+      const { data } = await api.uefiBootEnabled(clientName + '.' + domain)
+      assert.isFalse(data);
+    })
+
+    it('setUefi', async () => {
+      const { success } = await api.setUefiBoot(clientName + '.' + domain)
+      assert.isTrue(success);
+    })
+    it('uefiEnabled', async() => {
+      const { data } = await api.uefiBootEnabled(clientName + '.' + domain)
+      assert.isTrue(data);
+    })
+    it('unsetUefi', async () => {
+      const { success } = await api.unsetUefiBoot(clientName + '.' + domain)
+      assert.isTrue(success);
+    })
+  })
+
   describe('#getLoggedInUser()', () => {
     it('get logged in user', async () => {
       const { success, message } = await api.getLoggedInUser(clientName + '.' + domain);

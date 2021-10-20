@@ -627,6 +627,109 @@ class Client {
 
     return await this.sendRequest('hostControlSafe_reachable', [clientId], this.id);
   }
+
+  /**
+   * set a config value for a client
+   * 
+   * @param this 
+   * @param clientId 
+   * @param configId 
+   * @param value 
+   * @returns {IfcResult} Object with result data 
+   */
+  public async setClientConfigObject(this: OPSIApi, clientId: string, configId: string, value: string | number | boolean): Promise<IfcResult> {
+    this.resetResult();
+    if (!clientId || !configId) {
+      this.res.message = 'Please define a client ID and a config ID!';
+      return this.res;
+    }
+
+    return await this.sendRequest('configState_create', [configId, clientId, value], this.id)
+  }
+
+  /**
+   * remove a config value for a client
+   * 
+   * @param this 
+   * @param clientId 
+   * @param configId 
+   * @returns {IfcResult} Object with result data 
+   */
+  public async removeClientConfigObject(this: OPSIApi, clientId: string, configId: string): Promise<IfcResult> {
+    this.resetResult();
+    if (!clientId || !configId) {
+      this.res.message = 'Please define a client ID and a config ID!';
+      return this.res;
+    }
+
+    return await this.sendRequest('configState_delete', [configId, clientId], this.id)
+  }
+
+  /**
+   * get client config objects
+   * 
+   * @param this 
+   * @param clientId 
+   * @returns 
+   */
+  public async getClientObjectConfigs(this: OPSIApi, clientId: string): Promise<IfcResult> {
+    this.resetResult();
+    if (!clientId || clientId === '') {
+      this.res.message = 'Please define a client ID!';
+      return this.res;
+    }
+
+    return await this.sendRequest('configState_getObjects', ["", { "objectId": clientId }], this.id);
+  }
+
+  /**
+   * get client config object
+   * 
+   * @param this 
+   * @param clientId 
+   * @param configId
+   * @returns 
+   */
+  public async getClientObjectConfig(this: OPSIApi, clientId: string, configId: string): Promise<IfcResult> {
+    this.resetResult();
+    if (!clientId || clientId === '') {
+      this.res.message = 'Please define a client ID!';
+      return this.res;
+    }
+
+    return await this.sendRequest('configState_getObjects', ["", { "configId": configId, "objectId": clientId }], this.id);
+  }
+
+  /**
+   * shows if uefi is enabled or disabled
+   * 
+   * @param this 
+   * @param clientId 
+   * @returns boolean or error
+   */
+  public async uefiBootEnabled(this: OPSIApi, clientId: string): Promise<IfcResult> {
+    this.resetResult();
+    if (!clientId || clientId === '') {
+      this.res.message = 'Please define a client ID!';
+      return this.res;
+    }
+    const { data } = await this.getClientObjectConfig(clientId, 'clientconfig.dhcpd.filename')
+    if (data.length > 0) {
+      return { success: true, message: '', data: data.filter((data: any) => (data.configId === 'clientconfig.dhcpd.filename')).length >= 1 };
+    } else {
+      return { success: true, message: '', data: false }
+    }
+
+  }
+
+  public async setUefiBoot(this: OPSIApi, clientId: string) {
+    return await this.setClientConfigObject(clientId, 'clientconfig.dhcpd.filename', 'linux/pxelinux.cfg/elilo.efi')
+  }
+
+  public async unsetUefiBoot(this: OPSIApi, clientId: string) {
+    return await this.removeClientConfigObject(clientId, 'clientconfig.dhcpd.filename')
+  }
+
 }
 
 export { Client };

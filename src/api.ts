@@ -68,6 +68,20 @@ class OPSIApi implements Client, Group, Product {
 
   public callActionForProductOnClient = Client.prototype.callActionForProductOnClient;
 
+  public setClientConfigObject = Client.prototype.setClientConfigObject;
+
+  public removeClientConfigObject = Client.prototype.removeClientConfigObject;
+  
+  public setUefiBoot = Client.prototype.setUefiBoot;
+
+  public unsetUefiBoot = Client.prototype.unsetUefiBoot;
+
+  public getClientObjectConfigs = Client.prototype.getClientObjectConfigs;
+
+  public getClientObjectConfig = Client.prototype.getClientObjectConfig;
+
+  public uefiBootEnabled = Client.prototype.uefiBootEnabled;
+
   // ########### Group actions
 
   public getAllHostGroups = Group.prototype.getAllHostGroups;
