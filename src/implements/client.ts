@@ -715,7 +715,7 @@ class Client {
     }
     const { data } = await this.getClientObjectConfig(clientId, 'clientconfig.dhcpd.filename')
     if (data.length > 0) {
-      return { success: true, message: '', data: data.filter((data: any) => (data.configId === 'clientconfig.dhcpd.filename')).length >= 1 };
+      return { success: true, message: '', data: data.filter((configData: any) => (data.configId === 'clientconfig.dhcpd.filename')).length >= 1 };
     } else {
       return { success: true, message: '', data: false }
     }
