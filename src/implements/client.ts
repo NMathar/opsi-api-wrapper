@@ -702,7 +702,7 @@ class Client {
       return this.res;
     }
 
-    return await this.sendRequest('configState_getObjects', ['', { configId: configId, objectId: clientId }], this.id);
+    return await this.sendRequest('configState_getObjects', ['', { configId, objectId: clientId }], this.id);
   }
 
   /**
