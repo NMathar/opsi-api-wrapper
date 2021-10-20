@@ -723,7 +723,7 @@ class Client {
       return {
         success: true,
         message: '',
-        data: data.filter((configData: any) => data.configId === 'clientconfig.dhcpd.filename').length >= 1,
+        data: data.filter((configData: any) => configData.configId === 'clientconfig.dhcpd.filename').length >= 1,
       };
     } else {
       return { success: true, message: '', data: false };
