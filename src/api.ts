@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { Client } from './implements/client';
 import { Group } from './implements/group';
 import { Product } from './implements/product';
@@ -268,29 +268,34 @@ class OPSIApi implements Client, Group, Product {
 
     // add support for self signet certificate
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-
-    const response = await axios.post(
-      url,
-      JSON.stringify({
-        id,
-        method,
-        params,
-      }),
-      {
-        headers: {
-          Authorization: 'Basic ' + Buffer.from(this.username + ':' + this.password).toString('base64'),
-          'Content-Type': 'application/json',
+    try {
+      const response = await axios.post(
+        url,
+        JSON.stringify({
+          id,
+          method,
+          params,
+        }),
+        {
+          headers: {
+            Authorization: 'Basic ' + Buffer.from(this.username + ':' + this.password).toString('base64'),
+            'Content-Type': 'application/json',
+          },
         },
-      },
-    );
-    const result = response.data as IfcOPSIResult;
-    if (!result.error) {
-      this.res = { success: true, data: result.result, message: '' };
-    } else {
-      this.res = { success: false, data: result.error, message: result.error.message };
+      );
+      const result = response.data as IfcOPSIResult;
+      if (!result.error) {
+        this.res = { success: true, data: result.result, message: '' };
+      } else {
+        this.res = { success: false, data: result.error, message: result.error.message };
+      }
+  
+      return this.res;
+    } catch (error: any | AxiosError) {
+      this.res = { success: false, data: error, message: error.message }; 
+      return this.res;
     }
-
-    return this.res;
+    
   }
 
   // ########### Host actions
