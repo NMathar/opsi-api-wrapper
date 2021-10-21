@@ -6,10 +6,10 @@ describe('Test OPSI API Login', function () {
 
   describe('Api Login Fail', () => {
     it('Login Fail or connection problem', async () => {
-      const api = new OPSIApi('https://localhost:4447', 'opsi', 'FAIL')
+      const api = new OPSIApi('https://localhost:4447', 'opsi', 'FAIL');
       const { success, message } = await api.getOpsiVersion();
       assert.isFalse(success);
-      assert.isString(message)
+      assert.isString(message);
     });
 
     it('Login Fail missing parameter', () => {
