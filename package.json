@@ -1,6 +1,6 @@
 {
   "name": "opsi-api",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "OPSI Api Wrapper",
   "main": "dist/src/api.js",
   "types": "dist/src/api.d.ts",
@@ -13,7 +13,7 @@
   "scripts": {
     "test": "mocha --require ts-node/register test/**/*.ts",
     "test:one": "ts-mocha",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"test/**/*.js\"",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "tslint -p tsconfig.json",
     "build": "tsc",
     "docs:build": "typedoc --disableOutputCheck --out ./docs ./src --theme markdown && vuepress build docs",
