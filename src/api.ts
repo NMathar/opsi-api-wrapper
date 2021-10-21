@@ -269,19 +269,21 @@ class OPSIApi implements Client, Group, Product {
     // add support for self signet certificate
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-    const response = await axios.post(url, JSON.stringify({
-      id,
-      method,
-      params,
-    }),
+    const response = await axios.post(
+      url,
+      JSON.stringify({
+        id,
+        method,
+        params,
+      }),
       {
         headers: {
           Authorization: 'Basic ' + Buffer.from(this.username + ':' + this.password).toString('base64'),
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-      }
-    )
-    const result = response.data as IfcOPSIResult
+      },
+    );
+    const result = response.data as IfcOPSIResult;
     if (!result.error) {
       this.res = { success: true, data: result.result, message: '' };
     } else {
