@@ -12,6 +12,7 @@
   ],
   "scripts": {
     "test": "mocha --require ts-node/register test/**/*.ts",
+    "test:one": "ts-mocha",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"test/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
     "build": "tsc",
@@ -37,22 +38,22 @@
   "license": "MIT",
   "repository": "git@github.com:NMathar/opsi-api-wrapper.git",
   "devDependencies": {
-    "@types/chai": "^4.2.18",
-    "@types/mocha": "^7.0.2",
-    "@types/node": "^13.13.52",
+    "@types/chai": "^4.2.22",
+    "@types/mocha": "^8.0.0",
+    "@types/node": "^16.11.1",
     "chai": "^4.3.4",
-    "mocha": "^7.2.0",
-    "prettier": "^2.3.0",
-    "ts-node": "^8.10.2",
+    "mocha": "^8.4.0",
+    "prettier": "^2.4.1",
+    "ts-mocha": "^8.0.0",
+    "ts-node": "^10.3.0",
     "tslint": "^6.1.3",
     "tslint-config-prettier": "^1.18.0",
-    "typedoc": "^0.17.8",
-    "typedoc-plugin-markdown": "^2.4.2",
-    "typescript": "^3.9.9",
+    "typedoc": "^0.22.6",
+    "typedoc-plugin-markdown": "^3.11.3",
+    "typescript": "^4.4.4",
     "vuepress": "^1.8.2"
   },
   "dependencies": {
-    "@types/node-fetch": "^2.5.10",
-    "node-fetch": "^2.6.1"
+    "axios": "^0.23.0"
   }
 }

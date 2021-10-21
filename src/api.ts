@@ -1,7 +1,8 @@
-import fetch from 'node-fetch';
+import axios from 'axios';
 import { Client } from './implements/client';
 import { Group } from './implements/group';
 import { Product } from './implements/product';
+import { IfcOPSIResult } from './interfaces/IfcOPSIResult';
 import { IfcResult } from './interfaces/IfcResult';
 
 /**
@@ -267,38 +268,25 @@ class OPSIApi implements Client, Group, Product {
 
     // add support for self signet certificate
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-    const fetchOptions = {
-      body: JSON.stringify({
-        id,
-        method,
-        params,
-      }), // body data type must match "Content-Type" header
-      // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      // credentials: "same-origin", // include, *same-origin, omit
-      headers: {
-        Authorization: 'Basic ' + Buffer.from(this.username + ':' + this.password).toString('base64'),
-        'Content-Type': 'application/json',
 
-        // "Content-Type": "application/x-www-form-urlencoded",
-      },
-      method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      // mode: "cors", // no-cors, cors, *same-origin
-      // redirect: "follow", // manual, *follow, error
-      referrer: 'no-referrer', // no-referrer, *client
-    };
-    await fetch(url, fetchOptions)
-      .then((response) => response.json())
-      .then((body) => {
-        if (!body.error) {
-          this.res = { success: true, data: body.result, message: '' };
-        } else {
-          this.res = { success: false, data: body.error, message: body.error.message };
-        }
-      })
-      .catch((err) => {
-        console.log(err); // tslint:disable-line
-        this.res = { success: false, data: err, message: err.error ? err.error.error.message : 'Error' };
-      });
+    const response = await axios.post(url, JSON.stringify({
+      id,
+      method,
+      params,
+    }),
+      {
+        headers: {
+          Authorization: 'Basic ' + Buffer.from(this.username + ':' + this.password).toString('base64'),
+          'Content-Type': 'application/json'
+        },
+      }
+    )
+    const result = response.data as IfcOPSIResult
+    if (!result.error) {
+      this.res = { success: true, data: result.result, message: '' };
+    } else {
+      this.res = { success: false, data: result.error, message: result.error.message };
+    }
 
     return this.res;
   }

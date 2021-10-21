@@ -1,0 +1,19 @@
+@opsiURL = https://localhost:4447/rpc
+@opsiUser = opsi
+@opsiPW = opsi
+
+@auth = Basic {{opsiUser}}:{{opsiPW}}
+
+### Plain opsi api calls
+
+
+# @name getProducts
+POST {{opsiURL}}
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+    "method": "product_getObjects",
+    "id": 1
+}
+###
