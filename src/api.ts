@@ -289,13 +289,12 @@ class OPSIApi implements Client, Group, Product {
       } else {
         this.res = { success: false, data: result.error, message: result.error.message };
       }
-  
+
       return this.res;
     } catch (error: any | AxiosError) {
-      this.res = { success: false, data: error, message: error.message }; 
+      this.res = { success: false, data: error, message: error.message };
       return this.res;
     }
-    
   }
 
   // ########### Host actions
