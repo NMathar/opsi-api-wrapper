@@ -297,12 +297,6 @@ class OPSIApi implements Client, Group, Product {
     }
   }
 
-  // ########### Host actions
-
-  /**
-   * //TODO: host actions
-   */
-
   protected resetResult() {
     return (this.res = { success: false, data: false, message: '' });
   }
